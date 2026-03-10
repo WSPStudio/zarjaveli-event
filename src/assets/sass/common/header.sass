@@ -1,0 +1,170 @@
+
+.header
+	position: sticky
+	left: 0
+	top: 0
+	z-index: 10
+
+	width: 100%
+	will-change: transform
+
+	@media (min-width: 768px)
+		animation: headerFixedBackground forwards
+		animation-timeline: scroll() 
+		animation-range: 100px 150px 
+		transition: opacity .4s
+
+		@keyframes headerFixedBackground 
+			0% 
+				background: transparent  
+
+			100%
+				background: #101010
+
+	&__top
+		display: flex
+		align-items: center
+		justify-content: space-between
+		+adap('gap', 20, 12  , $widthTo: 1200)
+
+		&-wrapper
+			display: flex
+			align-items: center
+			+adap('padding-block', 20, 8)
+
+			.container 
+				width: 100%
+
+	&__logo 
+		img 
+			+adap('width', 210, minusPercent(30, 210)  , $widthTo: 1200)
+			+adap('height', 44, minusPercent(30, 44)  , $widthTo: 1200)
+
+	&__menu 
+		display: flex
+		align-items: center
+		flex-wrap: wrap
+		row-gap: 12px 
+		+adap('column-gap', 40, 12  , $widthTo: 1200)
+		+adap('font-size', 16, 15  , $widthTo: 1200)
+
+		color: rgba(#fff, .6)
+		text-shadow: 1px 2px 0 0 rgba(0, 0, 0, 0.2)
+
+		a
+			+hov
+				color: $active
+
+	&__address
+		display: grid
+		grid-template-columns: 24px 1fr
+		display: flex
+		align-items: center
+		+adap('gap', 12, 8)
+
+		text-shadow: 1px 2px 0 0 rgba(0, 0, 0, 0.2)
+
+		svg 
+			max-width: 20px
+			max-height: 20px
+			fill: none
+			stroke: $active
+
+	@media (max-width: #{$burgerMedia+px})
+		$padding-top: 40
+		$padding-bottom: 40
+		$padding-x: 20
+		$mobile-bg: $bg
+ 
+		&__mobile
+			position: fixed
+			right: -100vw
+			top: var(--headerFixedHeight)
+			z-index: 5
+
+			display: grid
+			grid-template-columns: 100%
+			justify-items: start
+			align-content: start
+			gap: 20px
+			width: min(500px, 101vw)
+			padding: #{$padding-top+px} #{$padding-x+px} #{$padding-bottom+px}
+
+			background: $mobile-bg
+			color: $text
+
+			opacity: 0
+			transition: right .3s, opacity .3s
+			+scrollbar(100vh, $scrollBarWidth: 4, $padding: 0)
+			pointer-events: none
+
+			&.active
+				right: 0px 
+				opacity: 1
+				pointer-events: auto
+
+		&__nav
+			width: 100%
+
+		&__menu
+			display: grid
+			grid-template-columns: 100%
+			gap: 20px
+			width: 100%
+
+		&__top 
+			justify-content: flex-end
+			+adap('gap', 24, 12, 1199)
+
+		&__logo 
+			margin-right: auto
+
+			img 
+				+adap('width', 210, minusPercent(30, 210)  , 1199)
+				+adap('height', 44, minusPercent(30, 44)  , 1199)
+
+	@media (max-width: 767px)
+		background: $bg
+
+	@media (max-width: 575px)
+		&__top
+			&-wrapper 
+				min-height: 55px
+
+		&__mobile
+			height: calc(100dvh - #{var(--headerFixedHeight)})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,582 @@
+
+body 
+	background: $bg
+	line-height: 1.5
+	+adap('font-size', 16, 15)
+
+.main 
+	position: relative
+	min-height: 500px
+	+adap('padding-bottom', math.div($section_gap, 2), 24)
+	
+.section
+	+adap('padding-block', math.div($section_gap, 2), 24)
+ 
+	&-top
+		+adap('padding-top', math.div($section_gap, 2), 24)
+
+	&-bottom
+		+adap('padding-bottom', math.div($section_gap, 2), 24)
+
+	&__top 
+		+adap('margin-bottom', 40, 20)
+
+	&-dark 
+		position: relative
+		
+		&:after
+			content: ''
+			+abs
+			background: radial-gradient(50% 50% at 50% 50%, rgba(16, 16, 16, 0.8) 0%, #101010 100%)
+
+	&__bg
+		position: absolute
+		left: 0
+		top: 0
+		z-index: -1
+		width: 100%
+		height: 100%
+
+		object-fit: cover
+		filter: saturate(0)
+
+
+.active-text 
+	color: $active
+
+.title 
+	+title
+
+	&-2
+		+title-2
+
+	&-3
+		+title-3 
+
+	&-4
+		+title-4
+
+	&_not-decor
+		&:after,
+		&:before
+			display: none
+			
+	&_left 
+		text-align: left
+
+.subtitle 
+	+adap('font-size', 20, 18)
+	font-weight: 500
+
+
+	
+.button 
+	position: relative
+	display: inline-flex
+	justify-content: center
+	align-items: center
+	+adap('min-height', 48, 44)
+	padding: em(8) em(24)
+	flex-shrink: 0
+	
+	background: $active
+	border: 1px solid transparent
+	border-radius: .5em
+
+	+adap('font-size', 16, 14)
+	color: $bg
+	font-weight: 700
+
+	white-space: nowrap
+	overflow: hidden
+
+	&_shine
+		&:after
+			content: ''
+			position: absolute
+			top: 0
+			left: -150%
+			width: 60%
+			height: 100%
+
+			background: linear-gradient(120deg, rgba(#fff, 0) 0%, rgba(#fff, .4) 50%, rgba(#fff, 0) 100%)
+
+			transform: skewX(-20deg)
+			animation: buttonShine 3s ease-in-out infinite
+
+		@keyframes buttonShine
+			0%
+				left: -150%
+
+			50%, 100%
+				left: 150%
+
+	+hov
+		background: dark($active, 12%)
+
+	&_border
+		background: transparent
+		border-color: $active
+		color: $active
+
+		&.button_white
+			border-color: #fff
+			background: transparent
+			color: #fff
+
+			+hov
+				background: #fff
+
+		+hov
+			background: $active
+			color: $bg
+
+	&_white 
+		background: #fff
+		color: $bg
+
+	&[disabled]
+		opacity: .2 
+		pointer-events: none
+
+
+
+.call 
+	display: grid
+	grid-template-columns: 24px 1fr auto
+	align-items: center
+	+adap('gap', 12, 8)
+
+	&>svg 
+		max-width: 20px
+		max-height: 20px
+
+		stroke: $active
+
+
+.social 
+	display: flex
+	align-items: center
+	gap: 12px
+
+	&__item 
+		display: flex
+		align-items: center
+		justify-content: center
+		width: 24px
+		height: 24px
+
+		border: 1px solid $active
+		border-radius: 50%
+		+t 
+
+		+hov
+			svg, img
+				scale: 1.1 
+
+		svg, img 
+			max-width: 50%
+			max-height: 50%
+
+		svg 
+			fill: #fff
+
+
+.info 
+	display: flex
+	align-items: center
+	gap: 12px
+	padding: 8px 12px
+	min-height: 40px
+
+	background: rgba(255, 255, 255, 0.12)
+	border-radius: 12px
+
+	font-weight: 500
+	+adap('font-size', 14, 12)
+	color: rgba(#fff, .6)
+	+t
+
+	&_link 
+		padding: 0
+
+		background: none
+		color: rgba(#fff, .6)
+
+	&_big
+		+adap('font-size', 16, 14)
+
+	svg 
+		+adap('width', 16, 12)
+		+adap('height', 16, 12)
+		flex-shrink: 0
+
+		fill: none
+		stroke: currentColor
+		transition: none
+
+
+
+.section-404
+	position: absolute
+	left: 50%
+	top: 50%
+	width: 100%
+	height: 100% 
+	translate: -50% -50%
+
+	display: grid
+	align-items: center
+	justify-content: center
+	justify-items: center
+
+	text-align: center
+
+
+	&__bg 
+		+abs
+
+	&__title 
+		font-weight: 700
+		+adap('font-size', 120, 60)
+		line-height: 1
+
+	&__subtitle 
+		+adap('margin-bottom', 40, 20)
+
+
+
+
+
+
+
+.ticket
+	width: min(100%, 595px) 
+	+adap('padding', 30, 16)
+
+	background: #fff url(../img/ticket/bg.webp) center / cover no-repeat
+	color: $bg
+	overflow: hidden
+
+	&__top 
+		position: relative
+		display: grid
+		grid-template-columns: 1fr auto 
+		column-gap: 12px
+		+adap('margin-bottom', 20, 12)
+		+adap('padding-bottom', 20, 12)
+
+		&:after
+			content: ''
+
+			position: absolute
+			left: -10vw
+			bottom: 0
+			width: 100vw
+			height: 1px
+
+			background: #e0e0e0
+
+	&__logo 
+		grid-row: span 2
+
+	&__title 
+		+adap('font-size', 20, 18)
+		font-weight: 700
+
+	&__subtitle 
+		font-weight: 500
+		color: $active
+
+	&__row 
+		display: grid
+		grid-template-columns: 1fr auto 
+		+adap('gap', 20, 12)
+		+adap('margin-bottom', 20, 12)
+
+	&__items 
+		display: grid
+		grid-template-columns: repeat(2, 1fr)
+		+adap('gap', 20, 12)
+
+	&__item 
+		&-top 
+			display: flex
+			align-items: center
+			gap: 4px
+
+			font-size: 8px
+			font-weight: 600
+			color: #777
+
+			&:before
+				content: ''
+
+				+adap('width', 16, 12)
+				+adap('height', 16, 12)
+				flex-shrink: 0
+
+				background: url("data:image/svg+xml,%3Csvg width='8' height='9' viewBox='0 0 8 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.279443 3.55062C0.919824 4.40446 1.77367 5.06263 2.76981 5.41839C3.2501 5.59628 3.76596 5.70301 4.28183 5.73859H4.42413C3.30347 5.41839 2.53857 4.93811 1.95155 3.88859C1.43569 2.9636 1.31117 1.80736 1.80924 0.846784C2.04049 0.402075 2.46741 -0.078211 3.01885 0.0107309C3.62366 0.117461 3.69481 0.651112 3.5525 1.14919C3.35683 1.8963 2.98327 2.59004 2.85876 3.37273C2.80539 3.71071 2.82318 4.08427 2.92991 4.40446V4.42225C3.39241 4.86695 3.97942 5.18715 4.60202 5.38282C4.7799 5.43618 4.95778 5.48955 5.11788 5.52512C5.91938 5.65628 6.74475 5.6203 7.55488 5.43674V5.82753C7.39479 6.82368 6.66547 7.67752 5.79384 8.14001C4.72653 8.72703 3.46356 8.76261 2.28953 8.6203C2.07607 8.58472 2.05828 8.26453 2.28953 8.26453C3.2501 8.30011 4.26404 8.19338 5.10009 7.67752C5.47365 7.44627 5.79384 7.16165 6.04287 6.80589C6.07845 6.75252 6.09624 6.71695 6.13182 6.66358C5.18903 7.28617 3.69481 7.2506 2.71645 6.98377C1.18665 6.57464 0.546268 5.00926 0.0126172 3.67513C-0.0585362 3.49725 0.190501 3.4261 0.279443 3.55062Z' fill='%23777777' /%3E%3C/svg%3E") center / 8px no-repeat
+
+		&-text 
+			+adap('font-size', 20, 18)
+			font-weight: 600
+
+		&-smalltext 
+			font-size: 14px
+			font-weight: 600
+
+	&__qr 
+		display: flex
+		align-items: center
+		justify-content: center
+		padding: 8px
+
+		border: 1px solid #e0e0e0
+		border-radius: 8px
+
+	&__footer 
+		display: grid
+		grid-template-columns: 1fr auto 
+		align-items: center
+		+adap('gap', 20, 12)
+
+	&__age 
+		padding: em(6) 1em
+		display: flex
+		align-items: center
+
+		border: 1px solid $active
+		border-radius: 12px
+		
+		+adap('font-size', 16, 14)
+		color: $active
+		font-weight: 600
+
+
+	@media (max-width: 575px)
+		zoom: .8
+
+	@media (max-width: 430px)
+		zoom: .6
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+

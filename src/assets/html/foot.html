@@ -1,0 +1,542 @@
+</main>
+
+@@include('footer.html')
+
+</div>
+
+@@include('modals.html')
+
+<!-- Библиотеки -->
+<script src="assets/js/vendor.js" defer></script>
+
+<!-- Общие скрипты -->
+<script src="assets/js/script.js" defer></script>
+
+<!-- Карта -->
+<script>
+	function initMaps(id, address) {
+		if (document.querySelector(`#${id}`)) {
+			let locationX = parseFloat(address[0][0].split(',')[0]);
+			let locationY = parseFloat(address[0][0].split(',')[1]);
+
+			let mapOffset = window.innerWidth <= 767 ? 0 : 0.020000
+			myMap = new ymaps.Map(id, {
+				center: [locationX, locationY - mapOffset],
+				zoom: 14,
+				controls: []
+			}, {
+				searchControlProvider: 'yandex#search'
+			});
+
+			const zoomControl = new ymaps.control.ZoomControl({
+				float: 'none'
+			});
+
+			myMap.controls.add(zoomControl, {
+				position: { right: 10, top: 100 }
+			});
+
+			function positionZoomCenter() {
+				const container = document.getElementById(id);
+				if (!container || !zoomControl) return;
+
+				const h = container.clientHeight;
+				const zoomHeight = 206;
+
+				zoomControl.options.set('position', {
+					right: 10,
+					top: (h / 2 - zoomHeight / 2) + 'px'
+				});
+			}
+
+			positionZoomCenter();
+			window.addEventListener('resize', positionZoomCenter);
+
+			for (let i = 0; i < address.length; i++) {
+				myPlacemarkTemp = new ymaps.Placemark(address[i][0].split(','), {
+					balloonContent: address[i][1],
+				}, {
+					iconLayout: 'default#imageWithContent',
+					iconImageHref: "assets/img/icons/location.svg",
+					iconImageSize: [39, 50],
+					iconImageOffset: [-15, -44],
+				});
+
+				myMap.geoObjects.add(myPlacemarkTemp);
+			}
+
+			if (address.length > 1) {
+				myMap.setBounds(myMap.geoObjects.getBounds(), {
+					checkZoomRange: true,
+					zoomMargin: 30
+				});
+			}
+
+			myMap.behaviors.disable('scrollZoom')
+
+			layer = myMap.layers.get(0).get(0);
+			waitForTilesLoad(layer).then(function () {
+				document.querySelectorAll('.is-active').forEach(element => {
+					if (element.parentElement.querySelector(`#${id}`)) {
+						element.classList.remove('is-active')
+					}
+				});
+			});
+		}
+	}
+
+	function init() {
+		initMaps('map', [
+			[
+				'55.755864, 37.617698',
+				'г. Москва,  Каширский пр. 25, корп. 4',
+			],
+		])
+	}
+</script>
+
+<!-- Бронирование -->
+<script>
+	const svg = document.querySelector("#booking-map");
+	const tooltip = document.querySelector(".booking__tooltip");
+	const tooltipTitle = tooltip.querySelector(".booking__tooltip-title");
+	const tooltipCategory = tooltip.querySelector(".booking-category__title");
+	const tooltipPrice = tooltip.querySelector(".booking-category__price");
+	const tooltipIcon = tooltip.querySelector(".booking-category__icon");
+
+	const categories = {
+		1: { name: "Категория A", price: "3 000 ₽" },
+		2: { name: "Категория Б", price: "2 500 ₽" },
+		3: { name: "Категория В", price: "2 000 ₽" },
+		4: { name: "Категория Г", price: "1 500 ₽" },
+	};
+
+	let hideTimeout = null;
+
+	function showTooltip({ tableNumber, seatNumber, categoryId, element }) {
+		clearTimeout(hideTimeout);
+
+		tooltipTitle.innerHTML = seatNumber
+			? `Стол №${tableNumber} &nbsp; Место №${seatNumber}`
+			: `Стол №${tableNumber}`;
+
+		const category = categories[categoryId];
+		tooltipCategory.textContent = category?.name || "";
+		tooltipPrice.textContent = category?.price || "";
+
+		if (element) {
+			const { x, y, width, height } = element.getBBox();
+
+			const cloneSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+			cloneSvg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`);
+			cloneSvg.setAttribute("width", "40");
+			cloneSvg.setAttribute("height", "40");
+			cloneSvg.innerHTML = element.innerHTML;
+
+			tooltipIcon.innerHTML = "";
+			tooltipIcon.appendChild(cloneSvg);
+		}
+
+		tooltip.classList.add("active");
+	}
+
+	function hideTooltip() {
+		clearTimeout(hideTimeout);
+		hideTimeout = setTimeout(() => {
+			tooltip.classList.remove("active");
+		}, 500);
+	}
+
+	tooltip.addEventListener("transitionend", () => {
+		if (!tooltip.classList.contains("active")) {
+			tooltipTitle.innerHTML = "";
+			tooltipCategory.textContent = "";
+			tooltipPrice.textContent = "";
+			tooltipIcon.innerHTML = "";
+		}
+	});
+
+	svg.addEventListener("mouseover", (e) => {
+		const seat = e.target.closest('[data-type="seat"]');
+		const table = e.target.closest('[data-type="table"]');
+
+		if (seat?.dataset.status === "free") {
+			showTooltip({
+				tableNumber: seat.dataset.tableNumber,
+				seatNumber: seat.dataset.seatNumber,
+				categoryId: seat.dataset.categoryId,
+				element: seat
+			});
+		} else if (table) {
+			showTooltip({
+				tableNumber: table.dataset.tableNumber,
+				categoryId: table.dataset.categoryId,
+				element: table
+			});
+		}
+	});
+
+	svg.addEventListener("mouseout", (e) => {
+		const leaving = e.target.closest('[data-type="seat"], [data-type="table"]');
+		const entering = e.relatedTarget?.closest('[data-type="seat"], [data-type="table"]');
+		if (!entering && leaving) hideTooltip();
+	});
+
+	const container = document.querySelector(".booking");
+	const zoomInBtn = document.querySelector("#zoom-in");
+	const zoomOutBtn = document.querySelector("#zoom-out");
+	const vb = svg.viewBox.baseVal;
+
+	const original = {
+		x: vb.x,
+		y: vb.y,
+		width: vb.width,
+		height: vb.height
+	};
+
+	let viewBox = { ...original };
+	let currentZoom = 1;
+	let targetZoom = 1;
+
+	const minZoom = 1;
+	const maxZoom = 3;
+	const zoomStep = 0.3;
+
+	let isAnimating = false;
+	let pointers = new Map();
+	let isDragging = false;
+	let dragStart = {};
+	let viewBoxStart = {};
+	let initialPinchDistance = null;
+	let pinchStartZoom = 1;
+
+	function updateViewBox() {
+		svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
+	}
+
+	function clampViewBox() {
+		viewBox.x = Math.max(original.x, Math.min(viewBox.x, original.width - viewBox.width));
+		viewBox.y = Math.max(original.y, Math.min(viewBox.y, original.height - viewBox.height));
+	}
+
+	function animateZoom() {
+		if (Math.abs(targetZoom - currentZoom) < 0.001) {
+			currentZoom = targetZoom;
+			isAnimating = false;
+			return;
+		}
+
+		isAnimating = true;
+
+		currentZoom += (targetZoom - currentZoom) * 0.2;
+
+		const cx = viewBox.x + viewBox.width / 2;
+		const cy = viewBox.y + viewBox.height / 2;
+
+		viewBox.width = original.width / currentZoom;
+		viewBox.height = original.height / currentZoom;
+
+		viewBox.x = cx - viewBox.width / 2;
+		viewBox.y = cy - viewBox.height / 2;
+
+		clampViewBox();
+		updateViewBox();
+
+		requestAnimationFrame(animateZoom);
+	}
+
+	function zoom(direction) {
+		if (direction === "in") {
+			targetZoom = Math.min(maxZoom, targetZoom + zoomStep);
+		} else {
+			targetZoom = Math.max(minZoom, targetZoom - zoomStep);
+		}
+
+		if (!isAnimating) animateZoom();
+	}
+
+	function attachHoldZoom(btn, direction) {
+		let interval;
+
+		const start = () => {
+			zoom(direction);
+			interval = setInterval(() => zoom(direction), 120);
+		};
+
+		const stop = () => clearInterval(interval);
+
+		btn.addEventListener("mousedown", start);
+		btn.addEventListener("touchstart", start);
+
+		window.addEventListener("mouseup", stop);
+		window.addEventListener("touchend", stop);
+		btn.addEventListener("mouseleave", stop);
+	}
+
+	attachHoldZoom(zoomInBtn, "in");
+	attachHoldZoom(zoomOutBtn, "out");
+
+	container.addEventListener("pointerdown", e => {
+		pointers.set(e.pointerId, e);
+
+		if (pointers.size === 1) {
+			isDragging = false;
+			dragStart = { x: e.clientX, y: e.clientY };
+			viewBoxStart = { ...viewBox };
+		}
+
+		if (pointers.size === 2) {
+			const pts = [...pointers.values()];
+			initialPinchDistance = Math.hypot(
+				pts[0].clientX - pts[1].clientX,
+				pts[0].clientY - pts[1].clientY
+			);
+			pinchStartZoom = currentZoom;
+		}
+	});
+
+	container.addEventListener("pointermove", e => {
+		if (!pointers.has(e.pointerId)) return;
+
+		pointers.set(e.pointerId, e);
+
+		if (pointers.size === 1) {
+
+			const dx = e.clientX - dragStart.x;
+			const dy = e.clientY - dragStart.y;
+
+			if (!isDragging && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+				isDragging = true;
+			}
+
+			if (isDragging) {
+
+				viewBox.x = viewBoxStart.x - dx * (viewBox.width / container.clientWidth);
+				viewBox.y = viewBoxStart.y - dy * (viewBox.height / container.clientHeight);
+
+				clampViewBox();
+				updateViewBox();
+			}
+		}
+
+		if (pointers.size === 2) {
+			const pts = [...pointers.values()];
+
+			const distance = Math.hypot(
+				pts[0].clientX - pts[1].clientX,
+				pts[0].clientY - pts[1].clientY
+			);
+
+			const scale = distance / initialPinchDistance;
+
+			targetZoom = Math.max(minZoom, Math.min(maxZoom, pinchStartZoom * scale));
+
+
+			if (!isAnimating) animateZoom();
+		}
+	});
+
+	container.addEventListener("pointerup", e => {
+		pointers.delete(e.pointerId);
+		isDragging = false;
+		initialPinchDistance = null;
+	});
+
+	container.addEventListener("pointercancel", e => {
+		pointers.delete(e.pointerId);
+		isDragging = false;
+		initialPinchDistance = null;
+	});
+
+	container.addEventListener("wheel", e => {
+		if (!e.ctrlKey && !e.metaKey) return;
+		e.preventDefault();
+		zoom(e.deltaY < 0 ? "in" : "out");
+	}, {
+		passive: false
+	});
+
+	updateViewBox();
+
+	const placesContainer = document.querySelector(".places__items");
+	const totalPriceEl = document.querySelector(".modal-book__price span");
+	const clearBtn = document.querySelector(".places__delete");
+
+	let selectedSeats = new Map();
+
+	function renderPlaces() {
+		if (selectedSeats.size === 0) {
+			placesContainer.innerHTML = `
+				<div class="places__text">
+					Выберите свободные места <br> на схеме зала
+				</div>
+			`;
+			clearBtn.style.display = "none";
+			updateTotalPrice();
+			return;
+		}
+
+		clearBtn.style.display = "flex";
+
+		let html = "";
+
+		selectedSeats.forEach(seat => {
+			const seatEl = svg.querySelector(`[data-seat-id="${seat.id}"]`);
+			const firstPath = seatEl?.querySelector('path');
+			const color = firstPath?.getAttribute('fill') || '#000';
+
+			html += `
+				<div class="places__item" data-seat-id="${seat.id}" style="--color: ${color}">
+					<div class="places__item-title">
+						Стол №${seat.table} Место №${seat.number}
+					</div>
+					<div class="places__item-price">
+						${seat.price.toLocaleString("ru-RU")} ₽
+					</div>
+					<button class="places__item-delete" type="button">
+						<svg class="delete-icon" aria-hidden="true">
+							<use xlink:href="assets/img/sprite.svg#delete"></use>
+						</svg>
+					</button>
+				</div>
+			`;
+		});
+
+		placesContainer.innerHTML = html;
+
+		placesContainer.querySelectorAll('.places__item-delete').forEach(btn => {
+			btn.addEventListener('click', (e) => {
+				const parent = e.target.closest('.places__item');
+				const seatId = parent.dataset.seatId;
+
+				selectedSeats.delete(seatId);
+
+				const seatEl = svg.querySelector(`[data-seat-id="${seatId}"]`);
+				if (seatEl) seatEl.classList.remove("is-selected");
+
+				renderPlaces();
+			});
+		});
+
+		updateTotalPrice();
+	}
+
+	function updateTotalPrice() {
+		let total = 0;
+
+		selectedSeats.forEach(seat => {
+			total += seat.price;
+		});
+
+		totalPriceEl.textContent = total.toLocaleString("ru-RU") + " ₽";
+	}
+
+	function toggleSeat(seatEl) {
+		if (seatEl.dataset.status !== "free") return;
+
+		const seatId = seatEl.dataset.seatId;
+
+		if (selectedSeats.has(seatId)) {
+			selectedSeats.delete(seatId);
+			seatEl.classList.remove("is-selected");
+		} else {
+			const category = categories[seatEl.dataset.categoryId];
+			const numericPrice = parseInt(category?.price.replace(/\D/g, ""), 10) || 0;
+
+			selectedSeats.set(seatId, {
+				id: seatId,
+				table: seatEl.dataset.tableNumber,
+				number: seatEl.dataset.seatNumber,
+				price: numericPrice
+			});
+			seatEl.classList.add("is-selected");
+		}
+
+		renderPlaces();
+	}
+
+	function toggleTable(tableEl) {
+		const tableNumber = tableEl.dataset.tableNumber;
+
+		const seats = svg.querySelectorAll(`[data-type="seat"][data-table-number="${tableNumber}"][data-status="free"]`);
+
+		const allSelected = [...seats].every(seat => selectedSeats.has(seat.dataset.seatId));
+
+		seats.forEach(seat => {
+			const seatId = seat.dataset.seatId;
+			const category = categories[seat.dataset.categoryId];
+			const numericPrice = parseInt(category?.price.replace(/\D/g, ""), 10) || 0;
+
+			if (allSelected) {
+
+				selectedSeats.delete(seatId);
+				seat.classList.remove("is-selected");
+
+			} else {
+
+				if (!selectedSeats.has(seatId)) {
+					selectedSeats.set(seatId, {
+						id: seatId,
+						table: seat.dataset.tableNumber,
+						number: seat.dataset.seatNumber,
+						price: numericPrice
+					});
+
+					seat.classList.add("is-selected");
+				}
+
+			}
+		});
+
+		renderPlaces();
+	}
+
+	svg.addEventListener("pointerup", e => {
+		if (isDragging) return;
+
+		const seat = e.target.closest('[data-type="seat"]');
+		const table = e.target.closest('[data-type="table"]');
+
+		if (seat) {
+			toggleSeat(seat);
+			return;
+		}
+
+		if (table) {
+			toggleTable(table);
+		}
+
+	});
+
+	placesContainer.addEventListener("click", e => {
+		const item = e.target.closest(".places__item-delete");
+		if (!item) return;
+
+		const parent = e.target.closest(".places__item");
+		const seatId = parent.dataset.seatId;
+
+		selectedSeats.delete(seatId);
+
+		const seatEl = svg.querySelector(`[data-seat-id="${seatId}"]`);
+		if (seatEl) seatEl.classList.remove("is-selected");
+
+		renderPlaces();
+	});
+
+	clearBtn.addEventListener("click", () => {
+		selectedSeats.forEach(seat => {
+			const seatEl = svg.querySelector(`[data-seat-id="${seat.id}"]`);
+			if (seatEl) seatEl.classList.remove("is-selected");
+		});
+
+		selectedSeats.clear();
+		renderPlaces();
+		updateTotalPrice();
+	});
+
+	renderPlaces();
+</script>
+
+</body>
+
+</html>

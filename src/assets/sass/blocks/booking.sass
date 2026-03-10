@@ -1,0 +1,517 @@
+.booking 
+	position: relative
+	display: inline-flex
+	overflow: hidden
+	touch-action: none
+
+	cursor: grab
+
+	&__controls 
+		position: absolute
+		right: 20px
+		bottom: 20px
+		z-index: 10
+		display: flex
+		
+		flex-direction: column
+		gap: 10px
+
+	&__control
+		display: flex
+		align-items: center
+		justify-content: center
+		padding: 8px
+		+adap('width', 40, 32)
+		+adap('height', 40, 32)
+
+		background: #6e6e6e
+		border-radius: 8px
+		+t
+
+		+hov
+			background: dark(#6e6e6e, 10%)
+
+		svg
+			max-width: 12px
+			max-height: 12px
+
+	&__tooltip 
+		position: absolute
+		+adap('left', 20, 12)
+		+adap('top', 20, 12)
+
+		display: grid
+		+adap('gap', 20, 12)
+		+adap('padding', 20, 16)
+		min-width: 260px
+
+		border: 1px solid #2a2a2a
+		+adap('border-radius', 16, 12)
+		background: $bg
+
+		font-weight: 600
+
+		opacity: 0
+		+t
+		pointer-events: none
+
+		&.active 
+			opacity: 1
+			pointer-events: auto
+
+	[data-type]
+		cursor: pointer
+
+	[data-type="table"]
+		position: relative
+
+	.is-selected 
+		opacity: .6
+
+
+.booking-category 
+	display: grid			
+	grid-template-columns: auto 1fr 
+	align-items: center
+	align-content: center
+	column-gap: 8px
+
+
+	&__icon 
+		display: flex
+		align-items: center
+		justify-content: center
+		grid-row: span 2
+		+adap('width', 48, 36)
+		+adap('height', 48, 36)
+		overflow: hidden
+
+		img, svg 
+			width: max(35px, 70%)
+			height: max(30px, 70%)
+
+	&__title 
+		line-height: 1
+		font-weight: 600
+
+	&__price 
+		margin-top: -4px
+		
+		font-weight: 700
+		line-height: 1
+		color: #44a180
+	
+	
+	
+	
+.modal-book 
+	.modal 
+		&__content 
+			max-width: min(1842px, 98vw)
+			padding: 0
+
+		&__close 
+			+adap('top', 20, 16)
+			+adap('right', 20, 16)
+
+			background: none
+			border: 1px solid rgba(#fff, .4)
+
+			svg 
+				fill: rgba(#fff, .4) 
+				stroke: none 
+
+			+hov
+				background: rgba(#fff, .4)
+
+	&__wrapper
+		display: grid
+		grid-template-columns: 1fr percent(760, 1842) 
+		align-items: start
+
+	&__top 
+		display: flex
+		align-items: center
+		justify-content: space-between
+		flex-wrap: wrap
+		gap: 12px
+		+adap('margin-bottom', 40, 12)
+
+	&__left 
+		+adap('padding', 40, 20)
+
+	&__categories 
+		display: flex
+		flex-wrap: wrap
+		+adap('gap', 20, 12)
+
+		+adap('margin-bottom', 20, 12)
+		+adap('padding-bottom', 20, 12)
+		border-bottom: 1px solid #2a2a2a
+
+		.booking-category
+			padding: 12px
+			flex-grow: 1
+
+			border-radius: 12px
+
+			&__price 
+				color: var(--color)
+
+	&__row 
+		display: grid
+		grid-template-columns: repeat(2, 1fr)
+		+adap('gap', 40, 20)
+
+	.places 
+		&__top 
+			display: flex
+			align-items: center
+			justify-content: space-between
+			flex-wrap: wrap
+			gap: 12px
+			+adap('margin-bottom', 20, 12)
+				
+			color: $active
+
+		&__delete 
+			display: flex
+			align-items: center
+			gap: 16px
+
+			color: #767676
+			+t 
+
+			+hov
+				color: $active
+
+			svg 
+				width: 1em
+				height: 1em
+				stroke: currentColor
+				transition: none
+
+		&__items 
+			display: grid
+			+adap('gap', 12, 8)
+
+			+scrollbar(426px, $scrollBarWidth: 4, $padding: 12) 
+
+			@media (max-width: 575px)
+				max-height: 280px
+
+		&__item 
+			position: relative
+			display: flex
+			align-items: center
+			justify-content: space-between  
+			gap: 8px
+			padding-left: 16px
+
+			font-weight: 600
+
+			&:before
+				content: ''
+
+				position: absolute
+				left: 0
+				top: 50%
+				translate: 0 -50%
+
+				width: 6px
+				height: 6px
+
+				border-radius: 50%	
+				background: var(--color)
+
+			&-price 
+				color: #44a180
+				font-weight: 700
+
+			&-delete 
+				display: flex
+				align-items: center
+				justify-content: center
+				+adap('width', 32, 28)
+				+adap('height', 32, 28)
+
+				+adap('border-radius', 8, 4)
+				background: #373737
+				+t 
+
+				+hov
+					background: $active
+
+					svg 
+						stroke: #fff
+
+				svg 
+					width: 50%
+					height: 50%
+					fill: none
+					stroke: #767676
+					transition: none
+
+		&__text 
+			display: flex
+			justify-content: center
+
+			text-align: center
+			font-weight: 600
+			color: #888
+			+adap('font-size', 16, 14)
+ 
+	&__payment 
+		+adap('margin-block', 28, 12)
+		display: flex
+		align-items: center
+		justify-content: space-between
+		gap: 12px
+		flex-wrap: wrap
+
+		font-weight: 600
+		+adap('font-size', 24, 20)
+		line-height: 1.33333
+
+
+	&__map 
+		svg
+			aspect-ratio: 760 / 840
+
+	@media (max-width: 1300px)
+		&__wrapper
+			grid-template-columns: 100%
+
+	@media (max-width: 991px)
+		&__row 
+			grid-template-columns: 100%
+
+		&__map 
+			max-width: 500px
+			order: -1
+	
+	@media (max-width: 575px)
+		&__categories
+			display: grid
+			grid-template-columns: repeat(2, 1fr)
+			gap: 4px
+
+			.booking-category 
+				grid-template-columns: 100%
+				gap: 8px 
+				padding: 8px
+
+				&__icon 
+					display: none
+
+					width: 28px 
+					height: 24px
+
+					svg 
+						width: 100%
+						height: 100%
+
+				&__title,
+				&__price 
+					font-size: 14px
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

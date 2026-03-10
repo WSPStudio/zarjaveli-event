@@ -1,0 +1,47 @@
+@use 'sass:math'
+
+$row-gap: 8px 
+$column-gap: 24
+$column-gap-mobile: 16
+
+.crumbs
+	display: flex
+	align-items: center
+	flex-wrap: wrap
+	column-gap: 24px
+	row-gap: $row-gap
+	 
+	+adap('font-size', 16, 14)
+
+	li 
+		&:not(:last-child)
+			color: rgba($text, .6)
+
+			@media (any-hover: hover)
+				&:hover
+					color: $active
+
+					&:before
+						color: rgba($text, .6)
+
+		&:last-child
+			pointer-events: none
+			color: $active
+
+			a
+				cursor: default 
+
+		&:not(:last-child)
+			position: relative
+			
+			&:before
+				content: ''
+
+				position: absolute
+				+adap('right', math.div($column-gap, -2), math.div($column-gap-mobile, -2))
+				top: 50%
+				translate: 50% -50%
+				width: 12px
+				height: 12px
+
+				background: url("data:image/svg+xml,%3Csvg width='7' height='13' viewBox='0 0 7 13' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath opacity='0.6' d='M0.5 0.5L6.5 6.5L0.499999 12.5' stroke='white' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E") center / contain no-repeat
