@@ -50,18 +50,24 @@ export function closeModal(modal, removeHashFlag = true) {
   modal.classList.remove("modal_open");
   modal.classList.add("modal_close");
 
-  // Убираем из стека
   modalStack = modalStack.filter((m) => m !== modal);
 
   setTimeout(() => {
     fadeOut(modal);
 
-    if (removeHashFlag && getHash() == modal.id) {
-      if (modalStack.length) {
-        window.location.hash = modalStack[modalStack.length - 1].id;
-      } else {
+    if (modalStack.length) {
+      const previousModal = modalStack[modalStack.length - 1];
+      fadeIn(previousModal);
+      previousModal.classList.remove("modal_close");
+      previousModal.classList.add("modal_open");
+
+      if (removeHashFlag && window.location.hash !== `#${previousModal.id}`) {
+        window.location.hash = previousModal.id;
+      }
+    } else {
+      if (removeHashFlag) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
-        body.classList.remove(bodyOpenModalClass);
+        document.body.classList.remove(bodyOpenModalClass);
         showScrollbar();
       }
     }

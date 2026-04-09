@@ -1,3 +1,5 @@
+window.maskPhone = maskPhone;
+
 window.addEventListener("DOMContentLoaded", () => {
   maskPhone();
 });

@@ -92,8 +92,8 @@ export function validation() {
 validation();
 
 export function clearInputs() {
-  inputs.forEach((element) => {
-    element.classList.remove("wpcf7-not-valid", "error");
+  inputs.forEach((input) => {
+    input.classList.remove("wpcf7-not-valid", "error");
   });
 }
 

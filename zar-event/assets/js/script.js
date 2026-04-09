@@ -58,25 +58,6 @@
   //
   //
   //
-  //
-  // Позиционирование
-
-  // Отступ элемента от краев страницы
-  function offset(el) {
-    var rect = el.getBoundingClientRect(),
-      scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-      scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    return {
-      top: rect.top + scrollTop,
-      left: rect.left + scrollLeft,
-      right: windowWidth - rect.width - (rect.left + scrollLeft),
-    };
-  }
-
-  //
-  //
-  //
   // Общее
 
   // Добавление элементу обертки
@@ -479,24 +460,6 @@
   //
   //
   //
-  // Работа с url
-
-  // Получение хэша
-  function getHash() {
-  	return location.hash ? location.hash.replace('#', '') : '';
-  }
-
-  // Удаление хэша
-  function removeHash() {
-  	setTimeout(() => {
-  		history.pushState("", document.title, window.location.pathname + window.location.search);
-  	}, 100);
-  }
-
-  //
-  //
-  //
-  //
   // Валидация элементов формы
 
   function validation() {
@@ -584,8 +547,8 @@
   validation();
 
   function clearInputs() {
-    inputs.forEach((element) => {
-      element.classList.remove("wpcf7-not-valid", "error");
+    inputs.forEach((input) => {
+      input.classList.remove("wpcf7-not-valid", "error");
     });
   }
 
@@ -788,18 +751,24 @@
     modal.classList.remove("modal_open");
     modal.classList.add("modal_close");
 
-    // Убираем из стека
     modalStack = modalStack.filter((m) => m !== modal);
 
     setTimeout(() => {
       fadeOut(modal);
 
-      if (removeHashFlag && getHash() == modal.id) {
-        if (modalStack.length) {
-          window.location.hash = modalStack[modalStack.length - 1].id;
-        } else {
+      if (modalStack.length) {
+        const previousModal = modalStack[modalStack.length - 1];
+        fadeIn(previousModal);
+        previousModal.classList.remove("modal_close");
+        previousModal.classList.add("modal_open");
+
+        if (removeHashFlag && window.location.hash !== `#${previousModal.id}`) {
+          window.location.hash = previousModal.id;
+        }
+      } else {
+        if (removeHashFlag) {
           history.pushState("", document.title, window.location.pathname + window.location.search);
-          body.classList.remove(bodyOpenModalClass);
+          document.body.classList.remove(bodyOpenModalClass);
           showScrollbar();
         }
       }
@@ -1040,158 +1009,6 @@
     document.addEventListener("pointerdown", handler, true);
   }
 
-  // Плавный скролл
-  function scrollToSmoothly(pos, time = 400) {
-    const currentPos = window.pageYOffset;
-    let start = null;
-    window.requestAnimationFrame(function step(currentTime) {
-      start = !start ? currentTime : start;
-      const progress = currentTime - start;
-      if (currentPos < pos) {
-        window.scrollTo(0, ((pos - currentPos) * progress) / time + currentPos);
-      } else {
-        window.scrollTo(0, currentPos - ((currentPos - pos) * progress) / time);
-      }
-      if (progress < time) {
-        window.requestAnimationFrame(step);
-      } else {
-        window.scrollTo(0, pos);
-      }
-    });
-  }
-
-  // Изменение масштаба
-  class ZoomDetector {
-    constructor() {
-      this.lastZoom = this.getCurrentZoom();
-      this.isChecking = false;
-      this.startDetection();
-    }
-
-    getCurrentZoom() {
-      return window.outerWidth / window.innerWidth;
-    }
-
-    startDetection() {
-      const checkZoom = () => {
-        const currentZoom = this.getCurrentZoom();
-
-        if (Math.abs(currentZoom - this.lastZoom) > 0.01) {
-          this.lastZoom = currentZoom;
-          this.onZoomChange(currentZoom);
-        }
-
-        if (this.isChecking) {
-          requestAnimationFrame(checkZoom);
-        }
-      };
-
-      this.isChecking = true;
-      checkZoom();
-    }
-
-    stopDetection() {
-      this.isChecking = false;
-    }
-
-    onZoomChange(zoomLevel) {
-      const percentage = Math.round(zoomLevel * 100);
-      // Отправка события
-      window.dispatchEvent(
-        new CustomEvent("zoomchange", {
-          detail: { zoomLevel: percentage },
-        })
-      );
-    }
-  }
-
-  new ZoomDetector();
-
-  window.addEventListener("zoomchange", (e) => {
-    if (haveScroll() && body.classList.contains(bodyOpenModalClass)) ;
-  });
-
-  /* 
-  	================================================
-  	  
-  	Плавная прокрутка
-  	
-  	================================================
-  */
-
-  function scroll() {
-    let headerScroll = 0;
-    const scrollLinks = document.querySelectorAll("[data-scroll], .menu a");
-
-    if (scrollLinks.length) {
-      scrollLinks.forEach((link) => {
-        link.addEventListener("click", (e) => {
-          const target = link.hash;
-
-          if (target && target !== "#") {
-            const scrollBlock = document.querySelector(target);
-            e.preventDefault();
-
-            if (scrollBlock) {
-              headerScroll = window.getComputedStyle(scrollBlock).paddingTop === "0px" ? -40 : 0;
-
-              scrollToSmoothly(offset(scrollBlock).top - parseInt(headerTop.clientHeight - headerScroll), 400);
-
-              removeHash();
-              menu.classList.remove(menuActive);
-              menuLink.classList.remove("active");
-              body.classList.remove("no-scroll");
-            } else {
-              let [baseUrl, hash] = link.href.split("#");
-              if (window.location.href !== baseUrl && hash) {
-                link.setAttribute("href", `${baseUrl}?link=${hash}`);
-                window.location = link.getAttribute("href");
-              }
-            }
-          }
-        });
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const link = urlParams.get("link");
-
-      if (link) {
-        if (link.startsWith("tab-") && /^\d+-\d+$/.test(link.replace("tab-", ""))) {
-          const [_, blockIndex, tabIndex] = link.split("-");
-          const tabsBlock = document.querySelector(`[data-tabs-index="${blockIndex}"]`);
-          const tabs = tabsBlock.querySelectorAll("[data-tabs-title]");
-
-          if (tabs && tabs[tabIndex]) {
-            tabs[tabIndex].click();
-
-            scrollToSmoothly(offset(tabsBlock).top - parseInt(headerTop.clientHeight), 400);
-          }
-        } else if (link.startsWith("tab-")) {
-          const tabId = link;
-          const tabButton = document.getElementById(tabId);
-
-          if (tabButton) {
-            tabButton.click();
-
-            scrollToSmoothly(offset(tabButton.closest("[data-tabs]") || tabButton).top - parseInt(headerTop.clientHeight), 400);
-          }
-        } else {
-          const scrollBlock = document.getElementById(link);
-          if (scrollBlock) {
-            const headerScroll = window.getComputedStyle(scrollBlock).paddingTop === "0px" ? -40 : 0;
-            scrollToSmoothly(offset(scrollBlock).top - parseInt(headerTop.clientHeight - headerScroll), 400);
-          }
-        }
-
-        urlParams.delete("link");
-        const newUrl = urlParams.toString() ? `${window.location.pathname}?${urlParams}` : window.location.pathname;
-        window.history.replaceState({}, "", newUrl);
-      }
-    });
-  }
-
   /* 
   	================================================
   	  
@@ -1290,7 +1107,6 @@
   burger();
   modal();
   viewer();
-  scroll();
   map();
 
   //

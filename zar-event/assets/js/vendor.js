@@ -1,1 +1,6620 @@
-(()=>{var Ea=e=>{throw TypeError(e)};var di=(e,t,n)=>t.has(e)||Ea("Cannot "+n);var xa=(e,t,n)=>t.has(e)?Ea("Cannot add the same private member more than once"):t instanceof WeakSet?t.add(e):t.set(e,n);var Be=(e,t,n)=>(di(e,t,"access private method"),n);var ye,Ta,Ma,Ca,Pa,Vn,La,Ia,Zn,Qn,Jn,za,ea,Kn=class{constructor(...t){xa(this,ye);if(t.length===0)throw TypeError("at least one object with parameters must be specified for the constructor");let n=[],a=t.map(r=>{if(Be(this,ye,Vn).call(this,r)!=="[object Object]")throw TypeError("the arguments specified for the constructor must be objects of type 'Object'");["sourceElement","breakpoints"].forEach(g=>{if(!Object.hasOwn(r,g))throw TypeError(`the '${g}' parameter is not specified for the main object`)});let{sourceElement:u,breakpoints:b}=r;if(!(u instanceof Element))throw TypeError("the value specified for the 'sourceElement' parameter must be an object of type 'Element'");if(n.some(g=>g.sourceElement===u))throw TypeError(`there can only be one object in the constructor with such a 'sourceElement': '${u.cloneNode().outerHTML}'`);let h=u.parentElement,E=u.nextElementSibling;return n.push({sourceElement:u,initialParent:h,initialNextSibling:E}),r.breakpoints=Be(this,ye,Ta).call(this,b,u),r}),s=[...a.reduce((r,{breakpoints:u})=>(Object.keys(u).forEach(b=>{Number(b)&&r.add(b)}),r),new Set).add("default")].sort((r,u)=>r-u),i=s.reduce((r,u)=>(r.set(u,[]),r),new Map);a.forEach(({sourceElement:r,breakpoints:u})=>{Object.entries(u).forEach(([b,{targetElement:h,targetPosition:E}])=>{i.get(b).push({sourceElement:r,targetElement:h,targetPosition:E})})}),i.forEach(r=>{Be(this,ye,Zn).call(this,r),Be(this,ye,Qn).call(this,r),Be(this,ye,Jn).call(this,r,!0),r.length=0,n.forEach(({sourceElement:u})=>{r.push(Be(this,ye,ea).call(this,u,!0))}),Be(this,ye,Zn).call(this,r)});let l="default";new ResizeObserver(([{borderBoxSize:[{inlineSize:r}],target:u}])=>{let b=r+Be(this,ye,Pa).call(this,u),h=Be(this,ye,Ca).call(this,s,b);if(l!==h){let E=i.get(h);Be(this,ye,Qn).call(this,E),h==="default"?n.forEach(({sourceElement:g,initialParent:P,initialNextSibling:z})=>{if(P)try{z&&z.parentNode===P?P.insertBefore(g,z):P.appendChild(g)}catch(se){console.error("TransferElements: insertBefore failed",{sourceElement:g,initialParent:P,initialNextSibling:z,error:se}),P.appendChild(g)}}):Be(this,ye,Jn).call(this,E,!1),l=h}}).observe(document.documentElement)}};ye=new WeakSet,Ta=function(t,n){if(Be(this,ye,Vn).call(this,t)!=="[object Object]")throw TypeError("the value specified for the 'breakpoints' parameter must be an object of type 'Object'");let a=Object.entries(t);if(a.length===0)throw TypeError("at least one breakpoint must be specified for the 'breakpoints' object");let s=Object.fromEntries(a.map(([i,l])=>{let c=Number(i);if(!c||c<=0||c>Number.MAX_SAFE_INTEGER)throw RangeError("the breakpoint trigger must be a safe (integer or fractional) number greater than zero");if(Be(this,ye,Vn).call(this,l)!=="[object Object]")throw TypeError("the breakpoint object must be of type 'Object'");if(!Object.hasOwn(l,"targetElement"))throw TypeError("the 'targetElement' parameter is not specified for the breakpoint object");let{targetElement:r,targetPosition:u}=l;if(!(r instanceof Element))throw TypeError("the value specified for the 'targetElement' parameter must be an object of type 'Element'");if(n===r)throw TypeError("the value specified for the 'targetElement' parameter must be different from the value specified for the 'sourceElement' parameter");if(Be(this,ye,La).call(this,r,n))throw TypeError("the element that is specified as the value for the 'targetElement' parameter must not be a descendant of the element specified as the value for the 'sourceElement' parameter");if(Be(this,ye,Ia).call(this,r))throw TypeError("the element specified as the value for the 'targetElement' parameter must be a paired tag");let b=typeof i=="number"?i:0;return typeof i!="number"&&(i=="first"?b=0:i=="last"?b=r.children.length:b=0),[c,{targetPosition:b,...l}]}));return s.default=Be(this,ye,ea).call(this,n,!1),s},Ma=function(t){return t.children},Ca=function(t,n){let a=0,s=t.length-2,i;for(;a<=s;){let l=Math.floor((a+s)/2),c=t[l];if(c==n)return c;c>n?s=l-1:a=l+1,c-n>0&&(i=c)}return i!=null?i:"default"},Pa=function(t){let n=window.innerWidth,a=Math.min(t.clientWidth,t.offsetWidth),s=0;return a!==n&&(s+=n-a),s},Vn=function(t){return Object.prototype.toString.call(t)},La=function(t,n){for(;t=t.parentElement;)if(t===n)return!0;return!1},Ia=function(t){return!new RegExp(/<\/[a-zA-Z]+>$/).test(t.outerHTML)},Zn=function(t){t.length>1&&t.sort((n,a)=>n.targetPosition-a.targetPosition)},Qn=function(t){t.forEach(({sourceElement:n})=>{n.remove()})},Jn=function(t,n){t.forEach(({sourceElement:a,targetElement:s,targetPosition:i})=>{let l=Be(this,ye,Ma).call(this,s);n&&Be(this,ye,za).call(this,l,i);let c=l[i];c&&c.parentNode===s?s.insertBefore(a,c):s.append(a)})},za=function(t,n){let a=t.length},ea=function(t,n){let a=t.parentElement,s=a?Array.from(a.children).indexOf(t):-1,i={targetElement:a,targetPosition:s};return n&&(i.sourceElement=t),i};document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-da]").forEach(t=>{let n=t.getAttribute("data-da").split("|"),a={};n.forEach(s=>{let[i,l,c]=s.split(",");c==="first"&&(c=0);function r(b,h=document){let E=b.trim().split(" "),g=h;for(let P of E){let z=P.match(/(.+?)\[(\d+)\]/);if(z){let se=z[1],ae=parseInt(z[2]);g=g.querySelectorAll(se)[ae]||null}else g=g.querySelector(P);if(!g)break}return g}let u=r(i);u&&(a[l]={targetElement:u,targetPosition:c})}),new Kn({sourceElement:t,breakpoints:a})})});window.addEventListener("DOMContentLoaded",()=>{ci()});function ci(){document.querySelectorAll('[type="tel"]').forEach(t=>{t.setAttribute("data-original-placeholder",t.placeholder),t.addEventListener("focus",function(){setTimeout(()=>{t.setSelectionRange(t.value.length,t.value.length)},0)}),t.addEventListener("blur",function(){t.value=="+7 ("&&(t.value="",t.placeholder=t.getAttribute("data-original-placeholder"))}),t.addEventListener("input",function(n){t.setCustomValidity("");let a=n.inputType==="deleteContentBackward",i=t.value.replace(/\D/g,"");if(a)return;let l=Aa(i);t.value=l,setTimeout(()=>{let c=t.value.indexOf("_");fi(t,c===-1?t.value.length:c)},0)}),t.addEventListener("change",function(){let n=t.value.replace(/\D/g,"");if(n.length===0){t.setCustomValidity(""),t.classList.remove("error");return}n.length!==11?(t.hasAttribute("required")?t.setCustomValidity("\u0422\u0435\u043B\u0435\u0444\u043E\u043D \u0434\u043E\u043B\u0436\u0435\u043D \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0442\u044C 11 \u0446\u0438\u0444\u0440"):t.setCustomValidity(""),t.classList.add("error")):(t.setCustomValidity(""),t.classList.remove("error"))}),t.addEventListener("paste",function(n){n.preventDefault();let a=(n.clipboardData||window.clipboardData).getData("text");a=a.replace(/\D/g,""),t.value=Aa(a)})})}function Aa(e){if(!e)return"";e[0]!=="7"&&e[0]!=="8"&&(e="7"+e);let t=e[0]==="8"?"8 (___) ___ __ __":"+7 (___) ___ __ __",n=0,a="";for(let s of t){if(n>=e.length)break;s==="_"||/\d/.test(s)?a+=e[n++]:a+=s}return a}function fi(e,t){e.setSelectionRange(t,t)}function Oa(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}function ui(e,t,n){t&&Oa(e.prototype,t),n&&Oa(e,n),Object.defineProperty(e,"prototype",{writable:!1})}var ta,_n;ta=void 0,_n=function(){"use strict";var e="(prefers-reduced-motion: reduce)",t=4,n=5,a={CREATED:1,MOUNTED:2,IDLE:3,MOVING:t,SCROLLING:n,DRAGGING:6,DESTROYED:7};function s(o){o.length=0}function i(o,m,d){return Array.prototype.slice.call(o,m,d)}function l(o){return o.bind.apply(o,[null].concat(i(arguments,1)))}function c(){}var r=setTimeout;function u(o){return requestAnimationFrame(o)}function b(o,m){return typeof m===o}function h(o){return!se(o)&&b("object",o)}var E=Array.isArray,g=l(b,"function"),P=l(b,"string"),z=l(b,"undefined");function se(o){return o===null}function ae(o){try{return o instanceof(o.ownerDocument.defaultView||window).HTMLElement}catch(m){return!1}}function Y(o){return E(o)?o:[o]}function A(o,m){Y(o).forEach(m)}function ne(o,m){return-1<o.indexOf(m)}function ee(o,m){return o.push.apply(o,Y(m)),o}function re(o,m,d){o&&A(m,function(f){f&&o.classList[d?"add":"remove"](f)})}function ie(o,m){re(o,P(m)?m.split(" "):m,!0)}function q(o,m){A(m,o.appendChild.bind(o))}function ve(o,m){A(o,function(d){var f=(m||d).parentNode;f&&f.insertBefore(d,m)})}function te(o,m){return ae(o)&&(o.msMatchesSelector||o.matches).call(o,m)}function _(o,m){return o=o?i(o.children):[],m?o.filter(function(d){return te(d,m)}):o}function fe(o,m){return m?_(o,m)[0]:o.firstElementChild}var be=Object.keys;function xe(o,m,d){o&&(d?be(o).reverse():be(o)).forEach(function(f){f!=="__proto__"&&m(o[f],f)})}function Se(o){return i(arguments,1).forEach(function(m){xe(m,function(d,f){o[f]=m[f]})}),o}function Me(o){return i(arguments,1).forEach(function(m){xe(m,function(d,f){E(d)?o[f]=d.slice():h(d)?o[f]=Me({},h(o[f])?o[f]:{},d):o[f]=d})}),o}function U(o,m){A(m||be(o),function(d){delete o[d]})}function N(o,m){A(o,function(d){A(m,function(f){d&&d.removeAttribute(f)})})}function G(o,m,d){h(m)?xe(m,function(f,v){G(o,v,f)}):A(o,function(f){se(d)||d===""?N(f,m):f.setAttribute(m,String(d))})}function oe(o,m,d){return o=document.createElement(o),m&&(P(m)?ie:G)(o,m),d&&q(d,o),o}function Ie(o,m,d){if(z(d))return getComputedStyle(o)[m];se(d)||(o.style[m]=""+d)}function tt(o,m){Ie(o,"display",m)}function ht(o){o.setActive&&o.setActive()||o.focus({preventScroll:!0})}function Ue(o,m){return o.getAttribute(m)}function Yt(o,m){return o&&o.classList.contains(m)}function Ne(o){return o.getBoundingClientRect()}function st(o){A(o,function(m){m&&m.parentNode&&m.parentNode.removeChild(m)})}function sn(o){return fe(new DOMParser().parseFromString(o,"text/html").body)}function Ke(o,m){o.preventDefault(),m&&(o.stopPropagation(),o.stopImmediatePropagation())}function Ct(o,m){return o&&o.querySelector(m)}function kt(o,m){return m?i(o.querySelectorAll(m)):[]}function nt(o,m){re(o,m,!1)}function Wt(o){return o.timeStamp}function rt(o){return P(o)?o:o?o+"px":""}var ot="splide",qt="data-"+ot;function gt(o,m){if(!o)throw new Error("["+ot+"] "+(m||""))}var at=Math.min,Dt=Math.max,pt=Math.floor,we=Math.ceil,Ee=Math.abs;function $t(o,m,d){return Ee(o-m)<d}function W(o,S,d,f){var v=at(S,d),S=Dt(S,d);return f?v<o&&o<S:v<=o&&o<=S}function vt(o,v,d){var f=at(v,d),v=Dt(v,d);return at(Dt(f,o),v)}function Pt(o){return(0<o)-(o<0)}function jt(o,m){return A(m,function(d){o=o.replace("%s",""+d)}),o}function Ut(o){return o<10?"0"+o:""+o}var rn={};function on(){var o=[];function m(d,f,v){A(d,function(S){S&&A(f,function(C){C.split(" ").forEach(function(T){T=T.split("."),v(S,T[0],T[1])})})})}return{bind:function(d,f,v,S){m(d,f,function(C,T,D){var I="addEventListener"in C,O=I?C.removeEventListener.bind(C,T,v,S):C.removeListener.bind(C,v);I?C.addEventListener(T,v,S):C.addListener(v),o.push([C,T,D,v,O])})},unbind:function(d,f,v){m(d,f,function(S,C,T){o=o.filter(function(D){return!!(D[0]!==S||D[1]!==C||D[2]!==T||v&&D[3]!==v)||(D[4](),!1)})})},dispatch:function(d,f,v){var S;return typeof CustomEvent=="function"?S=new CustomEvent(f,{bubbles:!0,detail:v}):(S=document.createEvent("CustomEvent")).initCustomEvent(f,!0,!1,v),d.dispatchEvent(S),S},destroy:function(){o.forEach(function(d){d[4]()}),s(o)}}}var lt="mounted",dt="move",Lt="moved",Kt="click",$n="active",Bn="inactive",Bt="visible",ln="hidden",Ce="refresh",Oe="updated",De="resize",We="resized",Zt="scroll",Ve="scrolled",En="destroy",xn="navigation:mounted",ct="autoplay:play",Hn="autoplay:pause",Tn="lazyload:loaded",Xe="sk",dn="sh";function Te(o){var m=o?o.event.bus:document.createDocumentFragment(),d=on();return o&&o.event.on(En,d.destroy),Se(d,{bus:m,on:function(f,v){d.bind(m,Y(f).join(" "),function(S){v.apply(v,E(S.detail)?S.detail:[])})},off:l(d.unbind,m),emit:function(f){d.dispatch(m,f,i(arguments,1))}})}function yt(o,m,d,f){var v,S,C=Date.now,T=0,D=!0,I=0;function O(){if(!D){if(T=o?at((C()-v)/o,1):1,d&&d(T),1<=T&&(m(),v=C(),f&&++I>=f))return X();S=u(O)}}function X(){D=!0}function w(){S&&cancelAnimationFrame(S),D=!(S=T=0)}return{start:function($){$||w(),v=C()-($?T*o:0),D=!1,S=u(O)},rewind:function(){v=C(),T=0,d&&d(T)},pause:X,cancel:w,set:function($){o=$},isPaused:function(){return D}}}function wn(o){var m=o;return{set:function(d){m=d},is:function(d){return ne(Y(d),m)}}}var bt="Arrow",cn=bt+"Left",Ht=bt+"Right",ft=bt+"Up",bt=bt+"Down",St="ttb",It={width:["height"],left:["top","right"],right:["bottom","left"],x:["y"],X:["Y"],Y:["X"],ArrowLeft:[ft,Ht],ArrowRight:[bt,cn]},ut="role",wt="tabindex",Pe="aria-",Qt=Pe+"controls",Gn=Pe+"current",zt=Pe+"selected",Fe=Pe+"label",Et=Pe+"labelledby",Mn=Pe+"hidden",fn=Pe+"orientation",Gt=Pe+"roledescription",un=Pe+"live",Cn=Pe+"busy",mn=Pe+"atomic",Rt=[ut,wt,"disabled",Qt,Gn,Fe,Et,Mn,fn,Gt],Pe=ot+"__",Jt=ot,pn=Pe+"track",Pn=Pe+"list",en=Pe+"slide",tn=en+"--clone",hn=en+"__container",Nt=Pe+"arrows",xt=Pe+"arrow",Vt=xt+"--prev",Rn=xt+"--next",nn=Pe+"pagination",p=nn+"__page",y=Pe+"progress__bar",L=Pe+"toggle",ue=Pe+"sr",pe="is-active",qe="is-prev",_e="is-next",Ze="is-visible",mt="is-loading",Tt="is-focus-in",ya="is-overflow",Ja=[pe,Ze,qe,_e,mt,Tt,ya],ba="touchstart mousedown",qn="touchmove mousemove",jn="touchend touchcancel mouseup click",gn="slide",vn="loop",Ln="fade";function ei(o,m,d,f){var v,S=Te(o),C=S.on,T=S.emit,D=S.bind,I=o.Components,O=o.root,X=o.options,w=X.isNavigation,$=X.updateOnMove,F=X.i18n,R=X.pagination,x=X.slideFocus,M=I.Direction.resolve,Q=Ue(f,"style"),K=Ue(f,Fe),j=-1<d,B=fe(f,"."+hn);function le(){var k=o.splides.map(function(H){return H=H.splide.Components.Slides.getAt(m),H?H.slide.id:""}).join(" ");G(f,Fe,jt(F.slideX,(j?d:m)+1)),G(f,Qt,k),G(f,ut,x?"button":""),x&&N(f,Gt)}function ge(){v||me()}function me(){var k,H,Z;v||(k=o.index,(Z=de())!==Yt(f,pe)&&(re(f,pe,Z),G(f,Gn,w&&Z||""),T(Z?$n:Bn,V)),Z=(function(){if(o.is(Ln))return de();var he=Ne(I.Elements.track),$e=Ne(f),ze=M("left",!0),it=M("right",!0);return pt(he[ze])<=we($e[ze])&&pt($e[it])<=we(he[it])})(),H=!Z&&(!de()||j),o.state.is([t,n])||G(f,Mn,H||""),G(kt(f,X.focusableNodes||""),wt,H?-1:""),x&&G(f,wt,H?-1:0),Z!==Yt(f,Ze)&&(re(f,Ze,Z),T(Z?Bt:ln,V)),Z||document.activeElement!==f||(H=I.Slides.getAt(o.index))&&ht(H.slide),re(f,qe,m===k-1),re(f,_e,m===k+1))}function de(){var k=o.index;return k===m||X.cloneStatus&&k===d}var V={index:m,slideIndex:d,slide:f,container:B,isClone:j,mount:function(){j||(f.id=O.id+"-slide"+Ut(m+1),G(f,ut,R?"tabpanel":"group"),G(f,Gt,F.slide),G(f,Fe,K||jt(F.slideLabel,[m+1,o.length]))),D(f,"click",l(T,Kt,V)),D(f,"keydown",l(T,Xe,V)),C([Lt,dn,Ve],me),C(xn,le),$&&C(dt,ge)},destroy:function(){v=!0,S.destroy(),nt(f,Ja),N(f,Rt),G(f,"style",Q),G(f,Fe,K||"")},update:me,style:function(k,H,Z){Ie(Z&&B||f,k,H)},isWithin:function(k,H){return k=Ee(k-m),(k=j||!X.rewind&&!o.is(vn)?k:at(k,o.length-k))<=H}};return V}var ti=qt+"-interval",yn={passive:!1,capture:!0},ni={Spacebar:" ",Right:Ht,Left:cn,Up:ft,Down:bt};function Un(o){return o=P(o)?o:o.key,ni[o]||o}var Sa="keydown",In=qt+"-lazy",Nn=In+"-srcset",ai="["+In+"], ["+Nn+"]",ii=[" ","Enter"],si=Object.freeze({__proto__:null,Media:function(o,m,d){var f=o.state,v=d.breakpoints||{},S=d.reducedMotion||{},C=on(),T=[];function D(w){w&&C.destroy()}function I(w,$){$=matchMedia($),C.bind($,"change",O),T.push([w,$])}function O(){var w=f.is(7),$=d.direction,F=T.reduce(function(R,x){return Me(R,x[1].matches?x[0]:{})},{});U(d),X(F),d.destroy?o.destroy(d.destroy==="completely"):w?(D(!0),o.mount()):$!==d.direction&&o.refresh()}function X(w,$,F){Me(d,w),$&&Me(Object.getPrototypeOf(d),w),!F&&f.is(1)||o.emit(Oe,d)}return{setup:function(){var w=d.mediaQuery==="min";be(v).sort(function($,F){return w?+$-+F:+F-+$}).forEach(function($){I(v[$],"("+(w?"min":"max")+"-width:"+$+"px)")}),I(S,e),O()},destroy:D,reduce:function(w){matchMedia(e).matches&&(w?Me(d,S):U(d,be(S)))},set:X}},Direction:function(o,m,d){return{resolve:function(f,v,S){var C=(S=S||d.direction)!=="rtl"||v?S===St?0:-1:1;return It[f]&&It[f][C]||f.replace(/width|left|right/i,function(T,D){return T=It[T.toLowerCase()][C]||T,0<D?T.charAt(0).toUpperCase()+T.slice(1):T})},orient:function(f){return f*(d.direction==="rtl"?1:-1)}}},Elements:function(o,m,d){var f,v,S,C=Te(o),T=C.on,D=C.bind,I=o.root,O=d.i18n,X={},w=[],$=[],F=[];function R(){f=Q("."+pn),v=fe(f,"."+Pn),gt(f&&v,"A track/list element is missing."),ee(w,_(v,"."+en+":not(."+tn+")")),xe({arrows:Nt,pagination:nn,prev:Vt,next:Rn,bar:y,toggle:L},function(le,ge){X[ge]=Q("."+le)}),Se(X,{root:I,track:f,list:v,slides:w});var j=I.id||(function(le){return""+le+Ut(rn[le]=(rn[le]||0)+1)})(ot),B=d.role;I.id=j,f.id=f.id||j+"-track",v.id=v.id||j+"-list",!Ue(I,ut)&&I.tagName!=="SECTION"&&B&&G(I,ut,B),G(I,Gt,O.carousel),G(v,ut,"presentation"),M()}function x(j){var B=Rt.concat("style");s(w),nt(I,$),nt(f,F),N([f,v],B),N(I,j?B:["style",Gt])}function M(){nt(I,$),nt(f,F),$=K(Jt),F=K(pn),ie(I,$),ie(f,F),G(I,Fe,d.label),G(I,Et,d.labelledby)}function Q(j){return j=Ct(I,j),j&&(function(B,le){if(g(B.closest))return B.closest(le);for(var ge=B;ge&&ge.nodeType===1&&!te(ge,le);)ge=ge.parentElement;return ge})(j,"."+Jt)===I?j:void 0}function K(j){return[j+"--"+d.type,j+"--"+d.direction,d.drag&&j+"--draggable",d.isNavigation&&j+"--nav",j===Jt&&pe]}return Se(X,{setup:R,mount:function(){T(Ce,x),T(Ce,R),T(Oe,M),D(document,ba+" keydown",function(j){S=j.type==="keydown"},{capture:!0}),D(I,"focusin",function(){re(I,Tt,!!S)})},destroy:x})},Slides:function(o,m,d){var f=Te(o),v=f.on,S=f.emit,C=f.bind,T=(f=m.Elements).slides,D=f.list,I=[];function O(){T.forEach(function(x,M){w(x,M,-1)})}function X(){F(function(x){x.destroy()}),s(I)}function w(x,M,Q){M=ei(o,M,Q,x),M.mount(),I.push(M),I.sort(function(K,j){return K.index-j.index})}function $(x){return x?R(function(M){return!M.isClone}):I}function F(x,M){$(M).forEach(x)}function R(x){return I.filter(g(x)?x:function(M){return P(x)?te(M.slide,x):ne(Y(x),M.index)})}return{mount:function(){O(),v(Ce,X),v(Ce,O)},destroy:X,update:function(){F(function(x){x.update()})},register:w,get:$,getIn:function(x){var M=m.Controller,Q=M.toIndex(x),K=M.hasFocus()?1:d.perPage;return R(function(j){return W(j.index,Q,Q+K-1)})},getAt:function(x){return R(x)[0]},add:function(x,M){A(x,function(Q){var K,j,B;ae(Q=P(Q)?sn(Q):Q)&&((K=T[M])?ve(Q,K):q(D,Q),ie(Q,d.classes.slide),K=Q,j=l(S,De),K=kt(K,"img"),(B=K.length)?K.forEach(function(le){C(le,"load error",function(){--B||j()})}):j())}),S(Ce)},remove:function(x){st(R(x).map(function(M){return M.slide})),S(Ce)},forEach:F,filter:R,style:function(x,M,Q){F(function(K){K.style(x,M,Q)})},getLength:function(x){return(x?T:I).length},isEnough:function(){return I.length>d.perPage}}},Layout:function(o,m,d){var f,v,S,C=(I=Te(o)).on,T=I.bind,D=I.emit,I=m.Slides,O=m.Direction.resolve,X=(m=m.Elements).root,w=m.track,$=m.list,F=I.getAt,R=I.style;function x(){f=d.direction===St,Ie(X,"maxWidth",rt(d.width)),Ie(w,O("paddingLeft"),Q(!1)),Ie(w,O("paddingRight"),Q(!0)),M(!0)}function M(k){var H=Ne(X);!k&&v.width===H.width&&v.height===H.height||(Ie(w,"height",(function(){var Z="";return f&&(gt(Z=K(),"height or heightRatio is missing."),Z="calc("+Z+" - "+Q(!1)+" - "+Q(!0)+")"),Z})()),R(O("marginRight"),rt(d.gap)),R("width",d.autoWidth?null:rt(d.fixedWidth)||(f?"":j())),R("height",rt(d.fixedHeight)||(f?d.autoHeight?null:j():K()),!0),v=H,D(We),S!==(S=V())&&(re(X,ya,S),D("overflow",S)))}function Q(Z){var H=d.padding,Z=O(Z?"right":"left");return H&&rt(H[Z]||(h(H)?0:H))||"0px"}function K(){return rt(d.height||Ne($).width*d.heightRatio)}function j(){var k=rt(d.gap);return"calc((100%"+(k&&" + "+k)+")/"+(d.perPage||1)+(k&&" - "+k)+")"}function B(){return Ne($)[O("width")]}function le(k,H){return k=F(k||0),k?Ne(k.slide)[O("width")]+(H?0:de()):0}function ge(he,H){var Z,he=F(he);return he?(he=Ne(he.slide)[O("right")],Z=Ne($)[O("left")],Ee(he-Z)+(H?0:de())):0}function me(k){return ge(o.length-1)-ge(0)+le(0,k)}function de(){var k=F(0);return k&&parseFloat(Ie(k.slide,O("marginRight")))||0}function V(){return o.is(Ln)||me(!0)>B()}return{mount:function(){var k,H,Z;x(),T(window,"resize load",(k=l(D,De),Z=yt(H||0,k,null,1),function(){Z.isPaused()&&Z.start()})),C([Oe,Ce],x),C(De,M)},resize:M,listSize:B,slideSize:le,sliderSize:me,totalSize:ge,getPadding:function(k){return parseFloat(Ie(w,O("padding"+(k?"Right":"Left"))))||0},isOverflow:V}},Clones:function(o,m,d){var f,v=Te(o),S=v.on,C=m.Elements,T=m.Slides,D=m.Direction.resolve,I=[];function O(){if(S(Ce,X),S([Oe,De],$),f=F()){var R=f,x=T.get().slice(),M=x.length;if(M){for(;x.length<R;)ee(x,x);ee(x.slice(-R),x.slice(0,R)).forEach(function(Q,K){var j=K<R,B=(function(le,ge){return le=le.cloneNode(!0),ie(le,d.classes.clone),le.id=o.root.id+"-clone"+Ut(ge+1),le})(Q.slide,K);j?ve(B,x[0].slide):q(C.list,B),ee(I,B),T.register(B,K-R+(j?0:M),Q.index)})}m.Layout.resize(!0)}}function X(){w(),O()}function w(){st(I),s(I),v.destroy()}function $(){var R=F();f!==R&&(f<R||!R)&&v.emit(Ce)}function F(){var R,x=d.clones;return o.is(vn)?z(x)&&(x=(R=d[D("fixedWidth")]&&m.Layout.slideSize(0))&&we(Ne(C.track)[D("width")]/R)||d[D("autoWidth")]&&o.length||2*d.perPage):x=0,x}return{mount:O,destroy:w}},Move:function(o,m,d){var f,v=Te(o),S=v.on,C=v.emit,T=o.state.set,D=(v=m.Layout).slideSize,I=v.getPadding,O=v.totalSize,X=v.listSize,w=v.sliderSize,$=(v=m.Direction).resolve,F=v.orient,R=(v=m.Elements).list,x=v.track;function M(){m.Controller.isBusy()||(m.Scroll.cancel(),Q(o.index),m.Slides.update())}function Q(V){K(ge(V,!0))}function K(V,k){o.is(Ln)||(k=k?V:(function(H){{var Z,he;o.is(vn)&&(Z=le(H),he=Z>m.Controller.getEnd(),(Z<0||he)&&(H=j(H,he)))}return H})(V),Ie(R,"transform","translate"+$("X")+"("+k+"px)"),V!==k&&C(dn))}function j(V,k){var H=V-de(k),Z=w();return V-=F(Z*(we(Ee(H)/Z)||1))*(k?1:-1)}function B(){K(me(),!0),f.cancel()}function le(V){for(var k=m.Slides.get(),H=0,Z=1/0,he=0;he<k.length;he++){var $e=k[he].index,ze=Ee(ge($e,!0)-V);if(!(ze<=Z))break;Z=ze,H=$e}return H}function ge(V,k){var H=F(O(V-1)-(V=V,(H=d.focus)==="center"?(X()-D(V,!0))/2:+H*D(V)||0));return k?(V=H,V=d.trimSpace&&o.is(gn)?vt(V,0,F(w(!0)-X())):V):H}function me(){var V=$("left");return Ne(R)[V]-Ne(x)[V]+F(I(!1))}function de(V){return ge(V?m.Controller.getEnd():0,!!d.trimSpace)}return{mount:function(){f=m.Transition,S([lt,We,Oe,Ce],M)},move:function(V,k,H,Z){var he,$e;V!==k&&(he=H<V,$e=F(j(me(),he)),he?0<=$e:$e<=R[$("scrollWidth")]-Ne(x)[$("width")])&&(B(),K(j(me(),H<V),!0)),T(t),C(dt,k,H,V),f.start(k,function(){T(3),C(Lt,k,H,V),Z&&Z()})},jump:Q,translate:K,shift:j,cancel:B,toIndex:le,toPosition:ge,getPosition:me,getLimit:de,exceededLimit:function(Z,k){k=z(k)?me():k;var H=Z!==!0&&F(k)<F(de(!1)),Z=Z!==!1&&F(k)>F(de(!0));return H||Z},reposition:M}},Controller:function(o,m,d){var f,v,S,C,T=Te(o),D=T.on,I=T.emit,O=m.Move,X=O.getPosition,w=O.getLimit,$=O.toPosition,F=(T=m.Slides).isEnough,R=T.getLength,x=d.omitEnd,M=o.is(vn),Q=o.is(gn),K=l(de,!1),j=l(de,!0),B=d.start||0,le=B;function ge(){v=R(!0),S=d.perMove,C=d.perPage,f=H();var J=vt(B,0,x?f:v-1);J!==B&&(B=J,O.reposition())}function me(){f!==H()&&I("ei")}function de(J,je){var Ge=S||(ze()?1:C),Ge=V(B+Ge*(J?-1:1),B,!(S||ze()));return Ge===-1&&Q&&!$t(X(),w(!J),1)?J?0:f:je?Ge:k(Ge)}function V(J,je,Ge){var Qe;return F()||ze()?((Qe=(function(Re){if(Q&&d.trimSpace==="move"&&Re!==B)for(var ce=X();ce===$(Re,!0)&&W(Re,0,o.length-1,!d.rewind);)Re<B?--Re:++Re;return Re})(J))!==J&&(je=J,J=Qe,Ge=!1),J<0||f<J?J=S||!W(0,J,je,!0)&&!W(f,je,J,!0)?M?Ge?J<0?-(v%C||C):v:J:d.rewind?J<0?f:0:-1:Z(he(J)):Ge&&J!==je&&(J=Z(he(je)+(J<je?-1:1)))):J=-1,J}function k(J){return M?(J+v)%v||0:J}function H(){for(var J=v-(ze()||M&&S?1:C);x&&0<J--;)if($(v-1,!0)!==$(J,!0)){J++;break}return vt(J,0,v-1)}function Z(J){return vt(ze()?J:C*J,0,f)}function he(J){return ze()?at(J,f):pt((f<=J?v-1:J)/C)}function $e(J){J!==B&&(le=B,B=J)}function ze(){return!z(d.focus)||d.isNavigation}function it(){return o.state.is([t,n])&&!!d.waitForTransition}return{mount:function(){ge(),D([Oe,Ce,"ei"],ge),D(We,me)},go:function(J,je,Ge){var Qe;it()||-1<(Qe=k(J=(function(Re){var ce=B;{var Le,ke;P(Re)?(ke=Re.match(/([+\-<>])(\d+)?/)||[],Le=ke[1],ke=ke[2],Le==="+"||Le==="-"?ce=V(B+ +(""+Le+(+ke||1)),B):Le===">"?ce=ke?Z(+ke):K(!0):Le==="<"&&(ce=j(!0))):ce=M?Re:vt(Re,0,f)}return ce})(J)))&&(je||Qe!==B)&&($e(Qe),O.move(J,Qe,le,Ge))},scroll:function(J,je,Ge,Qe){m.Scroll.scroll(J,je,Ge,function(){var Re=k(O.toIndex(X()));$e(x?at(Re,f):Re),Qe&&Qe()})},getNext:K,getPrev:j,getAdjacent:de,getEnd:H,setIndex:$e,getIndex:function(J){return J?le:B},toIndex:Z,toPage:he,toDest:function(J){return J=O.toIndex(J),Q?vt(J,0,f):J},hasFocus:ze,isBusy:it}},Arrows:function(o,m,d){var f,v,S=Te(o),C=S.on,T=S.bind,D=S.emit,I=d.classes,O=d.i18n,X=m.Elements,w=m.Controller,$=X.arrows,F=X.track,R=$,x=X.prev,M=X.next,Q={};function K(){var de=d.arrows;!de||x&&M||(R=$||oe("div",I.arrows),x=ge(!0),M=ge(!1),f=!0,q(R,[x,M]),$||ve(R,F)),x&&M&&(Se(Q,{prev:x,next:M}),tt(R,de?"":"none"),ie(R,v=Nt+"--"+d.direction),de&&(C([lt,Lt,Ce,Ve,"ei"],me),T(M,"click",l(le,">")),T(x,"click",l(le,"<")),me(),G([x,M],Qt,F.id),D("arrows:mounted",x,M))),C(Oe,j)}function j(){B(),K()}function B(){S.destroy(),nt(R,v),f?(st($?[x,M]:R),x=M=null):N([x,M],Rt)}function le(de){w.go(de,!0)}function ge(de){return sn('<button class="'+I.arrow+" "+(de?I.prev:I.next)+'" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" focusable="false"><path d="'+(d.arrowPath||"m15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z")+'" />')}function me(){var de,V,k,H;x&&M&&(H=o.index,de=w.getPrev(),V=w.getNext(),k=-1<de&&H<de?O.last:O.prev,H=-1<V&&V<H?O.first:O.next,x.disabled=de<0,M.disabled=V<0,G(x,Fe,k),G(M,Fe,H),D("arrows:updated",x,M,de,V))}return{arrows:Q,mount:K,destroy:B,update:me}},Autoplay:function(o,m,d){var f,v,S=Te(o),C=S.on,T=S.bind,D=S.emit,I=yt(d.interval,o.go.bind(o,">"),function(B){var le=X.bar;le&&Ie(le,"width",100*B+"%"),D("autoplay:playing",B)}),O=I.isPaused,X=m.Elements,w=(S=m.Elements).root,$=S.toggle,F=d.autoplay,R=F==="pause";function x(){O()&&m.Slides.isEnough()&&(I.start(!d.resetProgress),v=f=R=!1,K(),D(ct))}function M(B){R=!!(B=B===void 0?!0:B),K(),O()||(I.pause(),D(Hn))}function Q(){R||(f||v?M(!1):x())}function K(){$&&(re($,pe,!R),G($,Fe,d.i18n[R?"play":"pause"]))}function j(B){B=m.Slides.getAt(B),I.set(B&&+Ue(B.slide,ti)||d.interval)}return{mount:function(){F&&(d.pauseOnHover&&T(w,"mouseenter mouseleave",function(B){f=B.type==="mouseenter",Q()}),d.pauseOnFocus&&T(w,"focusin focusout",function(B){v=B.type==="focusin",Q()}),$&&T($,"click",function(){R?x():M(!0)}),C([dt,Zt,Ce],I.rewind),C(dt,j),$&&G($,Qt,X.track.id),R||x(),K())},destroy:I.cancel,play:x,pause:M,isPaused:O}},Cover:function(o,m,d){var f=Te(o).on;function v(C){m.Slides.forEach(function(T){var D=fe(T.container||T.slide,"img");D&&D.src&&S(C,D,T)})}function S(C,T,D){D.style("background",C?'center/cover no-repeat url("'+T.src+'")':"",!0),tt(T,C?"none":"")}return{mount:function(){d.cover&&(f(Tn,l(S,!0)),f([lt,Oe,Ce],l(v,!0)))},destroy:l(v,!1)}},Scroll:function(o,m,d){var f,v,S=Te(o),C=S.on,T=S.emit,D=o.state.set,I=m.Move,O=I.getPosition,X=I.getLimit,w=I.exceededLimit,$=I.translate,F=o.is(gn),R=1;function x(B,le,H,me,de){var V,k=O(),H=(K(),!H||F&&w()||(H=m.Layout.sliderSize(),V=Pt(B)*H*pt(Ee(B)/H)||0,B=I.toPosition(m.Controller.toDest(B%H))+V),$t(k,B,1));R=1,le=H?0:le||Dt(Ee(B-k)/1.5,800),v=me,f=yt(le,M,l(Q,k,B,de),1),D(n),T(Zt),f.start()}function M(){D(3),v&&v(),T(Ve)}function Q(B,le,ge,V){var de=O(),V=(B+(le-B)*(le=V,(B=d.easingFunc)?B(le):1-Math.pow(1-le,4))-de)*R;$(de+V),F&&!ge&&w()&&(R*=.6,Ee(V)<10&&x(X(w(!0)),600,!1,v,!0))}function K(){f&&f.cancel()}function j(){f&&!f.isPaused()&&(K(),M())}return{mount:function(){C(dt,K),C([Oe,Ce],j)},destroy:K,scroll:x,cancel:j}},Drag:function(o,m,d){var f,v,S,C,T,D,I,O,X=Te(o),w=X.on,$=X.emit,F=X.bind,R=X.unbind,x=o.state,M=m.Move,Q=m.Scroll,K=m.Controller,j=m.Elements.track,B=m.Media.reduce,le=(X=m.Direction).resolve,ge=X.orient,me=M.getPosition,de=M.exceededLimit,V=!1;function k(){var ce=d.drag;Re(!ce),C=ce==="free"}function H(ce){var Le,ke,Je;D=!1,I||(Le=Qe(ce),ke=ce.target,Je=d.noDrag,te(ke,"."+p+", ."+xt)||Je&&te(ke,Je)||!Le&&ce.button||(K.isBusy()?Ke(ce,!0):(O=Le?j:window,T=x.is([t,n]),S=null,F(O,qn,Z,yn),F(O,jn,he,yn),M.cancel(),Q.cancel(),ze(ce))))}function Z(ce){var Le,ke,Je,_t,Xt;x.is(6)||(x.set(6),$("drag")),ce.cancelable&&(T?(M.translate(f+it(ce)/(V&&o.is(gn)?5:1)),Xt=200<J(ce),Le=V!==(V=de()),(Xt||Le)&&ze(ce),D=!0,$("dragging"),Ke(ce)):Ee(it(Xt=ce))>Ee(it(Xt,!0))&&(Le=ce,ke=d.dragMinThreshold,Je=h(ke),_t=Je&&ke.mouse||0,Je=(Je?ke.touch:+ke)||10,T=Ee(it(Le))>(Qe(Le)?Je:_t),Ke(ce)))}function he(ce){var Le,ke,Je;x.is(6)&&(x.set(3),$("dragged")),T&&(ke=(function(_t){return me()+Pt(_t)*at(Ee(_t)*(d.flickPower||600),C?1/0:m.Layout.listSize()*(d.flickMaxPages||1))})(Le=(function(_t){if(o.is(vn)||!V){var Xt=J(_t);if(Xt&&Xt<200)return it(_t)/Xt}return 0})(Le=ce)),Je=d.rewind&&d.rewindByDrag,B(!1),C?K.scroll(ke,0,d.snap):o.is(Ln)?K.go(ge(Pt(Le))<0?Je?"<":"-":Je?">":"+"):o.is(gn)&&V&&Je?K.go(de(!0)?">":"<"):K.go(K.toDest(ke),!0),B(!0),Ke(ce)),R(O,qn,Z),R(O,jn,he),T=!1}function $e(ce){!I&&D&&Ke(ce,!0)}function ze(ce){S=v,v=ce,f=me()}function it(ce,Le){return Ge(ce,Le)-Ge(je(ce),Le)}function J(ce){return Wt(ce)-Wt(je(ce))}function je(ce){return v===ce&&S||v}function Ge(ce,Le){return(Qe(ce)?ce.changedTouches[0]:ce)["page"+le(Le?"Y":"X")]}function Qe(ce){return typeof TouchEvent!="undefined"&&ce instanceof TouchEvent}function Re(ce){I=ce}return{mount:function(){F(j,qn,c,yn),F(j,jn,c,yn),F(j,ba,H,yn),F(j,"click",$e,{capture:!0}),F(j,"dragstart",Ke),w([lt,Oe],k)},disable:Re,isDragging:function(){return T}}},Keyboard:function(o,m,d){var f,v,S=Te(o),C=S.on,T=S.bind,D=S.unbind,I=o.root,O=m.Direction.resolve;function X(){var R=d.keyboard;R&&(f=R==="global"?window:I,T(f,Sa,F))}function w(){D(f,Sa)}function $(){var R=v;v=!0,r(function(){v=R})}function F(R){v||((R=Un(R))===O(cn)?o.go("<"):R===O(Ht)&&o.go(">"))}return{mount:function(){X(),C(Oe,w),C(Oe,X),C(dt,$)},destroy:w,disable:function(R){v=R}}},LazyLoad:function(o,m,d){var f=Te(o),v=f.on,S=f.off,C=f.bind,T=f.emit,D=d.lazyLoad==="sequential",I=[Lt,Ve],O=[];function X(){s(O),m.Slides.forEach(function(x){kt(x.slide,ai).forEach(function(M){var Q=Ue(M,In),K=Ue(M,Nn);Q===M.src&&K===M.srcset||(Q=d.classes.spinner,Q=fe(K=M.parentElement,"."+Q)||oe("span",Q,K),O.push([M,x,Q]),M.src||tt(M,"none"))})}),(D?R:(S(I),v(I,w),w))()}function w(){(O=O.filter(function(x){var M=d.perPage*((d.preloadPages||1)+1)-1;return!x[1].isWithin(o.index,M)||$(x)})).length||S(I)}function $(x){var M=x[0];ie(x[1].slide,mt),C(M,"load error",l(F,x)),G(M,"src",Ue(M,In)),G(M,"srcset",Ue(M,Nn)),N(M,In),N(M,Nn)}function F(x,M){var Q=x[0],K=x[1];nt(K.slide,mt),M.type!=="error"&&(st(x[2]),tt(Q,""),T(Tn,Q,K),T(De)),D&&R()}function R(){O.length&&$(O.shift())}return{mount:function(){d.lazyLoad&&(X(),v(Ce,X))},destroy:l(s,O),check:w}},Pagination:function(o,m,d){var f,v,S=Te(o),C=S.on,T=S.emit,D=S.bind,I=m.Slides,O=m.Elements,X=m.Controller,w=X.hasFocus,$=X.getIndex,F=X.go,R=m.Direction.resolve,x=O.pagination,M=[];function Q(){f&&(st(x?i(f.children):f),nt(f,v),s(M),f=null),S.destroy()}function K(me){F(">"+me,!0)}function j(me,de){var V=M.length,k=Un(de),Z=B(),H=-1,Z=(k===R(Ht,!1,Z)?H=++me%V:k===R(cn,!1,Z)?H=(--me+V)%V:k==="Home"?H=0:k==="End"&&(H=V-1),M[H]);Z&&(ht(Z.button),F(">"+H),Ke(de,!0))}function B(){return d.paginationDirection||d.direction}function le(me){return M[X.toPage(me)]}function ge(){var me,de=le($(!0)),V=le($());de&&(nt(me=de.button,pe),N(me,zt),G(me,wt,-1)),V&&(ie(me=V.button,pe),G(me,zt,!0),G(me,wt,"")),T("pagination:updated",{list:f,items:M},de,V)}return{items:M,mount:function me(){Q(),C([Oe,Ce,"ei"],me);var de=d.pagination;if(x&&tt(x,de?"":"none"),de){C([dt,Zt,Ve],ge);var de=o.length,V=d.classes,k=d.i18n,H=d.perPage,Z=w()?X.getEnd()+1:we(de/H);ie(f=x||oe("ul",V.pagination,O.track.parentElement),v=nn+"--"+B()),G(f,ut,"tablist"),G(f,Fe,k.select),G(f,fn,B()===St?"vertical":"");for(var he=0;he<Z;he++){var $e=oe("li",null,f),ze=oe("button",{class:V.page,type:"button"},$e),it=I.getIn(he).map(function(Ge){return Ge.slide.id}),J=!w()&&1<H?k.pageX:k.slideX;D(ze,"click",l(K,he)),d.paginationKeyboard&&D(ze,"keydown",l(j,he)),G($e,ut,"presentation"),G(ze,ut,"tab"),G(ze,Qt,it.join(" ")),G(ze,Fe,jt(J,he+1)),G(ze,wt,-1),M.push({li:$e,button:ze,page:he})}ge(),T("pagination:mounted",{list:f,items:M},le(o.index))}},destroy:Q,getAt:le,update:ge}},Sync:function(o,m,d){var f=d.isNavigation,v=d.slideFocus,S=[];function C(){var w,$;o.splides.forEach(function(F){F.isParent||(D(o,F.splide),D(F.splide,o))}),f&&(w=Te(o),($=w.on)(Kt,O),$(Xe,X),$([lt,Oe],I),S.push(w),w.emit(xn,o.splides))}function T(){S.forEach(function(w){w.destroy()}),s(S)}function D(w,$){w=Te(w),w.on(dt,function(F,R,x){$.go($.is(vn)?x:F)}),S.push(w)}function I(){G(m.Elements.list,fn,d.direction===St?"vertical":"")}function O(w){o.go(w.index)}function X(w,$){ne(ii,Un($))&&(O(w),Ke($))}return{setup:l(m.Media.set,{slideFocus:z(v)?f:v},!0),mount:C,destroy:T,remount:function(){T(),C()}}},Wheel:function(o,m,d){var f=Te(o).bind,v=0;function S(C){var T,D,I,O,X;C.cancelable&&(T=(X=C.deltaY)<0,D=Wt(C),I=d.wheelMinThreshold||0,O=d.wheelSleep||0,Ee(X)>I&&O<D-v&&(o.go(T?"<":">"),v=D),X=T,d.releaseWheel&&!o.state.is(t)&&m.Controller.getAdjacent(X)===-1||Ke(C))}return{mount:function(){d.wheel&&f(m.Elements.track,"wheel",S,yn)}}},Live:function(o,m,d){var f=Te(o).on,v=m.Elements.track,S=d.live&&!d.isNavigation,C=oe("span",ue),T=yt(90,l(D,!1));function D(O){G(v,Cn,O),O?(q(v,C),T.start()):(st(C),T.cancel())}function I(O){S&&G(v,un,O?"off":"polite")}return{mount:function(){S&&(I(!m.Autoplay.isPaused()),G(v,mn,!0),C.textContent="\u2026",f(ct,l(I,!0)),f(Hn,l(I,!1)),f([Lt,Ve],l(D,!0)))},disable:I,destroy:function(){N(v,[un,mn,Cn]),st(C)}}}}),ri={type:"slide",role:"region",speed:400,perPage:1,cloneStatus:!0,arrows:!0,pagination:!0,paginationKeyboard:!0,interval:5e3,pauseOnHover:!0,pauseOnFocus:!0,resetProgress:!0,easing:"cubic-bezier(0.25, 1, 0.5, 1)",drag:!0,direction:"ltr",trimSpace:!0,focusableNodes:"a, button, textarea, input, select, iframe",live:!0,classes:{slide:en,clone:tn,arrows:Nt,arrow:xt,prev:Vt,next:Rn,pagination:nn,page:p,spinner:Pe+"spinner"},i18n:{prev:"Previous slide",next:"Next slide",first:"Go to first slide",last:"Go to last slide",slideX:"Go to slide %s",pageX:"Go to page %s",play:"Start autoplay",pause:"Pause autoplay",carousel:"carousel",slide:"slide",select:"Select a slide to show",slideLabel:"%s of %s"},reducedMotion:{speed:0,rewindSpeed:0,autoplay:"pause"}};function oi(o,m,d){var f=m.Slides;function v(){f.forEach(function(S){S.style("transform","translateX(-"+100*S.index+"%)")})}return{mount:function(){Te(o).on([lt,Ce],v)},start:function(S,C){f.style("transition","opacity "+d.speed+"ms "+d.easing),r(C)},cancel:c}}function li(o,m,d){var f,v=m.Move,S=m.Controller,C=m.Scroll,T=m.Elements.list,D=l(Ie,T,"transition");function I(){D(""),C.cancel()}return{mount:function(){Te(o).bind(T,"transitionend",function(O){O.target===T&&f&&(I(),f())})},start:function(O,X){var w=v.toPosition(O,!0),$=v.getPosition(),F=(function(R){var x=d.rewindSpeed;if(o.is(gn)&&x){var M=S.getIndex(!0),Q=S.getEnd();if(M===0&&Q<=R||Q<=M&&R===0)return x}return d.speed})(O);1<=Ee(w-$)&&1<=F?d.useScroll?C.scroll(w,F,!1,X):(D("transform "+F+"ms "+d.easing),v.translate(w,!0),f=X):(v.jump(O),X())},cancel:I}}return ft=(function(){function o(d,f){this.event=Te(),this.Components={},this.state=wn(1),this.splides=[],this.n={},this.t={},d=P(d)?Ct(document,d):d,gt(d,d+" is invalid."),f=Me({label:Ue(this.root=d,Fe)||"",labelledby:Ue(d,Et)||""},ri,o.defaults,f||{});try{Me(f,JSON.parse(Ue(d,qt)))}catch(v){gt(!1,"Invalid JSON")}this.n=Object.create(Me({},f))}var m=o.prototype;return m.mount=function(d,f){var v=this,S=this.state,C=this.Components;return gt(S.is([1,7]),"Already mounted!"),S.set(1),this.i=C,this.r=f||this.r||(this.is(Ln)?oi:li),this.t=d||this.t,xe(Se({},si,this.t,{Transition:this.r}),function(T,D){T=T(v,C,v.n),(C[D]=T).setup&&T.setup()}),xe(C,function(T){T.mount&&T.mount()}),this.emit(lt),ie(this.root,"is-initialized"),S.set(3),this.emit("ready"),this},m.sync=function(d){return this.splides.push({splide:d}),d.splides.push({splide:this,isParent:!0}),this.state.is(3)&&(this.i.Sync.remount(),d.Components.Sync.remount()),this},m.go=function(d){return this.i.Controller.go(d),this},m.on=function(d,f){return this.event.on(d,f),this},m.off=function(d){return this.event.off(d),this},m.emit=function(d){var f;return(f=this.event).emit.apply(f,[d].concat(i(arguments,1))),this},m.add=function(d,f){return this.i.Slides.add(d,f),this},m.remove=function(d){return this.i.Slides.remove(d),this},m.is=function(d){return this.n.type===d},m.refresh=function(){return this.emit(Ce),this},m.destroy=function(d){d===void 0&&(d=!0);var f=this.event,v=this.state;return v.is(1)?Te(this).on("ready",this.destroy.bind(this,d)):(xe(this.i,function(S){S.destroy&&S.destroy(d)},!0),f.emit(En),f.destroy(),d&&s(this.splides),v.set(7)),this},ui(o,[{key:"options",get:function(){return this.n},set:function(d){this.i.Media.set(d,!0,!0)}},{key:"length",get:function(){return this.i.Slides.getLength(!0)}},{key:"index",get:function(){return this.i.Controller.getIndex()}}]),o})(),ft.defaults={},ft.STATES=a,ft},typeof exports=="object"&&typeof module!="undefined"?module.exports=_n():typeof define=="function"&&define.amd?define(_n):(ta=typeof globalThis!="undefined"?globalThis:ta||self).Splide=_n();(function(){"use strict";Object.assign||(Object.assign=function(p,y){for(var L=Object.keys(y),ue=0,pe;ue<L.length;ue++)pe=L[ue],p[pe]=y[pe];return p}),Element.prototype.closest||(Element.prototype.closest=function(p){p=p.substring(1);for(var y=this;y&&y.nodeType===1;){if(y.classList.contains(p))return y;y=y.parentElement}return null});function e(p,y,L){p.classList[L?"add":"remove"](y)}function t(p,y,L){L=""+L,p["_s_"+y]!==L&&(p.style.setProperty(y,L),p["_s_"+y]=L)}var n=0;function a(p,y){y&&(t(p,"transition","none"),y()),n||(n=p.clientTop&&0),y&&t(p,"transition","")}function s(p,y,L,ue){i(!0,p,y,L,ue)}function i(p,y,L,ue,pe){y[(p?"add":"remove")+"EventListener"](L,ue,pe||pe===!1?pe:!0)}function l(p,y){p.stopPropagation(),y&&p.preventDefault()}function c(p,y){t(p,"display",y?"":"none")}function r(p,y){t(p,"visibility",y?"":"hidden")}function u(p,y){t(p,"transition",y?"":"none")}var b="theme download play page close autofit zoom-in zoom-out prev next fullscreen".split(" "),h={page:1,close:1,autofit:1,"zoom-in":1,"zoom-out":1,prev:1,next:1,fullscreen:1},E=document.createElement("div");E.id="spotlight",E.innerHTML="<div class=spl-spinner></div><div class=spl-track><div class=spl-scene><div class=spl-pane></div></div></div><div class=spl-header><div class=spl-page> </div></div><div class=spl-progress></div><div class=spl-footer><div class=spl-title> </div><div class=spl-description> </div><div class=spl-button> </div></div><div class=spl-prev></div><div class=spl-next></div>";var g={},P=document.createElement("video");function z(p,y,L,ue){if(ue!=="node"){for(var pe=Object.keys(L),qe=0,_e;qe<pe.length;qe++)if(_e=pe[qe],3<_e.length&&_e.indexOf("src")===0){if(ue==="video"){var Ze=g[_e];if(Ze){if(0<Ze){var mt=L[_e];break}}else if(P.canPlayType("video/"+_e.substring(3).replace("-","").toLowerCase())){g[_e]=1,mt=L[_e];break}else g[_e]=-1}else if((Ze=parseInt(_e.substring(4),10))&&(Ze=Math.abs(y-Ze),!Tt||Ze<Tt)){var Tt=Ze;mt=L[_e]}}}return mt||L.src||L.href||p.src||p.href}var se={},ae=navigator.connection,Y=window.devicePixelRatio||1,A,ne,ee,re,ie,q,ve,te,_,fe,be,xe,Se,Me,U,N,G,oe,Ie,tt,ht,Ue,Yt,Ne,st,sn,Ke,Ct,kt,nt,Wt,rt,ot,qt,gt,at,Dt,pt,we,Ee,$t,W,vt=document.createElement("img"),Pt,jt,Ut,rn,on,lt,dt,Lt,Kt,$n,Bn,Bt,ln,Ce,Oe,De,We,Zt,Ve,En;s(document,"click",Hn);function xn(){function p(L){return se[L]=(E||document).getElementsByClassName("spl-"+L)[0]}if(!we){we=document.body,Pt=p("scene"),jt=p("header"),Ut=p("footer"),rn=p("title"),on=p("description"),lt=p("button"),dt=p("prev"),Lt=p("next"),$n=p("page"),Bt=p("progress"),ln=p("spinner"),$t=[p("pane")],ct("close",tn),we[Ve="requestFullscreen"]||we[Ve="msRequestFullscreen"]||we[Ve="webkitRequestFullscreen"]||we[Ve="mozRequestFullscreen"]||(Ve=""),Ve?(En=Ve.replace("request","exit").replace("mozRequest","mozCancel").replace("Request","Exit"),Kt=ct("fullscreen",mn)):b.pop(),ct("autofit",Pe),ct("zoom-in",Jt),ct("zoom-out",pn),ct("theme",Rt),Bn=ct("play",zt),ct("download",en),s(dt,"click",Nt),s(Lt,"click",xt);var y=p("track");s(y,"mousedown",Gt),s(y,"mousemove",Cn),s(y,"mouseleave",un),s(y,"mouseup",un),s(y,"touchstart",Gt,{passive:!1}),s(y,"touchmove",Cn,{passive:!0}),s(y,"touchend",un),s(lt,"click",function(){rt?rt(U,oe):Wt&&(location.href=Wt)})}}function ct(p,y){var L=document.createElement("div");return L.className="spl-"+p,s(L,"click",y),jt.appendChild(L),se[p]=L}function Hn(p){var y=p.target.closest(".spotlight");if(y){l(p,!0),p=y.closest(".spotlight-group"),G=(p||document).getElementsByClassName("spotlight");for(var L=0;L<G.length;L++)if(G[L]===y){tt=p&&p.dataset,Tn(L+1);break}}}function Tn(p){if(N=G.length){we||xn(),Yt&&Yt(p);for(var y=$t[0],L=y.parentNode,ue=$t.length;ue<N;ue++){var pe=y.cloneNode(!1);t(pe,"left",100*ue+"%"),L.appendChild(pe),$t[ue]=pe}Ee||(we.appendChild(E),Ht()),U=p||1,u(Pt),nn(!0),Ve&&c(Kt,0<screen.availHeight-window.innerHeight),history.pushState({spl:1},""),history.pushState({spl:2},""),u(E,!0),e(we,"hide-scrollbars",!0),e(E,"show",!0),ut(!0),Ht(),Et(),Ct&&zt(!0,!0)}}function Xe(p,y){return p=oe[p],typeof p!="undefined"?(p=""+p,p!=="false"&&(p||y)):y}function dn(p){p?a(W,dn):(u(Pt,Dt),t(W,"opacity",at?0:1),bt(gt&&.8),pt&&e(W,pt,!0))}function Te(p){if(Ee=$t[p-1],W=Ee.firstChild,U=p,W)Se&&Pe(),sn&&e(W,sn,!0),dn(!0),pt&&e(W,pt),at&&t(W,"opacity",1),gt&&t(W,"transform",""),t(W,"visibility","visible"),Oe&&(vt.src=Oe),Ct&&Fe(De);else{var y=Ce.media,L=Xe("spinner",!0);if(y==="video")yt(L,!0),W=document.createElement("video"),W.onloadedmetadata=function(){W===this&&(W.onerror=null,W.width=W.videoWidth,W.height=W.videoHeight,ft(),yt(L),Te(p))},W.poster=oe.poster,W.preload=nt?"auto":"metadata",W.controls=Xe("controls",!0),W.autoplay=oe.autoplay,W.h=Xe("inline"),W.muted=Xe("muted"),W.src=Ce.src,Ee.appendChild(W);else{if(y==="node"){W=Ce.src,typeof W=="string"&&(W=document.querySelector(W)),W&&(W.g||(W.g=W.parentNode),ft(),Ee.appendChild(W),Te(p));return}yt(L,!0),W=document.createElement("img"),W.onload=function(){W===this&&(W.onerror=null,yt(L),Te(p),ft())},W.src=Ce.src,Ee.appendChild(W)}W&&(L||t(W,"visibility","visible"),W.onerror=function(){W===this&&(hn(W),e(ln,"error",!0),yt(L))})}}function yt(p,y){p&&e(ln,"spin",y)}function wn(){return document.fullscreen||document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement}function cn(){if(Ht(),W&&ft(),Ve){var p=wn();e(Kt,"on",p),p||c(Kt,0<screen.availHeight-window.innerHeight)}}function Ht(){ie=E.clientWidth,q=E.clientHeight}function ft(){ve=W.clientWidth,te=W.clientHeight}function bt(p){t(W,"transform","translate(-50%, -50%) scale("+(p||_)+")")}function St(p,y){t(Ee,"transform",p||y?"translate("+p+"px, "+y+"px)":"")}function It(p,y,L){y?a(Pt,function(){It(p,!1,L)}):t(Pt,"transform","translateX("+(100*-p+(L||0))+"%)")}function ut(p){i(p,window,"keydown",Qt),i(p,window,"wheel",Gn),i(p,window,"resize",cn),i(p,window,"popstate",wt)}function wt(p){Ee&&p.state.spl&&tn(!0)}function Qt(p){if(Ee){var y=oe["zoom-in"]!==!1;switch(p.keyCode){case 8:y&&Pe();break;case 27:tn();break;case 32:Ct&&zt();break;case 37:Nt();break;case 39:xt();break;case 38:case 107:case 187:y&&Jt();break;case 40:case 109:case 189:y&&pn()}}}function Gn(p){Ee&&oe["zoom-in"]!==!1&&(p=p.deltaY,0>.5*(0>p?1:p?-1:0)?pn():Jt())}function zt(p,y){(typeof p=="boolean"?p:!De)===!De&&(De=De?clearTimeout(De):1,e(Bn,"on",De),y||Fe(De))}function Fe(p){Ue&&(a(Bt,function(){t(Bt,"transition-duration",""),t(Bt,"transform","")}),p&&(t(Bt,"transition-duration",qt+"s"),t(Bt,"transform","translateX(0)"))),p&&(De=setTimeout(xt,1e3*qt))}function Et(){Ke&&(Zt=Date.now()+2950,We||(e(E,"menu",!0),Mn(3e3)))}function Mn(p){We=setTimeout(function(){var y=Date.now();y>=Zt?(e(E,"menu"),We=0):Mn(Zt-y)},p)}function fn(p){typeof p=="boolean"&&(We=p?We:0),We?(We=clearTimeout(We),e(E,"menu")):Et()}function Gt(p){l(p,!0),fe=!0,be=!1;var y=p.touches;y&&(y=y[0])&&(p=y),ee=p.pageX,re=p.pageY,u(Ee)}function un(p){if(l(p),fe){if(be){if(be&&_===1){var y=ie/120,L=A<-y&&(U<N||ht),ue=A>y&&(1<U||ht);(L||ue)&&(It(U-1,!0,A/ie*100),L?xt():ue&&Nt()),A=0,St()}if(_>1){u(Ee,!0),fe=!1;return}u(Ee,!0)}else fn();fe=!1}}function Cn(p){if(l(p),fe){var y=p.touches;y&&(y=y[0])&&(p=y);var L=p.pageX,ue=p.pageY,pe=L-ee,qe=ue-re;ee=L,re=ue;var _e=ve*_-ie,Ze=te*_-q;if(_===1)A+=pe;else{if(_e>0){A+=pe;var mt=_e/2;A>mt&&(A=mt),A<-mt&&(A=-mt)}if(Ze>0){ne+=qe;var Tt=Ze/2;ne>Tt&&(ne=Tt),ne<-Tt&&(ne=-Tt)}}be=!0,St(A,ne)}else Et()}function mn(p){var y=wn();(typeof p!="boolean"||p!==!!y)&&(y?document[En]():E[Ve]())}function Rt(p){typeof p!="string"&&(p=Me?"":kt||"white"),Me!==p&&(Me&&e(E,Me),p&&e(E,p,!0),Me=p)}function Pe(p){typeof p=="boolean"&&(Se=!p),Se=_===1&&!Se,e(W,"autofit",Se),t(W,"transform",""),_=1,ne=A=0,ft(),u(Ee),St()}function Jt(p){var y=p?1.25:1.05,L=_*y;L>5&&(L=5),Pn(L)}function pn(p){var y=p?.8:.95,L=_*y;L<.2&&(L=.2),Pn(L)}function Pn(p){_=p||1,t(W,"transition","transform 0.2s ease-out"),bt(),setTimeout(()=>t(W,"transition",""),200)}function en(){var p=we,y=document.createElement("a"),L=W.src;y.href=L,y.download=L.substring(L.lastIndexOf("/")+1),p.appendChild(y),y.click(),p.removeChild(y)}function tn(p){setTimeout(function(){we.removeChild(E),Ee=W=Ce=oe=tt=G=Yt=Ne=st=rt=null},200),e(we,"hide-scrollbars"),e(E,"show"),mn(!1),ut(),history.go(p===!0?-1:-2),Oe&&(vt.src=""),De&&zt(),W&&hn(W),We&&(We=clearTimeout(We)),Me&&Rt(),ot&&e(E,ot),st&&st()}function hn(p){if(p.g)p.g.appendChild(p),p.g=null;else{var y=p.parentNode;y&&y.removeChild(p),p.src=p.onerror=""}}function Nt(p){if(p&&Et(),1<N){if(1<U)return Vt(U-1);if(ht)return It(N,!0),Vt(N)}}function xt(p){if(p&&Et(),1<N){if(U<N)return Vt(U+1);if(ht)return It(-1,!0),Vt(1);De&&zt()}}function Vt(p){if(p!==U){De?(clearTimeout(De),Fe()):Et();var y=p>U;return U=p,nn(y),!0}}function Rn(p){var y=G[U-1],L=y;if(oe={},tt&&Object.assign(oe,tt),Object.assign(oe,L.dataset||L),Ie=oe.media,rt=oe.onclick,kt=oe.theme,ot=oe.class,Ke=Xe("autohide",!0),ht=Xe("infinite"),Ue=Xe("progress",!0),Ct=Xe("autoslide"),nt=Xe("preload",!0),Wt=oe.buttonHref,qt=Ct&&parseFloat(Ct)||7,Me||kt&&Rt(kt),ot&&e(E,ot,!0),ot&&a(E),L=oe.control){L=typeof L=="string"?L.split(","):L;for(var ue=0;ue<b.length;ue++)oe[b[ue]]=!1;for(ue=0;ue<L.length;ue++){var pe=L[ue].trim();pe==="zoom"?oe["zoom-in"]=oe["zoom-out"]=!0:oe[pe]=!0}}if(L=oe.animation,gt=at=Dt=!L,pt=!1,L)for(L=typeof L=="string"?L.split(","):L,ue=0;ue<L.length;ue++)pe=L[ue].trim(),pe==="scale"?gt=!0:pe==="fade"?at=!0:pe==="slide"?Dt=!0:pe&&(pt=pe);sn=oe.fit,ue=ae&&ae.downlink,L=Math.max(q,ie)*Y,ue&&1200*ue<L&&(L=1200*ue);var qe;for(Ce={media:Ie,src:z(y,L,oe,Ie),title:Xe("title",y.alt||y.title||(qe=y.firstElementChild)&&(qe.alt||qe.title))},Oe&&(vt.src=Oe=""),nt&&p&&(y=G[U])&&(p=y.dataset||y,(qe=p.media)&&qe!=="image"||(Oe=z(y,L,p,qe))),y=0;y<b.length;y++)p=b[y],c(se[p],Xe(p,h[p]))}function nn(p){if(ne=A=0,_=1,W)if(W.onerror)hn(W);else{var y=W;setTimeout(function(){y&&W!==y&&(hn(y),y=null)},650),dn(),St()}Rn(p),It(U-1),e(ln,"error"),Te(U),u(Ee),St(),p=Ce.title;var L=Xe("description"),ue=Xe("button"),pe=p||L||ue;pe&&(p&&(rn.firstChild.nodeValue=p),L&&(on.firstChild.nodeValue=L),ue&&(lt.firstChild.nodeValue=ue),c(rn,p),c(on,L),c(lt,ue),t(Ut,"transform",Ke==="all"?"":"none")),Ke||e(E,"menu",!0),r(Ut,pe),r(dt,ht||1<U),r(Lt,ht||U<N),$n.firstChild.nodeValue=1<N?U+" / "+N:"",Ne&&Ne(U,oe)}window.Spotlight={init:xn,theme:Rt,fullscreen:mn,download:en,autofit:Pe,next:xt,prev:Nt,goto:Vt,close:tn,zoom:Pn,menu:fn,show:function(p,y,L){G=p,y&&(tt=y,Yt=y.onshow,Ne=y.onchange,st=y.onclose,L=L||y.index),Tn(L)},play:zt,addControl:ct,removeControl:function(p){var y=se[p];y&&(jt.removeChild(y),se[p]=null)}}}).call(void 0);function ka(e){return e!==null&&typeof e=="object"&&"constructor"in e&&e.constructor===Object}function na(e={},t={}){let n=["__proto__","constructor","prototype"];Object.keys(t).filter(a=>n.indexOf(a)<0).forEach(a=>{typeof e[a]=="undefined"?e[a]=t[a]:ka(t[a])&&ka(e[a])&&Object.keys(t[a]).length>0&&na(e[a],t[a])})}var Da={body:{},addEventListener(){},removeEventListener(){},activeElement:{blur(){},nodeName:""},querySelector(){return null},querySelectorAll(){return[]},getElementById(){return null},createEvent(){return{initEvent(){}}},createElement(){return{children:[],childNodes:[],style:{},setAttribute(){},getElementsByTagName(){return[]}}},createElementNS(){return{}},importNode(){return null},location:{hash:"",host:"",hostname:"",href:"",origin:"",pathname:"",protocol:"",search:""}};function He(){let e=typeof document!="undefined"?document:{};return na(e,Da),e}var mi={document:Da,navigator:{userAgent:""},location:{hash:"",host:"",hostname:"",href:"",origin:"",pathname:"",protocol:"",search:""},history:{replaceState(){},pushState(){},go(){},back(){}},CustomEvent:function(){return this},addEventListener(){},removeEventListener(){},getComputedStyle(){return{getPropertyValue(){return""}}},Image(){},Date(){},screen:{},setTimeout(){},clearTimeout(){},matchMedia(){return{}},requestAnimationFrame(e){return typeof setTimeout=="undefined"?(e(),null):setTimeout(e,0)},cancelAnimationFrame(e){typeof setTimeout!="undefined"&&clearTimeout(e)}};function Ae(){let e=typeof window!="undefined"?window:{};return na(e,mi),e}function $a(e=""){return e.trim().split(" ").filter(t=>!!t.trim())}function Ba(e){let t=e;Object.keys(t).forEach(n=>{try{t[n]=null}catch(a){}try{delete t[n]}catch(a){}})}function bn(e,t=0){return setTimeout(e,t)}function an(){return Date.now()}function pi(e){let t=Ae(),n;return t.getComputedStyle&&(n=t.getComputedStyle(e,null)),!n&&e.currentStyle&&(n=e.currentStyle),n||(n=e.style),n}function aa(e,t="x"){let n=Ae(),a,s,i,l=pi(e);return n.WebKitCSSMatrix?(s=l.transform||l.webkitTransform,s.split(",").length>6&&(s=s.split(", ").map(c=>c.replace(",",".")).join(", ")),i=new n.WebKitCSSMatrix(s==="none"?"":s)):(i=l.MozTransform||l.OTransform||l.MsTransform||l.msTransform||l.transform||l.getPropertyValue("transform").replace("translate(","matrix(1, 0, 0, 1,"),a=i.toString().split(",")),t==="x"&&(n.WebKitCSSMatrix?s=i.m41:a.length===16?s=parseFloat(a[12]):s=parseFloat(a[4])),t==="y"&&(n.WebKitCSSMatrix?s=i.m42:a.length===16?s=parseFloat(a[13]):s=parseFloat(a[5])),s||0}function zn(e){return typeof e=="object"&&e!==null&&e.constructor&&Object.prototype.toString.call(e).slice(8,-1)==="Object"}function hi(e){return typeof window!="undefined"&&typeof window.HTMLElement!="undefined"?e instanceof HTMLElement:e&&(e.nodeType===1||e.nodeType===11)}function et(...e){let t=Object(e[0]);for(let n=1;n<e.length;n+=1){let a=e[n];if(a!=null&&!hi(a)){let s=Object.keys(Object(a)).filter(i=>i!=="__proto__"&&i!=="constructor"&&i!=="prototype");for(let i=0,l=s.length;i<l;i+=1){let c=s[i],r=Object.getOwnPropertyDescriptor(a,c);r!==void 0&&r.enumerable&&(zn(t[c])&&zn(a[c])?a[c].__swiper__?t[c]=a[c]:et(t[c],a[c]):!zn(t[c])&&zn(a[c])?(t[c]={},a[c].__swiper__?t[c]=a[c]:et(t[c],a[c])):t[c]=a[c])}}}return t}function Ft(e,t,n){e.style.setProperty(t,n)}function ia({swiper:e,targetPosition:t,side:n}){let a=Ae(),s=-e.translate,i=null,l,c=e.params.speed;e.wrapperEl.style.scrollSnapType="none",a.cancelAnimationFrame(e.cssModeFrameID);let r=t>s?"next":"prev",u=(h,E)=>r==="next"&&h>=E||r==="prev"&&h<=E,b=()=>{l=new Date().getTime(),i===null&&(i=l);let h=Math.max(Math.min((l-i)/c,1),0),E=.5-Math.cos(h*Math.PI)/2,g=s+E*(t-s);if(u(g,t)&&(g=t),e.wrapperEl.scrollTo({[n]:g}),u(g,t)){e.wrapperEl.style.overflow="hidden",e.wrapperEl.style.scrollSnapType="",setTimeout(()=>{e.wrapperEl.style.overflow="",e.wrapperEl.scrollTo({[n]:g})}),a.cancelAnimationFrame(e.cssModeFrameID);return}e.cssModeFrameID=a.requestAnimationFrame(b)};b()}function Ye(e,t=""){let n=Ae(),a=[...e.children];return n.HTMLSlotElement&&e instanceof HTMLSlotElement&&a.push(...e.assignedElements()),t?a.filter(s=>s.matches(t)):a}function gi(e,t){let n=[t];for(;n.length>0;){let a=n.shift();if(e===a)return!0;n.push(...a.children,...a.shadowRoot?a.shadowRoot.children:[],...a.assignedElements?a.assignedElements():[])}}function Ha(e,t){let n=Ae(),a=t.contains(e);return!a&&n.HTMLSlotElement&&t instanceof HTMLSlotElement&&(a=[...t.assignedElements()].includes(e),a||(a=gi(e,t))),a}function An(e){try{console.warn(e);return}catch(t){}}function Mt(e,t=[]){let n=document.createElement(e);return n.classList.add(...Array.isArray(t)?t:$a(t)),n}function wa(e,t){let n=[];for(;e.previousElementSibling;){let a=e.previousElementSibling;t?a.matches(t)&&n.push(a):n.push(a),e=a}return n}function Ga(e,t){let n=[];for(;e.nextElementSibling;){let a=e.nextElementSibling;t?a.matches(t)&&n.push(a):n.push(a),e=a}return n}function At(e,t){return Ae().getComputedStyle(e,null).getPropertyValue(t)}function On(e){let t=e,n;if(t){for(n=0;(t=t.previousSibling)!==null;)t.nodeType===1&&(n+=1);return n}}function kn(e,t){let n=[],a=e.parentElement;for(;a;)t?a.matches(t)&&n.push(a):n.push(a),a=a.parentElement;return n}function Xn(e,t,n){let a=Ae();return n?e[t==="width"?"offsetWidth":"offsetHeight"]+parseFloat(a.getComputedStyle(e,null).getPropertyValue(t==="width"?"margin-right":"margin-top"))+parseFloat(a.getComputedStyle(e,null).getPropertyValue(t==="width"?"margin-left":"margin-bottom")):e.offsetWidth}var sa;function vi(){let e=Ae(),t=He();return{smoothScroll:t.documentElement&&t.documentElement.style&&"scrollBehavior"in t.documentElement.style,touch:!!("ontouchstart"in e||e.DocumentTouch&&t instanceof e.DocumentTouch)}}function Fa(){return sa||(sa=vi()),sa}var ra;function yi({userAgent:e}={}){let t=Fa(),n=Ae(),a=n.navigator.platform,s=e||n.navigator.userAgent,i={ios:!1,android:!1},l=n.screen.width,c=n.screen.height,r=s.match(/(Android);?[\s\/]+([\d.]+)?/),u=s.match(/(iPad)(?!\1).*OS\s([\d_]+)/),b=s.match(/(iPod)(.*OS\s([\d_]+))?/),h=!u&&s.match(/(iPhone\sOS|iOS)\s([\d_]+)/),E=a==="Win32",g=a==="MacIntel",P=["1024x1366","1366x1024","834x1194","1194x834","834x1112","1112x834","768x1024","1024x768","820x1180","1180x820","810x1080","1080x810"];return!u&&g&&t.touch&&P.indexOf(`${l}x${c}`)>=0&&(u=s.match(/(Version)\/([\d.]+)/),u||(u=[0,1,"13_0_0"]),g=!1),r&&!E&&(i.os="android",i.android=!0),(u||h||b)&&(i.os="ios",i.ios=!0),i}function Ya(e={}){return ra||(ra=yi(e)),ra}var oa;function bi(){let e=Ae(),t=Ya(),n=!1;function a(){let c=e.navigator.userAgent.toLowerCase();return c.indexOf("safari")>=0&&c.indexOf("chrome")<0&&c.indexOf("android")<0}if(a()){let c=String(e.navigator.userAgent);if(c.includes("Version/")){let[r,u]=c.split("Version/")[1].split(" ")[0].split(".").map(b=>Number(b));n=r<16||r===16&&u<2}}let s=/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(e.navigator.userAgent),i=a(),l=i||s&&t.ios;return{isSafari:n||i,needPerspectiveFix:n,need3dFix:l,isWebView:s}}function Wa(){return oa||(oa=bi()),oa}function Si({swiper:e,on:t,emit:n}){let a=Ae(),s=null,i=null,l=()=>{!e||e.destroyed||!e.initialized||(n("beforeResize"),n("resize"))},c=()=>{!e||e.destroyed||!e.initialized||(s=new ResizeObserver(b=>{i=a.requestAnimationFrame(()=>{let{width:h,height:E}=e,g=h,P=E;b.forEach(({contentBoxSize:z,contentRect:se,target:ae})=>{ae&&ae!==e.el||(g=se?se.width:(z[0]||z).inlineSize,P=se?se.height:(z[0]||z).blockSize)}),(g!==h||P!==E)&&l()})}),s.observe(e.el))},r=()=>{i&&a.cancelAnimationFrame(i),s&&s.unobserve&&e.el&&(s.unobserve(e.el),s=null)},u=()=>{!e||e.destroyed||!e.initialized||n("orientationchange")};t("init",()=>{if(e.params.resizeObserver&&typeof a.ResizeObserver!="undefined"){c();return}a.addEventListener("resize",l),a.addEventListener("orientationchange",u)}),t("destroy",()=>{r(),a.removeEventListener("resize",l),a.removeEventListener("orientationchange",u)})}function Ei({swiper:e,extendParams:t,on:n,emit:a}){let s=[],i=Ae(),l=(u,b={})=>{let h=i.MutationObserver||i.WebkitMutationObserver,E=new h(g=>{if(e.__preventObserver__)return;if(g.length===1){a("observerUpdate",g[0]);return}let P=function(){a("observerUpdate",g[0])};i.requestAnimationFrame?i.requestAnimationFrame(P):i.setTimeout(P,0)});E.observe(u,{attributes:typeof b.attributes=="undefined"?!0:b.attributes,childList:e.isElement||(typeof b.childList=="undefined"?!0:b).childList,characterData:typeof b.characterData=="undefined"?!0:b.characterData}),s.push(E)},c=()=>{if(e.params.observer){if(e.params.observeParents){let u=kn(e.hostEl);for(let b=0;b<u.length;b+=1)l(u[b])}l(e.hostEl,{childList:e.params.observeSlideChildren}),l(e.wrapperEl,{attributes:!1})}},r=()=>{s.forEach(u=>{u.disconnect()}),s.splice(0,s.length)};t({observer:!1,observeParents:!1,observeSlideChildren:!1}),n("init",c),n("destroy",r)}var xi={on(e,t,n){let a=this;if(!a.eventsListeners||a.destroyed||typeof t!="function")return a;let s=n?"unshift":"push";return e.split(" ").forEach(i=>{a.eventsListeners[i]||(a.eventsListeners[i]=[]),a.eventsListeners[i][s](t)}),a},once(e,t,n){let a=this;if(!a.eventsListeners||a.destroyed||typeof t!="function")return a;function s(...i){a.off(e,s),s.__emitterProxy&&delete s.__emitterProxy,t.apply(a,i)}return s.__emitterProxy=t,a.on(e,s,n)},onAny(e,t){let n=this;if(!n.eventsListeners||n.destroyed||typeof e!="function")return n;let a=t?"unshift":"push";return n.eventsAnyListeners.indexOf(e)<0&&n.eventsAnyListeners[a](e),n},offAny(e){let t=this;if(!t.eventsListeners||t.destroyed||!t.eventsAnyListeners)return t;let n=t.eventsAnyListeners.indexOf(e);return n>=0&&t.eventsAnyListeners.splice(n,1),t},off(e,t){let n=this;return!n.eventsListeners||n.destroyed||!n.eventsListeners||e.split(" ").forEach(a=>{typeof t=="undefined"?n.eventsListeners[a]=[]:n.eventsListeners[a]&&n.eventsListeners[a].forEach((s,i)=>{(s===t||s.__emitterProxy&&s.__emitterProxy===t)&&n.eventsListeners[a].splice(i,1)})}),n},emit(...e){let t=this;if(!t.eventsListeners||t.destroyed||!t.eventsListeners)return t;let n,a,s;return typeof e[0]=="string"||Array.isArray(e[0])?(n=e[0],a=e.slice(1,e.length),s=t):(n=e[0].events,a=e[0].data,s=e[0].context||t),a.unshift(s),(Array.isArray(n)?n:n.split(" ")).forEach(l=>{t.eventsAnyListeners&&t.eventsAnyListeners.length&&t.eventsAnyListeners.forEach(c=>{c.apply(s,[l,...a])}),t.eventsListeners&&t.eventsListeners[l]&&t.eventsListeners[l].forEach(c=>{c.apply(s,a)})}),t}};function Ti(){let e=this,t,n,a=e.el;typeof e.params.width!="undefined"&&e.params.width!==null?t=e.params.width:t=a.clientWidth,typeof e.params.height!="undefined"&&e.params.height!==null?n=e.params.height:n=a.clientHeight,!(t===0&&e.isHorizontal()||n===0&&e.isVertical())&&(t=t-parseInt(At(a,"padding-left")||0,10)-parseInt(At(a,"padding-right")||0,10),n=n-parseInt(At(a,"padding-top")||0,10)-parseInt(At(a,"padding-bottom")||0,10),Number.isNaN(t)&&(t=0),Number.isNaN(n)&&(n=0),Object.assign(e,{width:t,height:n,size:e.isHorizontal()?t:n}))}function Mi(){let e=this;function t(te,_){return parseFloat(te.getPropertyValue(e.getDirectionLabel(_))||0)}let n=e.params,{wrapperEl:a,slidesEl:s,rtlTranslate:i,wrongRTL:l}=e,c=e.virtual&&n.virtual.enabled,r=c?e.virtual.slides.length:e.slides.length,u=Ye(s,`.${e.params.slideClass}, swiper-slide`),b=c?e.virtual.slides.length:u.length,h=[],E=[],g=[],P=n.slidesOffsetBefore;typeof P=="function"&&(P=n.slidesOffsetBefore.call(e));let z=n.slidesOffsetAfter;typeof z=="function"&&(z=n.slidesOffsetAfter.call(e));let se=e.snapGrid.length,ae=e.slidesGrid.length,Y=e.size-P-z,A=n.spaceBetween,ne=-P,ee=0,re=0;if(typeof Y=="undefined")return;typeof A=="string"&&A.indexOf("%")>=0?A=parseFloat(A.replace("%",""))/100*Y:typeof A=="string"&&(A=parseFloat(A)),e.virtualSize=-A-P-z,u.forEach(te=>{i?te.style.marginLeft="":te.style.marginRight="",te.style.marginBottom="",te.style.marginTop=""}),n.centeredSlides&&n.cssMode&&(Ft(a,"--swiper-centered-offset-before",""),Ft(a,"--swiper-centered-offset-after","")),n.cssMode&&(Ft(a,"--swiper-slides-offset-before",`${P}px`),Ft(a,"--swiper-slides-offset-after",`${z}px`));let ie=n.grid&&n.grid.rows>1&&e.grid;ie?e.grid.initSlides(u):e.grid&&e.grid.unsetSlides();let q,ve=n.slidesPerView==="auto"&&n.breakpoints&&Object.keys(n.breakpoints).filter(te=>typeof n.breakpoints[te].slidesPerView!="undefined").length>0;for(let te=0;te<b;te+=1){q=0;let _=u[te];if(!(_&&(ie&&e.grid.updateSlide(te,_,u),At(_,"display")==="none"))){if(c&&n.slidesPerView==="auto")n.virtual.slidesPerViewAutoSlideSize&&(q=n.virtual.slidesPerViewAutoSlideSize),q&&_&&(n.roundLengths&&(q=Math.floor(q)),_.style[e.getDirectionLabel("width")]=`${q}px`);else if(n.slidesPerView==="auto"){ve&&(_.style[e.getDirectionLabel("width")]="");let fe=getComputedStyle(_),be=_.style.transform,xe=_.style.webkitTransform;if(be&&(_.style.transform="none"),xe&&(_.style.webkitTransform="none"),n.roundLengths)q=e.isHorizontal()?Xn(_,"width",!0):Xn(_,"height",!0);else{let Se=t(fe,"width"),Me=t(fe,"padding-left"),U=t(fe,"padding-right"),N=t(fe,"margin-left"),G=t(fe,"margin-right"),oe=fe.getPropertyValue("box-sizing");if(oe&&oe==="border-box")q=Se+N+G;else{let{clientWidth:Ie,offsetWidth:tt}=_;q=Se+Me+U+N+G+(tt-Ie)}}be&&(_.style.transform=be),xe&&(_.style.webkitTransform=xe),n.roundLengths&&(q=Math.floor(q))}else q=(Y-(n.slidesPerView-1)*A)/n.slidesPerView,n.roundLengths&&(q=Math.floor(q)),_&&(_.style[e.getDirectionLabel("width")]=`${q}px`);_&&(_.swiperSlideSize=q),g.push(q),n.centeredSlides?(ne=ne+q/2+ee/2+A,ee===0&&te!==0&&(ne=ne-Y/2-A),te===0&&(ne=ne-Y/2-A),Math.abs(ne)<1/1e3&&(ne=0),n.roundLengths&&(ne=Math.floor(ne)),re%n.slidesPerGroup===0&&h.push(ne),E.push(ne)):(n.roundLengths&&(ne=Math.floor(ne)),(re-Math.min(e.params.slidesPerGroupSkip,re))%e.params.slidesPerGroup===0&&h.push(ne),E.push(ne),ne=ne+q+A),e.virtualSize+=q+A,ee=q,re+=1}}if(e.virtualSize=Math.max(e.virtualSize,Y)+z,i&&l&&(n.effect==="slide"||n.effect==="coverflow")&&(a.style.width=`${e.virtualSize+A}px`),n.setWrapperSize&&(a.style[e.getDirectionLabel("width")]=`${e.virtualSize+A}px`),ie&&e.grid.updateWrapperSize(q,h),!n.centeredSlides){let te=n.slidesPerView!=="auto"&&n.slidesPerView%1!==0,_=n.snapToSlideEdge&&!n.loop&&(n.slidesPerView==="auto"||te),fe=h.length;if(_){let xe;if(n.slidesPerView==="auto"){xe=1;let Se=0;for(let Me=g.length-1;Me>=0&&(Se+=g[Me]+(Me<g.length-1?A:0),Se<=Y);Me-=1)xe=g.length-Me}else xe=Math.floor(n.slidesPerView);fe=Math.max(b-xe,0)}let be=[];for(let xe=0;xe<h.length;xe+=1){let Se=h[xe];n.roundLengths&&(Se=Math.floor(Se)),_?xe<=fe&&be.push(Se):h[xe]<=e.virtualSize-Y&&be.push(Se)}h=be,Math.floor(e.virtualSize-Y)-Math.floor(h[h.length-1])>1&&(_||h.push(e.virtualSize-Y))}if(c&&n.loop){let te=g[0]+A;if(n.slidesPerGroup>1){let _=Math.ceil((e.virtual.slidesBefore+e.virtual.slidesAfter)/n.slidesPerGroup),fe=te*n.slidesPerGroup;for(let be=0;be<_;be+=1)h.push(h[h.length-1]+fe)}for(let _=0;_<e.virtual.slidesBefore+e.virtual.slidesAfter;_+=1)n.slidesPerGroup===1&&h.push(h[h.length-1]+te),E.push(E[E.length-1]+te),e.virtualSize+=te}if(h.length===0&&(h=[0]),A!==0){let te=e.isHorizontal()&&i?"marginLeft":e.getDirectionLabel("marginRight");u.filter((_,fe)=>!n.cssMode||n.loop?!0:fe!==u.length-1).forEach(_=>{_.style[te]=`${A}px`})}if(n.centeredSlides&&n.centeredSlidesBounds){let te=0;g.forEach(fe=>{te+=fe+(A||0)}),te-=A;let _=te>Y?te-Y:0;h=h.map(fe=>fe<=0?-P:fe>_?_+z:fe)}if(n.centerInsufficientSlides){let te=0;if(g.forEach(_=>{te+=_+(A||0)}),te-=A,te<Y){let _=(Y-te)/2;h.forEach((fe,be)=>{h[be]=fe-_}),E.forEach((fe,be)=>{E[be]=fe+_})}}if(Object.assign(e,{slides:u,snapGrid:h,slidesGrid:E,slidesSizesGrid:g}),n.centeredSlides&&n.cssMode&&!n.centeredSlidesBounds){Ft(a,"--swiper-centered-offset-before",`${-h[0]}px`),Ft(a,"--swiper-centered-offset-after",`${e.size/2-g[g.length-1]/2}px`);let te=-e.snapGrid[0],_=-e.slidesGrid[0];e.snapGrid=e.snapGrid.map(fe=>fe+te),e.slidesGrid=e.slidesGrid.map(fe=>fe+_)}if(b!==r&&e.emit("slidesLengthChange"),h.length!==se&&(e.params.watchOverflow&&e.checkOverflow(),e.emit("snapGridLengthChange")),E.length!==ae&&e.emit("slidesGridLengthChange"),n.watchSlidesProgress&&e.updateSlidesOffset(),e.emit("slidesUpdated"),!c&&!n.cssMode&&(n.effect==="slide"||n.effect==="fade")){let te=`${n.containerModifierClass}backface-hidden`,_=e.el.classList.contains(te);b<=n.maxBackfaceHiddenSlides?_||e.el.classList.add(te):_&&e.el.classList.remove(te)}}function Ci(e){let t=this,n=[],a=t.virtual&&t.params.virtual.enabled,s=0,i;typeof e=="number"?t.setTransition(e):e===!0&&t.setTransition(t.params.speed);let l=c=>a?t.slides[t.getSlideIndexByData(c)]:t.slides[c];if(t.params.slidesPerView!=="auto"&&t.params.slidesPerView>1)if(t.params.centeredSlides)(t.visibleSlides||[]).forEach(c=>{n.push(c)});else for(i=0;i<Math.ceil(t.params.slidesPerView);i+=1){let c=t.activeIndex+i;if(c>t.slides.length&&!a)break;n.push(l(c))}else n.push(l(t.activeIndex));for(i=0;i<n.length;i+=1)if(typeof n[i]!="undefined"){let c=n[i].offsetHeight;s=c>s?c:s}(s||s===0)&&(t.wrapperEl.style.height=`${s}px`)}function Pi(){let e=this,t=e.slides,n=e.isElement?e.isHorizontal()?e.wrapperEl.offsetLeft:e.wrapperEl.offsetTop:0;for(let a=0;a<t.length;a+=1)t[a].swiperSlideOffset=(e.isHorizontal()?t[a].offsetLeft:t[a].offsetTop)-n-e.cssOverflowAdjustment()}var Ra=(e,t,n)=>{t&&!e.classList.contains(n)?e.classList.add(n):!t&&e.classList.contains(n)&&e.classList.remove(n)};function Li(e=this&&this.translate||0){let t=this,n=t.params,{slides:a,rtlTranslate:s,snapGrid:i}=t;if(a.length===0)return;typeof a[0].swiperSlideOffset=="undefined"&&t.updateSlidesOffset();let l=-e;s&&(l=e),t.visibleSlidesIndexes=[],t.visibleSlides=[];let c=n.spaceBetween;typeof c=="string"&&c.indexOf("%")>=0?c=parseFloat(c.replace("%",""))/100*t.size:typeof c=="string"&&(c=parseFloat(c));for(let r=0;r<a.length;r+=1){let u=a[r],b=u.swiperSlideOffset;n.cssMode&&n.centeredSlides&&(b-=a[0].swiperSlideOffset);let h=(l+(n.centeredSlides?t.minTranslate():0)-b)/(u.swiperSlideSize+c),E=(l-i[0]+(n.centeredSlides?t.minTranslate():0)-b)/(u.swiperSlideSize+c),g=-(l-b),P=g+t.slidesSizesGrid[r],z=g>=0&&g<=t.size-t.slidesSizesGrid[r],se=g>=0&&g<t.size-1||P>1&&P<=t.size||g<=0&&P>=t.size;se&&(t.visibleSlides.push(u),t.visibleSlidesIndexes.push(r)),Ra(u,se,n.slideVisibleClass),Ra(u,z,n.slideFullyVisibleClass),u.progress=s?-h:h,u.originalProgress=s?-E:E}}function Ii(e){let t=this;if(typeof e=="undefined"){let b=t.rtlTranslate?-1:1;e=t&&t.translate&&t.translate*b||0}let n=t.params,a=t.maxTranslate()-t.minTranslate(),{progress:s,isBeginning:i,isEnd:l,progressLoop:c}=t,r=i,u=l;if(a===0)s=0,i=!0,l=!0;else{s=(e-t.minTranslate())/a;let b=Math.abs(e-t.minTranslate())<1,h=Math.abs(e-t.maxTranslate())<1;i=b||s<=0,l=h||s>=1,b&&(s=0),h&&(s=1)}if(n.loop){let b=t.getSlideIndexByData(0),h=t.getSlideIndexByData(t.slides.length-1),E=t.slidesGrid[b],g=t.slidesGrid[h],P=t.slidesGrid[t.slidesGrid.length-1],z=Math.abs(e);z>=E?c=(z-E)/P:c=(z+P-g)/P,c>1&&(c-=1)}Object.assign(t,{progress:s,progressLoop:c,isBeginning:i,isEnd:l}),(n.watchSlidesProgress||n.centeredSlides&&n.autoHeight)&&t.updateSlidesProgress(e),i&&!r&&t.emit("reachBeginning toEdge"),l&&!u&&t.emit("reachEnd toEdge"),(r&&!i||u&&!l)&&t.emit("fromEdge"),t.emit("progress",s)}var la=(e,t,n)=>{t&&!e.classList.contains(n)?e.classList.add(n):!t&&e.classList.contains(n)&&e.classList.remove(n)};function zi(){let e=this,{slides:t,params:n,slidesEl:a,activeIndex:s}=e,i=e.virtual&&n.virtual.enabled,l=e.grid&&n.grid&&n.grid.rows>1,c=h=>Ye(a,`.${n.slideClass}${h}, swiper-slide${h}`)[0],r,u,b;if(i)if(n.loop){let h=s-e.virtual.slidesBefore;h<0&&(h=e.virtual.slides.length+h),h>=e.virtual.slides.length&&(h-=e.virtual.slides.length),r=c(`[data-swiper-slide-index="${h}"]`)}else r=c(`[data-swiper-slide-index="${s}"]`);else l?(r=t.find(h=>h.column===s),b=t.find(h=>h.column===s+1),u=t.find(h=>h.column===s-1)):r=t[s];r&&(l||(b=Ga(r,`.${n.slideClass}, swiper-slide`)[0],n.loop&&!b&&(b=t[0]),u=wa(r,`.${n.slideClass}, swiper-slide`)[0],n.loop&&!u===0&&(u=t[t.length-1]))),t.forEach(h=>{la(h,h===r,n.slideActiveClass),la(h,h===b,n.slideNextClass),la(h,h===u,n.slidePrevClass)}),e.emitSlidesClasses()}var Fn=(e,t)=>{if(!e||e.destroyed||!e.params)return;let n=()=>e.isElement?"swiper-slide":`.${e.params.slideClass}`,a=t.closest(n());if(a){let s=a.querySelector(`.${e.params.lazyPreloaderClass}`);!s&&e.isElement&&(a.shadowRoot?s=a.shadowRoot.querySelector(`.${e.params.lazyPreloaderClass}`):requestAnimationFrame(()=>{a.shadowRoot&&(s=a.shadowRoot.querySelector(`.${e.params.lazyPreloaderClass}`),s&&!s.lazyPreloaderManaged&&s.remove())})),s&&!s.lazyPreloaderManaged&&s.remove()}},da=(e,t)=>{if(!e.slides[t])return;let n=e.slides[t].querySelector('[loading="lazy"]');n&&n.removeAttribute("loading")},ua=e=>{if(!e||e.destroyed||!e.params)return;let t=e.params.lazyPreloadPrevNext,n=e.slides.length;if(!n||!t||t<0)return;t=Math.min(t,n);let a=e.params.slidesPerView==="auto"?e.slidesPerViewDynamic():Math.ceil(e.params.slidesPerView),s=e.activeIndex;if(e.params.grid&&e.params.grid.rows>1){let l=s,c=[l-t];c.push(...Array.from({length:t}).map((r,u)=>l+a+u)),e.slides.forEach((r,u)=>{c.includes(r.column)&&da(e,u)});return}let i=s+a-1;if(e.params.rewind||e.params.loop)for(let l=s-t;l<=i+t;l+=1){let c=(l%n+n)%n;(c<s||c>i)&&da(e,c)}else for(let l=Math.max(s-t,0);l<=Math.min(i+t,n-1);l+=1)l!==s&&(l>i||l<s)&&da(e,l)};function Ai(e){let{slidesGrid:t,params:n}=e,a=e.rtlTranslate?e.translate:-e.translate,s;for(let i=0;i<t.length;i+=1)typeof t[i+1]!="undefined"?a>=t[i]&&a<t[i+1]-(t[i+1]-t[i])/2?s=i:a>=t[i]&&a<t[i+1]&&(s=i+1):a>=t[i]&&(s=i);return n.normalizeSlideIndex&&(s<0||typeof s=="undefined")&&(s=0),s}function Oi(e){let t=this,n=t.rtlTranslate?t.translate:-t.translate,{snapGrid:a,params:s,activeIndex:i,realIndex:l,snapIndex:c}=t,r=e,u,b=g=>{let P=g-t.virtual.slidesBefore;return P<0&&(P=t.virtual.slides.length+P),P>=t.virtual.slides.length&&(P-=t.virtual.slides.length),P};if(typeof r=="undefined"&&(r=Ai(t)),a.indexOf(n)>=0)u=a.indexOf(n);else{let g=Math.min(s.slidesPerGroupSkip,r);u=g+Math.floor((r-g)/s.slidesPerGroup)}if(u>=a.length&&(u=a.length-1),r===i&&!t.params.loop){u!==c&&(t.snapIndex=u,t.emit("snapIndexChange"));return}if(r===i&&t.params.loop&&t.virtual&&t.params.virtual.enabled){t.realIndex=b(r);return}let h=t.grid&&s.grid&&s.grid.rows>1,E;if(t.virtual&&s.virtual.enabled)s.loop?E=b(r):E=r;else if(h){let g=t.slides.find(z=>z.column===r),P=parseInt(g.getAttribute("data-swiper-slide-index"),10);Number.isNaN(P)&&(P=Math.max(t.slides.indexOf(g),0)),E=Math.floor(P/s.grid.rows)}else if(t.slides[r]){let g=t.slides[r].getAttribute("data-swiper-slide-index");g?E=parseInt(g,10):E=r}else E=r;Object.assign(t,{previousSnapIndex:c,snapIndex:u,previousRealIndex:l,realIndex:E,previousIndex:i,activeIndex:r}),t.initialized&&ua(t),t.emit("activeIndexChange"),t.emit("snapIndexChange"),(t.initialized||t.params.runCallbacksOnInit)&&(l!==E&&t.emit("realIndexChange"),t.emit("slideChange"))}function ki(e,t){let n=this,a=n.params,s=e.closest(`.${a.slideClass}, swiper-slide`);!s&&n.isElement&&t&&t.length>1&&t.includes(e)&&[...t.slice(t.indexOf(e)+1,t.length)].forEach(c=>{!s&&c.matches&&c.matches(`.${a.slideClass}, swiper-slide`)&&(s=c)});let i=!1,l;if(s){for(let c=0;c<n.slides.length;c+=1)if(n.slides[c]===s){i=!0,l=c;break}}if(s&&i)n.clickedSlide=s,n.virtual&&n.params.virtual.enabled?n.clickedIndex=parseInt(s.getAttribute("data-swiper-slide-index"),10):n.clickedIndex=l;else{n.clickedSlide=void 0,n.clickedIndex=void 0;return}a.slideToClickedSlide&&n.clickedIndex!==void 0&&n.clickedIndex!==n.activeIndex&&n.slideToClickedSlide()}var Di={updateSize:Ti,updateSlides:Mi,updateAutoHeight:Ci,updateSlidesOffset:Pi,updateSlidesProgress:Li,updateProgress:Ii,updateSlidesClasses:zi,updateActiveIndex:Oi,updateClickedSlide:ki};function $i(e=this.isHorizontal()?"x":"y"){let t=this,{params:n,rtlTranslate:a,translate:s,wrapperEl:i}=t;if(n.virtualTranslate)return a?-s:s;if(n.cssMode)return s;let l=aa(i,e);return l+=t.cssOverflowAdjustment(),a&&(l=-l),l||0}function Bi(e,t){let n=this,{rtlTranslate:a,params:s,wrapperEl:i,progress:l}=n,c=0,r=0,u=0;n.isHorizontal()?c=a?-e:e:r=e,s.roundLengths&&(c=Math.floor(c),r=Math.floor(r)),n.previousTranslate=n.translate,n.translate=n.isHorizontal()?c:r,s.cssMode?i[n.isHorizontal()?"scrollLeft":"scrollTop"]=n.isHorizontal()?-c:-r:s.virtualTranslate||(n.isHorizontal()?c-=n.cssOverflowAdjustment():r-=n.cssOverflowAdjustment(),i.style.transform=`translate3d(${c}px, ${r}px, ${u}px)`);let b,h=n.maxTranslate()-n.minTranslate();h===0?b=0:b=(e-n.minTranslate())/h,b!==l&&n.updateProgress(e),n.emit("setTranslate",n.translate,t)}function Hi(){return-this.snapGrid[0]}function wi(){return-this.snapGrid[this.snapGrid.length-1]}function Gi(e=0,t=this.params.speed,n=!0,a=!0,s){let i=this,{params:l,wrapperEl:c}=i;if(i.animating&&l.preventInteractionOnTransition)return!1;let r=i.minTranslate(),u=i.maxTranslate(),b;if(a&&e>r?b=r:a&&e<u?b=u:b=e,i.updateProgress(b),l.cssMode){let h=i.isHorizontal();if(t===0)c[h?"scrollLeft":"scrollTop"]=-b;else{if(!i.support.smoothScroll)return ia({swiper:i,targetPosition:-b,side:h?"left":"top"}),!0;c.scrollTo({[h?"left":"top"]:-b,behavior:"smooth"})}return!0}return t===0?(i.setTransition(0),i.setTranslate(b),n&&(i.emit("beforeTransitionStart",t,s),i.emit("transitionEnd"))):(i.setTransition(t),i.setTranslate(b),n&&(i.emit("beforeTransitionStart",t,s),i.emit("transitionStart")),i.animating||(i.animating=!0,i.onTranslateToWrapperTransitionEnd||(i.onTranslateToWrapperTransitionEnd=function(E){!i||i.destroyed||E.target===this&&(i.wrapperEl.removeEventListener("transitionend",i.onTranslateToWrapperTransitionEnd),i.onTranslateToWrapperTransitionEnd=null,delete i.onTranslateToWrapperTransitionEnd,i.animating=!1,n&&i.emit("transitionEnd"))}),i.wrapperEl.addEventListener("transitionend",i.onTranslateToWrapperTransitionEnd))),!0}var Ri={getTranslate:$i,setTranslate:Bi,minTranslate:Hi,maxTranslate:wi,translateTo:Gi};function Ni(e,t){let n=this;n.params.cssMode||(n.wrapperEl.style.transitionDuration=`${e}ms`,n.wrapperEl.style.transitionDelay=e===0?"0ms":""),n.emit("setTransition",e,t)}function qa({swiper:e,runCallbacks:t,direction:n,step:a}){let{activeIndex:s,previousIndex:i}=e,l=n;l||(s>i?l="next":s<i?l="prev":l="reset"),e.emit(`transition${a}`),t&&l==="reset"?e.emit(`slideResetTransition${a}`):t&&s!==i&&(e.emit(`slideChangeTransition${a}`),l==="next"?e.emit(`slideNextTransition${a}`):e.emit(`slidePrevTransition${a}`))}function Vi(e=!0,t){let n=this,{params:a}=n;a.cssMode||(a.autoHeight&&n.updateAutoHeight(),qa({swiper:n,runCallbacks:e,direction:t,step:"Start"}))}function _i(e=!0,t){let n=this,{params:a}=n;n.animating=!1,!a.cssMode&&(n.setTransition(0),qa({swiper:n,runCallbacks:e,direction:t,step:"End"}))}var Xi={setTransition:Ni,transitionStart:Vi,transitionEnd:_i};function Fi(e=0,t,n=!0,a,s){typeof e=="string"&&(e=parseInt(e,10));let i=this,l=e;l<0&&(l=0);let{params:c,snapGrid:r,slidesGrid:u,previousIndex:b,activeIndex:h,rtlTranslate:E,wrapperEl:g,enabled:P}=i;if(!P&&!a&&!s||i.destroyed||i.animating&&c.preventInteractionOnTransition)return!1;typeof t=="undefined"&&(t=i.params.speed);let z=Math.min(i.params.slidesPerGroupSkip,l),se=z+Math.floor((l-z)/i.params.slidesPerGroup);se>=r.length&&(se=r.length-1);let ae=-r[se];if(c.normalizeSlideIndex)for(let ie=0;ie<u.length;ie+=1){let q=-Math.floor(ae*100),ve=Math.floor(u[ie]*100),te=Math.floor(u[ie+1]*100);typeof u[ie+1]!="undefined"?q>=ve&&q<te-(te-ve)/2?l=ie:q>=ve&&q<te&&(l=ie+1):q>=ve&&(l=ie)}if(i.initialized&&l!==h&&(!i.allowSlideNext&&(E?ae>i.translate&&ae>i.minTranslate():ae<i.translate&&ae<i.minTranslate())||!i.allowSlidePrev&&ae>i.translate&&ae>i.maxTranslate()&&(h||0)!==l))return!1;l!==(b||0)&&n&&i.emit("beforeSlideChangeStart"),i.updateProgress(ae);let Y;l>h?Y="next":l<h?Y="prev":Y="reset";let A=i.virtual&&i.params.virtual.enabled;if(!(A&&s)&&(E&&-ae===i.translate||!E&&ae===i.translate))return i.updateActiveIndex(l),c.autoHeight&&i.updateAutoHeight(),i.updateSlidesClasses(),c.effect!=="slide"&&i.setTranslate(ae),Y!=="reset"&&(i.transitionStart(n,Y),i.transitionEnd(n,Y)),!1;if(c.cssMode){let ie=i.isHorizontal(),q=E?ae:-ae;if(t===0)A&&(i.wrapperEl.style.scrollSnapType="none",i._immediateVirtual=!0),A&&!i._cssModeVirtualInitialSet&&i.params.initialSlide>0?(i._cssModeVirtualInitialSet=!0,requestAnimationFrame(()=>{g[ie?"scrollLeft":"scrollTop"]=q})):g[ie?"scrollLeft":"scrollTop"]=q,A&&requestAnimationFrame(()=>{i.wrapperEl.style.scrollSnapType="",i._immediateVirtual=!1});else{if(!i.support.smoothScroll)return ia({swiper:i,targetPosition:q,side:ie?"left":"top"}),!0;g.scrollTo({[ie?"left":"top"]:q,behavior:"smooth"})}return!0}let re=Wa().isSafari;return A&&!s&&re&&i.isElement&&i.virtual.update(!1,!1,l),i.setTransition(t),i.setTranslate(ae),i.updateActiveIndex(l),i.updateSlidesClasses(),i.emit("beforeTransitionStart",t,a),i.transitionStart(n,Y),t===0?i.transitionEnd(n,Y):i.animating||(i.animating=!0,i.onSlideToWrapperTransitionEnd||(i.onSlideToWrapperTransitionEnd=function(q){!i||i.destroyed||q.target===this&&(i.wrapperEl.removeEventListener("transitionend",i.onSlideToWrapperTransitionEnd),i.onSlideToWrapperTransitionEnd=null,delete i.onSlideToWrapperTransitionEnd,i.transitionEnd(n,Y))}),i.wrapperEl.addEventListener("transitionend",i.onSlideToWrapperTransitionEnd)),!0}function Yi(e=0,t,n=!0,a){typeof e=="string"&&(e=parseInt(e,10));let s=this;if(s.destroyed)return;typeof t=="undefined"&&(t=s.params.speed);let i=s.grid&&s.params.grid&&s.params.grid.rows>1,l=e;if(s.params.loop)if(s.virtual&&s.params.virtual.enabled)l=l+s.virtual.slidesBefore;else{let c;if(i){let z=l*s.params.grid.rows;c=s.slides.find(se=>se.getAttribute("data-swiper-slide-index")*1===z).column}else c=s.getSlideIndexByData(l);let r=i?Math.ceil(s.slides.length/s.params.grid.rows):s.slides.length,{centeredSlides:u,slidesOffsetBefore:b,slidesOffsetAfter:h}=s.params,E=u||!!b||!!h,g=s.params.slidesPerView;g==="auto"?g=s.slidesPerViewDynamic():(g=Math.ceil(parseFloat(s.params.slidesPerView,10)),E&&g%2===0&&(g=g+1));let P=r-c<g;if(E&&(P=P||c<Math.ceil(g/2)),a&&E&&s.params.slidesPerView!=="auto"&&!i&&(P=!1),P){let z=E?c<s.activeIndex?"prev":"next":c-s.activeIndex-1<s.params.slidesPerView?"next":"prev";s.loopFix({direction:z,slideTo:!0,activeSlideIndex:z==="next"?c+1:c-r+1,slideRealIndex:z==="next"?s.realIndex:void 0})}if(i){let z=l*s.params.grid.rows;l=s.slides.find(se=>se.getAttribute("data-swiper-slide-index")*1===z).column}else l=s.getSlideIndexByData(l)}return requestAnimationFrame(()=>{s.slideTo(l,t,n,a)}),s}function Wi(e,t=!0,n){let a=this,{enabled:s,params:i,animating:l}=a;if(!s||a.destroyed)return a;typeof e=="undefined"&&(e=a.params.speed);let c=i.slidesPerGroup;i.slidesPerView==="auto"&&i.slidesPerGroup===1&&i.slidesPerGroupAuto&&(c=Math.max(a.slidesPerViewDynamic("current",!0),1));let r=a.activeIndex<i.slidesPerGroupSkip?1:c,u=a.virtual&&i.virtual.enabled;if(i.loop){if(l&&!u&&i.loopPreventsSliding)return!1;if(a.loopFix({direction:"next"}),a._clientLeft=a.wrapperEl.clientLeft,a.activeIndex===a.slides.length-1&&i.cssMode)return requestAnimationFrame(()=>{a.slideTo(a.activeIndex+r,e,t,n)}),!0}return i.rewind&&a.isEnd?a.slideTo(0,e,t,n):a.slideTo(a.activeIndex+r,e,t,n)}function qi(e,t=!0,n){let a=this,{params:s,snapGrid:i,slidesGrid:l,rtlTranslate:c,enabled:r,animating:u}=a;if(!r||a.destroyed)return a;typeof e=="undefined"&&(e=a.params.speed);let b=a.virtual&&s.virtual.enabled;if(s.loop){if(u&&!b&&s.loopPreventsSliding)return!1;a.loopFix({direction:"prev"}),a._clientLeft=a.wrapperEl.clientLeft}let h=c?a.translate:-a.translate;function E(Y){return Y<0?-Math.floor(Math.abs(Y)):Math.floor(Y)}let g=E(h),P=i.map(Y=>E(Y)),z=s.freeMode&&s.freeMode.enabled,se=i[P.indexOf(g)-1];if(typeof se=="undefined"&&(s.cssMode||z)){let Y;i.forEach((A,ne)=>{g>=A&&(Y=ne)}),typeof Y!="undefined"&&(se=z?i[Y]:i[Y>0?Y-1:Y])}let ae=0;if(typeof se!="undefined"&&(ae=l.indexOf(se),ae<0&&(ae=a.activeIndex-1),s.slidesPerView==="auto"&&s.slidesPerGroup===1&&s.slidesPerGroupAuto&&(ae=ae-a.slidesPerViewDynamic("previous",!0)+1,ae=Math.max(ae,0))),s.rewind&&a.isBeginning){let Y=a.params.virtual&&a.params.virtual.enabled&&a.virtual?a.virtual.slides.length-1:a.slides.length-1;return a.slideTo(Y,e,t,n)}else if(s.loop&&a.activeIndex===0&&s.cssMode)return requestAnimationFrame(()=>{a.slideTo(ae,e,t,n)}),!0;return a.slideTo(ae,e,t,n)}function ji(e,t=!0,n){let a=this;if(!a.destroyed)return typeof e=="undefined"&&(e=a.params.speed),a.slideTo(a.activeIndex,e,t,n)}function Ui(e,t=!0,n,a=.5){let s=this;if(s.destroyed)return;typeof e=="undefined"&&(e=s.params.speed);let i=s.activeIndex,l=Math.min(s.params.slidesPerGroupSkip,i),c=l+Math.floor((i-l)/s.params.slidesPerGroup),r=s.rtlTranslate?s.translate:-s.translate;if(r>=s.snapGrid[c]){let u=s.snapGrid[c],b=s.snapGrid[c+1];r-u>(b-u)*a&&(i+=s.params.slidesPerGroup)}else{let u=s.snapGrid[c-1],b=s.snapGrid[c];r-u<=(b-u)*a&&(i-=s.params.slidesPerGroup)}return i=Math.max(i,0),i=Math.min(i,s.slidesGrid.length-1),s.slideTo(i,e,t,n)}function Ki(){let e=this;if(e.destroyed)return;let{params:t,slidesEl:n}=e,a=t.slidesPerView==="auto"?e.slidesPerViewDynamic():t.slidesPerView,s=e.getSlideIndexWhenGrid(e.clickedIndex),i,l=e.isElement?"swiper-slide":`.${t.slideClass}`,c=e.grid&&e.params.grid&&e.params.grid.rows>1;if(t.loop){if(e.animating)return;i=parseInt(e.clickedSlide.getAttribute("data-swiper-slide-index"),10),t.centeredSlides?e.slideToLoop(i):s>(c?(e.slides.length-a)/2-(e.params.grid.rows-1):e.slides.length-a)?(e.loopFix(),s=e.getSlideIndex(Ye(n,`${l}[data-swiper-slide-index="${i}"]`)[0]),bn(()=>{e.slideTo(s)})):e.slideTo(s)}else e.slideTo(s)}var Zi={slideTo:Fi,slideToLoop:Yi,slideNext:Wi,slidePrev:qi,slideReset:ji,slideToClosest:Ui,slideToClickedSlide:Ki};function Qi(e,t){let n=this,{params:a,slidesEl:s}=n;if(!a.loop||n.virtual&&n.params.virtual.enabled)return;let i=()=>{Ye(s,`.${a.slideClass}, swiper-slide`).forEach((P,z)=>{P.setAttribute("data-swiper-slide-index",z)})},l=()=>{let g=Ye(s,`.${a.slideBlankClass}`);g.forEach(P=>{P.remove()}),g.length>0&&(n.recalcSlides(),n.updateSlides())},c=n.grid&&a.grid&&a.grid.rows>1;a.loopAddBlankSlides&&(a.slidesPerGroup>1||c)&&l();let r=a.slidesPerGroup*(c?a.grid.rows:1),u=n.slides.length%r!==0,b=c&&n.slides.length%a.grid.rows!==0,h=g=>{for(let P=0;P<g;P+=1){let z=n.isElement?Mt("swiper-slide",[a.slideBlankClass]):Mt("div",[a.slideClass,a.slideBlankClass]);n.slidesEl.append(z)}};if(u){if(a.loopAddBlankSlides){let g=r-n.slides.length%r;h(g),n.recalcSlides(),n.updateSlides()}else An("Swiper Loop Warning: The number of slides is not even to slidesPerGroup, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");i()}else if(b){if(a.loopAddBlankSlides){let g=a.grid.rows-n.slides.length%a.grid.rows;h(g),n.recalcSlides(),n.updateSlides()}else An("Swiper Loop Warning: The number of slides is not even to grid.rows, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");i()}else i();let E=a.centeredSlides||!!a.slidesOffsetBefore||!!a.slidesOffsetAfter;n.loopFix({slideRealIndex:e,direction:E?void 0:"next",initial:t})}function Ji({slideRealIndex:e,slideTo:t=!0,direction:n,setTranslate:a,activeSlideIndex:s,initial:i,byController:l,byMousewheel:c}={}){let r=this;if(!r.params.loop)return;r.emit("beforeLoopFix");let{slides:u,allowSlidePrev:b,allowSlideNext:h,slidesEl:E,params:g}=r,{centeredSlides:P,slidesOffsetBefore:z,slidesOffsetAfter:se,initialSlide:ae}=g,Y=P||!!z||!!se;if(r.allowSlidePrev=!0,r.allowSlideNext=!0,r.virtual&&g.virtual.enabled){t&&(!Y&&r.snapIndex===0?r.slideTo(r.virtual.slides.length,0,!1,!0):Y&&r.snapIndex<g.slidesPerView?r.slideTo(r.virtual.slides.length+r.snapIndex,0,!1,!0):r.snapIndex===r.snapGrid.length-1&&r.slideTo(r.virtual.slidesBefore,0,!1,!0)),r.allowSlidePrev=b,r.allowSlideNext=h,r.emit("loopFix");return}let A=g.slidesPerView;A==="auto"?A=r.slidesPerViewDynamic():(A=Math.ceil(parseFloat(g.slidesPerView,10)),Y&&A%2===0&&(A=A+1));let ne=g.slidesPerGroupAuto?A:g.slidesPerGroup,ee=Y?Math.max(ne,Math.ceil(A/2)):ne;ee%ne!==0&&(ee+=ne-ee%ne),ee+=g.loopAdditionalSlides,r.loopedSlides=ee;let re=r.grid&&g.grid&&g.grid.rows>1;u.length<A+ee||r.params.effect==="cards"&&u.length<A+ee*2?An("Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters"):re&&g.grid.fill==="row"&&An("Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`");let ie=[],q=[],ve=re?Math.ceil(u.length/g.grid.rows):u.length,te=i&&ve-ae<A&&!Y,_=te?ae:r.activeIndex;typeof s=="undefined"?s=r.getSlideIndex(u.find(N=>N.classList.contains(g.slideActiveClass))):_=s;let fe=n==="next"||!n,be=n==="prev"||!n,xe=0,Se=0,U=(re?u[s].column:s)+(Y&&typeof a=="undefined"?-A/2+.5:0);if(U<ee){xe=Math.max(ee-U,ne);for(let N=0;N<ee-U;N+=1){let G=N-Math.floor(N/ve)*ve;if(re){let oe=ve-G-1;for(let Ie=u.length-1;Ie>=0;Ie-=1)u[Ie].column===oe&&ie.push(Ie)}else ie.push(ve-G-1)}}else if(U+A>ve-ee){Se=Math.max(U-(ve-ee*2),ne),te&&(Se=Math.max(Se,A-ve+ae+1));for(let N=0;N<Se;N+=1){let G=N-Math.floor(N/ve)*ve;re?u.forEach((oe,Ie)=>{oe.column===G&&q.push(Ie)}):q.push(G)}}if(r.__preventObserver__=!0,requestAnimationFrame(()=>{r.__preventObserver__=!1}),r.params.effect==="cards"&&u.length<A+ee*2&&(q.includes(s)&&q.splice(q.indexOf(s),1),ie.includes(s)&&ie.splice(ie.indexOf(s),1)),be&&ie.forEach(N=>{u[N].swiperLoopMoveDOM=!0,E.prepend(u[N]),u[N].swiperLoopMoveDOM=!1}),fe&&q.forEach(N=>{u[N].swiperLoopMoveDOM=!0,E.append(u[N]),u[N].swiperLoopMoveDOM=!1}),r.recalcSlides(),g.slidesPerView==="auto"?r.updateSlides():re&&(ie.length>0&&be||q.length>0&&fe)&&r.slides.forEach((N,G)=>{r.grid.updateSlide(G,N,r.slides)}),g.watchSlidesProgress&&r.updateSlidesOffset(),t){if(ie.length>0&&be){if(typeof e=="undefined"){let N=r.slidesGrid[_],oe=r.slidesGrid[_+xe]-N;c?r.setTranslate(r.translate-oe):(r.slideTo(_+Math.ceil(xe),0,!1,!0),a&&(r.touchEventsData.startTranslate=r.touchEventsData.startTranslate-oe,r.touchEventsData.currentTranslate=r.touchEventsData.currentTranslate-oe))}else if(a){let N=re?ie.length/g.grid.rows:ie.length;r.slideTo(r.activeIndex+N,0,!1,!0),r.touchEventsData.currentTranslate=r.translate}}else if(q.length>0&&fe)if(typeof e=="undefined"){let N=r.slidesGrid[_],oe=r.slidesGrid[_-Se]-N;c?r.setTranslate(r.translate-oe):(r.slideTo(_-Se,0,!1,!0),a&&(r.touchEventsData.startTranslate=r.touchEventsData.startTranslate-oe,r.touchEventsData.currentTranslate=r.touchEventsData.currentTranslate-oe))}else{let N=re?q.length/g.grid.rows:q.length;r.slideTo(r.activeIndex-N,0,!1,!0)}}if(r.allowSlidePrev=b,r.allowSlideNext=h,r.controller&&r.controller.control&&!l){let N={slideRealIndex:e,direction:n,setTranslate:a,activeSlideIndex:s,byController:!0};Array.isArray(r.controller.control)?r.controller.control.forEach(G=>{!G.destroyed&&G.params.loop&&G.loopFix({...N,slideTo:G.params.slidesPerView===g.slidesPerView?t:!1})}):r.controller.control instanceof r.constructor&&r.controller.control.params.loop&&r.controller.control.loopFix({...N,slideTo:r.controller.control.params.slidesPerView===g.slidesPerView?t:!1})}r.emit("loopFix")}function es(){let e=this,{params:t,slidesEl:n}=e;if(!t.loop||!n||e.virtual&&e.params.virtual.enabled)return;e.recalcSlides();let a=[];e.slides.forEach(s=>{let i=typeof s.swiperSlideIndex=="undefined"?s.getAttribute("data-swiper-slide-index")*1:s.swiperSlideIndex;a[i]=s}),e.slides.forEach(s=>{s.removeAttribute("data-swiper-slide-index")}),a.forEach(s=>{n.append(s)}),e.recalcSlides(),e.slideTo(e.realIndex,0)}var ts={loopCreate:Qi,loopFix:Ji,loopDestroy:es};function ns(e){let t=this;if(!t.params.simulateTouch||t.params.watchOverflow&&t.isLocked||t.params.cssMode)return;let n=t.params.touchEventsTarget==="container"?t.el:t.wrapperEl;t.isElement&&(t.__preventObserver__=!0),n.style.cursor="move",n.style.cursor=e?"grabbing":"grab",t.isElement&&requestAnimationFrame(()=>{t.__preventObserver__=!1})}function as(){let e=this;e.params.watchOverflow&&e.isLocked||e.params.cssMode||(e.isElement&&(e.__preventObserver__=!0),e[e.params.touchEventsTarget==="container"?"el":"wrapperEl"].style.cursor="",e.isElement&&requestAnimationFrame(()=>{e.__preventObserver__=!1}))}var is={setGrabCursor:ns,unsetGrabCursor:as};function ss(e,t=this){function n(a){if(!a||a===He()||a===Ae())return null;a.assignedSlot&&(a=a.assignedSlot);let s=a.closest(e);return!s&&!a.getRootNode?null:s||n(a.getRootNode().host)}return n(t)}function Na(e,t,n){let a=Ae(),{params:s}=e,i=s.edgeSwipeDetection,l=s.edgeSwipeThreshold;return i&&(n<=l||n>=a.innerWidth-l)?i==="prevent"?(t.preventDefault(),!0):!1:!0}function rs(e){let t=this,n=He(),a=e;a.originalEvent&&(a=a.originalEvent);let s=t.touchEventsData;if(a.type==="pointerdown"){if(s.pointerId!==null&&s.pointerId!==a.pointerId)return;s.pointerId=a.pointerId}else a.type==="touchstart"&&a.targetTouches.length===1&&(s.touchId=a.targetTouches[0].identifier);if(a.type==="touchstart"){Na(t,a,a.targetTouches[0].pageX);return}let{params:i,touches:l,enabled:c}=t;if(!c||!i.simulateTouch&&a.pointerType==="mouse"||t.animating&&i.preventInteractionOnTransition)return;!t.animating&&i.cssMode&&i.loop&&t.loopFix();let r=a.target;if(i.touchEventsTarget==="wrapper"&&!Ha(r,t.wrapperEl)||"which"in a&&a.which===3||"button"in a&&a.button>0||s.isTouched&&s.isMoved)return;let u=!!i.noSwipingClass&&i.noSwipingClass!=="",b=a.composedPath?a.composedPath():a.path;u&&a.target&&a.target.shadowRoot&&b&&(r=b[0]);let h=i.noSwipingSelector?i.noSwipingSelector:`.${i.noSwipingClass}`,E=!!(a.target&&a.target.shadowRoot);if(i.noSwiping&&(E?ss(h,r):r.closest(h))){t.allowClick=!0;return}if(i.swipeHandler&&!r.closest(i.swipeHandler))return;l.currentX=a.pageX,l.currentY=a.pageY;let g=l.currentX,P=l.currentY;if(!Na(t,a,g))return;Object.assign(s,{isTouched:!0,isMoved:!1,allowTouchCallbacks:!0,isScrolling:void 0,startMoving:void 0}),l.startX=g,l.startY=P,s.touchStartTime=an(),t.allowClick=!0,t.updateSize(),t.swipeDirection=void 0,i.threshold>0&&(s.allowThresholdMove=!1);let z=!0;r.matches(s.focusableElements)&&(z=!1,r.nodeName==="SELECT"&&(s.isTouched=!1)),n.activeElement&&n.activeElement.matches(s.focusableElements)&&n.activeElement!==r&&(a.pointerType==="mouse"||a.pointerType!=="mouse"&&!r.matches(s.focusableElements))&&n.activeElement.blur();let se=z&&t.allowTouchMove&&i.touchStartPreventDefault;(i.touchStartForcePreventDefault||se)&&!r.isContentEditable&&a.preventDefault(),i.freeMode&&i.freeMode.enabled&&t.freeMode&&t.animating&&!i.cssMode&&t.freeMode.onTouchStart(),t.emit("touchStart",a)}function os(e){let t=He(),n=this,a=n.touchEventsData,{params:s,touches:i,rtlTranslate:l,enabled:c}=n;if(!c||!s.simulateTouch&&e.pointerType==="mouse")return;let r=e;if(r.originalEvent&&(r=r.originalEvent),r.type==="pointermove"&&(a.touchId!==null||r.pointerId!==a.pointerId))return;let u;if(r.type==="touchmove"){if(u=[...r.changedTouches].find(re=>re.identifier===a.touchId),!u||u.identifier!==a.touchId)return}else u=r;if(!a.isTouched){a.startMoving&&a.isScrolling&&n.emit("touchMoveOpposite",r);return}let b=u.pageX,h=u.pageY;if(r.preventedByNestedSwiper){i.startX=b,i.startY=h;return}if(!n.allowTouchMove){r.target.matches(a.focusableElements)||(n.allowClick=!1),a.isTouched&&(Object.assign(i,{startX:b,startY:h,currentX:b,currentY:h}),a.touchStartTime=an());return}if(s.touchReleaseOnEdges&&!s.loop)if(n.isVertical()){if(h<i.startY&&n.translate<=n.maxTranslate()||h>i.startY&&n.translate>=n.minTranslate()){a.isTouched=!1,a.isMoved=!1;return}}else{if(l&&(b>i.startX&&-n.translate<=n.maxTranslate()||b<i.startX&&-n.translate>=n.minTranslate()))return;if(!l&&(b<i.startX&&n.translate<=n.maxTranslate()||b>i.startX&&n.translate>=n.minTranslate()))return}if(t.activeElement&&t.activeElement.matches(a.focusableElements)&&t.activeElement!==r.target&&r.pointerType!=="mouse"&&t.activeElement.blur(),t.activeElement&&r.target===t.activeElement&&r.target.matches(a.focusableElements)){a.isMoved=!0,n.allowClick=!1;return}a.allowTouchCallbacks&&n.emit("touchMove",r),i.previousX=i.currentX,i.previousY=i.currentY,i.currentX=b,i.currentY=h;let E=i.currentX-i.startX,g=i.currentY-i.startY;if(n.params.threshold&&Math.sqrt(E**2+g**2)<n.params.threshold)return;if(typeof a.isScrolling=="undefined"){let re;n.isHorizontal()&&i.currentY===i.startY||n.isVertical()&&i.currentX===i.startX?a.isScrolling=!1:E*E+g*g>=25&&(re=Math.atan2(Math.abs(g),Math.abs(E))*180/Math.PI,a.isScrolling=n.isHorizontal()?re>s.touchAngle:90-re>s.touchAngle)}if(a.isScrolling&&n.emit("touchMoveOpposite",r),typeof a.startMoving=="undefined"&&(i.currentX!==i.startX||i.currentY!==i.startY)&&(a.startMoving=!0),a.isScrolling||r.type==="touchmove"&&a.preventTouchMoveFromPointerMove){a.isTouched=!1;return}if(!a.startMoving)return;n.allowClick=!1,!s.cssMode&&r.cancelable&&r.preventDefault(),s.touchMoveStopPropagation&&!s.nested&&r.stopPropagation();let P=n.isHorizontal()?E:g,z=n.isHorizontal()?i.currentX-i.previousX:i.currentY-i.previousY;s.oneWayMovement&&(P=Math.abs(P)*(l?1:-1),z=Math.abs(z)*(l?1:-1)),i.diff=P,P*=s.touchRatio,l&&(P=-P,z=-z);let se=n.touchesDirection;n.swipeDirection=P>0?"prev":"next",n.touchesDirection=z>0?"prev":"next";let ae=n.params.loop&&!s.cssMode,Y=n.touchesDirection==="next"&&n.allowSlideNext||n.touchesDirection==="prev"&&n.allowSlidePrev;if(!a.isMoved){if(ae&&Y&&n.loopFix({direction:n.swipeDirection}),a.startTranslate=n.getTranslate(),n.setTransition(0),n.animating){let re=new window.CustomEvent("transitionend",{bubbles:!0,cancelable:!0,detail:{bySwiperTouchMove:!0}});n.wrapperEl.dispatchEvent(re)}a.allowMomentumBounce=!1,s.grabCursor&&(n.allowSlideNext===!0||n.allowSlidePrev===!0)&&n.setGrabCursor(!0),n.emit("sliderFirstMove",r)}let A;if(new Date().getTime(),s._loopSwapReset!==!1&&a.isMoved&&a.allowThresholdMove&&se!==n.touchesDirection&&ae&&Y&&Math.abs(P)>=1){Object.assign(i,{startX:b,startY:h,currentX:b,currentY:h,startTranslate:a.currentTranslate}),a.loopSwapReset=!0,a.startTranslate=a.currentTranslate;return}n.emit("sliderMove",r),a.isMoved=!0,a.currentTranslate=P+a.startTranslate;let ne=!0,ee=s.resistanceRatio;if(s.touchReleaseOnEdges&&(ee=0),P>0?(ae&&Y&&!A&&a.allowThresholdMove&&a.currentTranslate>(s.centeredSlides?n.minTranslate()-n.slidesSizesGrid[n.activeIndex+1]-(s.slidesPerView!=="auto"&&n.slides.length-s.slidesPerView>=2?n.slidesSizesGrid[n.activeIndex+1]+n.params.spaceBetween:0)-n.params.spaceBetween:n.minTranslate())&&n.loopFix({direction:"prev",setTranslate:!0,activeSlideIndex:0}),a.currentTranslate>n.minTranslate()&&(ne=!1,s.resistance&&(a.currentTranslate=n.minTranslate()-1+(-n.minTranslate()+a.startTranslate+P)**ee))):P<0&&(ae&&Y&&!A&&a.allowThresholdMove&&a.currentTranslate<(s.centeredSlides?n.maxTranslate()+n.slidesSizesGrid[n.slidesSizesGrid.length-1]+n.params.spaceBetween+(s.slidesPerView!=="auto"&&n.slides.length-s.slidesPerView>=2?n.slidesSizesGrid[n.slidesSizesGrid.length-1]+n.params.spaceBetween:0):n.maxTranslate())&&n.loopFix({direction:"next",setTranslate:!0,activeSlideIndex:n.slides.length-(s.slidesPerView==="auto"?n.slidesPerViewDynamic():Math.ceil(parseFloat(s.slidesPerView,10)))}),a.currentTranslate<n.maxTranslate()&&(ne=!1,s.resistance&&(a.currentTranslate=n.maxTranslate()+1-(n.maxTranslate()-a.startTranslate-P)**ee))),ne&&(r.preventedByNestedSwiper=!0),!n.allowSlideNext&&n.swipeDirection==="next"&&a.currentTranslate<a.startTranslate&&(a.currentTranslate=a.startTranslate),!n.allowSlidePrev&&n.swipeDirection==="prev"&&a.currentTranslate>a.startTranslate&&(a.currentTranslate=a.startTranslate),!n.allowSlidePrev&&!n.allowSlideNext&&(a.currentTranslate=a.startTranslate),s.threshold>0)if(Math.abs(P)>s.threshold||a.allowThresholdMove){if(!a.allowThresholdMove){a.allowThresholdMove=!0,i.startX=i.currentX,i.startY=i.currentY,a.currentTranslate=a.startTranslate,i.diff=n.isHorizontal()?i.currentX-i.startX:i.currentY-i.startY;return}}else{a.currentTranslate=a.startTranslate;return}!s.followFinger||s.cssMode||((s.freeMode&&s.freeMode.enabled&&n.freeMode||s.watchSlidesProgress)&&(n.updateActiveIndex(),n.updateSlidesClasses()),s.freeMode&&s.freeMode.enabled&&n.freeMode&&n.freeMode.onTouchMove(),n.updateProgress(a.currentTranslate),n.setTranslate(a.currentTranslate))}function ls(e){let t=this,n=t.touchEventsData,a=e;a.originalEvent&&(a=a.originalEvent);let s;if(a.type==="touchend"||a.type==="touchcancel"){if(s=[...a.changedTouches].find(ee=>ee.identifier===n.touchId),!s||s.identifier!==n.touchId)return}else{if(n.touchId!==null||a.pointerId!==n.pointerId)return;s=a}if(["pointercancel","pointerout","pointerleave","contextmenu"].includes(a.type)&&!(["pointercancel","contextmenu"].includes(a.type)&&(t.browser.isSafari||t.browser.isWebView)))return;n.pointerId=null,n.touchId=null;let{params:l,touches:c,rtlTranslate:r,slidesGrid:u,enabled:b}=t;if(!b||!l.simulateTouch&&a.pointerType==="mouse")return;if(n.allowTouchCallbacks&&t.emit("touchEnd",a),n.allowTouchCallbacks=!1,!n.isTouched){n.isMoved&&l.grabCursor&&t.setGrabCursor(!1),n.isMoved=!1,n.startMoving=!1;return}l.grabCursor&&n.isMoved&&n.isTouched&&(t.allowSlideNext===!0||t.allowSlidePrev===!0)&&t.setGrabCursor(!1);let h=an(),E=h-n.touchStartTime;if(t.allowClick){let ee=a.path||a.composedPath&&a.composedPath();t.updateClickedSlide(ee&&ee[0]||a.target,ee),t.emit("tap click",a),E<300&&h-n.lastClickTime<300&&t.emit("doubleTap doubleClick",a)}if(n.lastClickTime=an(),bn(()=>{t.destroyed||(t.allowClick=!0)}),!n.isTouched||!n.isMoved||!t.swipeDirection||c.diff===0&&!n.loopSwapReset||n.currentTranslate===n.startTranslate&&!n.loopSwapReset){n.isTouched=!1,n.isMoved=!1,n.startMoving=!1;return}n.isTouched=!1,n.isMoved=!1,n.startMoving=!1;let g;if(l.followFinger?g=r?t.translate:-t.translate:g=-n.currentTranslate,l.cssMode)return;if(l.freeMode&&l.freeMode.enabled){t.freeMode.onTouchEnd({currentPos:g});return}let P=g>=-t.maxTranslate()&&!t.params.loop,z=0,se=t.slidesSizesGrid[0];for(let ee=0;ee<u.length;ee+=ee<l.slidesPerGroupSkip?1:l.slidesPerGroup){let re=ee<l.slidesPerGroupSkip-1?1:l.slidesPerGroup;typeof u[ee+re]!="undefined"?(P||g>=u[ee]&&g<u[ee+re])&&(z=ee,se=u[ee+re]-u[ee]):(P||g>=u[ee])&&(z=ee,se=u[u.length-1]-u[u.length-2])}let ae=null,Y=null;l.rewind&&(t.isBeginning?Y=l.virtual&&l.virtual.enabled&&t.virtual?t.virtual.slides.length-1:t.slides.length-1:t.isEnd&&(ae=0));let A=(g-u[z])/se,ne=z<l.slidesPerGroupSkip-1?1:l.slidesPerGroup;if(E>l.longSwipesMs){if(!l.longSwipes){t.slideTo(t.activeIndex);return}t.swipeDirection==="next"&&(A>=l.longSwipesRatio?t.slideTo(l.rewind&&t.isEnd?ae:z+ne):t.slideTo(z)),t.swipeDirection==="prev"&&(A>1-l.longSwipesRatio?t.slideTo(z+ne):Y!==null&&A<0&&Math.abs(A)>l.longSwipesRatio?t.slideTo(Y):t.slideTo(z))}else{if(!l.shortSwipes){t.slideTo(t.activeIndex);return}t.navigation&&(a.target===t.navigation.nextEl||a.target===t.navigation.prevEl)?a.target===t.navigation.nextEl?t.slideTo(z+ne):t.slideTo(z):(t.swipeDirection==="next"&&t.slideTo(ae!==null?ae:z+ne),t.swipeDirection==="prev"&&t.slideTo(Y!==null?Y:z))}}function Va(){let e=this,{params:t,el:n}=e;if(n&&n.offsetWidth===0)return;t.breakpoints&&e.setBreakpoint();let{allowSlideNext:a,allowSlidePrev:s,snapGrid:i}=e,l=e.virtual&&e.params.virtual.enabled;e.allowSlideNext=!0,e.allowSlidePrev=!0,e.updateSize(),e.updateSlides(),e.updateSlidesClasses();let c=l&&t.loop;(t.slidesPerView==="auto"||t.slidesPerView>1)&&e.isEnd&&!e.isBeginning&&!e.params.centeredSlides&&!c?e.slideTo(e.slides.length-1,0,!1,!0):e.params.loop&&!l?e.slideToLoop(e.realIndex,0,!1,!0):e.slideTo(e.activeIndex,0,!1,!0),e.autoplay&&e.autoplay.running&&e.autoplay.paused&&(clearTimeout(e.autoplay.resizeTimeout),e.autoplay.resizeTimeout=setTimeout(()=>{e.autoplay&&e.autoplay.running&&e.autoplay.paused&&e.autoplay.resume()},500)),e.allowSlidePrev=s,e.allowSlideNext=a,e.params.watchOverflow&&i!==e.snapGrid&&e.checkOverflow()}function ds(e){let t=this;t.enabled&&(t.allowClick||(t.params.preventClicks&&e.preventDefault(),t.params.preventClicksPropagation&&t.animating&&(e.stopPropagation(),e.stopImmediatePropagation())))}function cs(){let e=this,{wrapperEl:t,rtlTranslate:n,enabled:a}=e;if(!a)return;e.previousTranslate=e.translate,e.isHorizontal()?e.translate=-t.scrollLeft:e.translate=-t.scrollTop,e.translate===0&&(e.translate=0),e.updateActiveIndex(),e.updateSlidesClasses();let s,i=e.maxTranslate()-e.minTranslate();i===0?s=0:s=(e.translate-e.minTranslate())/i,s!==e.progress&&e.updateProgress(n?-e.translate:e.translate),e.emit("setTranslate",e.translate,!1)}function fs(e){let t=this;Fn(t,e.target),!(t.params.cssMode||t.params.slidesPerView!=="auto"&&!t.params.autoHeight)&&t.update()}function us(){let e=this;e.documentTouchHandlerProceeded||(e.documentTouchHandlerProceeded=!0,e.params.touchReleaseOnEdges&&(e.el.style.touchAction="auto"))}var ja=(e,t)=>{let n=He(),{params:a,el:s,wrapperEl:i,device:l}=e,c=!!a.nested,r=t==="on"?"addEventListener":"removeEventListener",u=t;!s||typeof s=="string"||(n[r]("touchstart",e.onDocumentTouchStart,{passive:!1,capture:c}),s[r]("touchstart",e.onTouchStart,{passive:!1}),s[r]("pointerdown",e.onTouchStart,{passive:!1}),n[r]("touchmove",e.onTouchMove,{passive:!1,capture:c}),n[r]("pointermove",e.onTouchMove,{passive:!1,capture:c}),n[r]("touchend",e.onTouchEnd,{passive:!0}),n[r]("pointerup",e.onTouchEnd,{passive:!0}),n[r]("pointercancel",e.onTouchEnd,{passive:!0}),n[r]("touchcancel",e.onTouchEnd,{passive:!0}),n[r]("pointerout",e.onTouchEnd,{passive:!0}),n[r]("pointerleave",e.onTouchEnd,{passive:!0}),n[r]("contextmenu",e.onTouchEnd,{passive:!0}),(a.preventClicks||a.preventClicksPropagation)&&s[r]("click",e.onClick,!0),a.cssMode&&i[r]("scroll",e.onScroll),a.updateOnWindowResize?e[u](l.ios||l.android?"resize orientationchange observerUpdate":"resize observerUpdate",Va,!0):e[u]("observerUpdate",Va,!0),s[r]("load",e.onLoad,{capture:!0}))};function ms(){let e=this,{params:t}=e;e.onTouchStart=rs.bind(e),e.onTouchMove=os.bind(e),e.onTouchEnd=ls.bind(e),e.onDocumentTouchStart=us.bind(e),t.cssMode&&(e.onScroll=cs.bind(e)),e.onClick=ds.bind(e),e.onLoad=fs.bind(e),ja(e,"on")}function ps(){ja(this,"off")}var hs={attachEvents:ms,detachEvents:ps},_a=(e,t)=>e.grid&&t.grid&&t.grid.rows>1;function gs(){let e=this,{realIndex:t,initialized:n,params:a,el:s}=e,i=a.breakpoints;if(!i||i&&Object.keys(i).length===0)return;let l=He(),c=a.breakpointsBase==="window"||!a.breakpointsBase?a.breakpointsBase:"container",r=["window","container"].includes(a.breakpointsBase)||!a.breakpointsBase?e.el:l.querySelector(a.breakpointsBase),u=e.getBreakpoint(i,c,r);if(!u||e.currentBreakpoint===u)return;let h=(u in i?i[u]:void 0)||e.originalParams,E=_a(e,a),g=_a(e,h),P=e.params.grabCursor,z=h.grabCursor,se=a.enabled;E&&!g?(s.classList.remove(`${a.containerModifierClass}grid`,`${a.containerModifierClass}grid-column`),e.emitContainerClasses()):!E&&g&&(s.classList.add(`${a.containerModifierClass}grid`),(h.grid.fill&&h.grid.fill==="column"||!h.grid.fill&&a.grid.fill==="column")&&s.classList.add(`${a.containerModifierClass}grid-column`),e.emitContainerClasses()),P&&!z?e.unsetGrabCursor():!P&&z&&e.setGrabCursor(),["navigation","pagination","scrollbar"].forEach(re=>{if(typeof h[re]=="undefined")return;let ie=a[re]&&a[re].enabled,q=h[re]&&h[re].enabled;ie&&!q&&e[re].disable(),!ie&&q&&e[re].enable()});let ae=h.direction&&h.direction!==a.direction,Y=a.loop&&(h.slidesPerView!==a.slidesPerView||ae),A=a.loop;ae&&n&&e.changeDirection(),et(e.params,h);let ne=e.params.enabled,ee=e.params.loop;Object.assign(e,{allowTouchMove:e.params.allowTouchMove,allowSlideNext:e.params.allowSlideNext,allowSlidePrev:e.params.allowSlidePrev}),se&&!ne?e.disable():!se&&ne&&e.enable(),e.currentBreakpoint=u,e.emit("_beforeBreakpoint",h),n&&(Y?(e.loopDestroy(),e.loopCreate(t),e.updateSlides()):!A&&ee?(e.loopCreate(t),e.updateSlides()):A&&!ee&&e.loopDestroy()),e.emit("breakpoint",h)}function vs(e,t="window",n){if(!e||t==="container"&&!n)return;let a=!1,s=Ae(),i=t==="window"?s.innerHeight:n.clientHeight,l=Object.keys(e).map(c=>{if(typeof c=="string"&&c.indexOf("@")===0){let r=parseFloat(c.substr(1));return{value:i*r,point:c}}return{value:c,point:c}});l.sort((c,r)=>parseInt(c.value,10)-parseInt(r.value,10));for(let c=0;c<l.length;c+=1){let{point:r,value:u}=l[c];t==="window"?s.matchMedia(`(min-width: ${u}px)`).matches&&(a=r):u<=n.clientWidth&&(a=r)}return a||"max"}var ys={setBreakpoint:gs,getBreakpoint:vs};function bs(e,t){let n=[];return e.forEach(a=>{typeof a=="object"?Object.keys(a).forEach(s=>{a[s]&&n.push(t+s)}):typeof a=="string"&&n.push(t+a)}),n}function Ss(){let e=this,{classNames:t,params:n,rtl:a,el:s,device:i}=e,l=bs(["initialized",n.direction,{"free-mode":e.params.freeMode&&n.freeMode.enabled},{autoheight:n.autoHeight},{rtl:a},{grid:n.grid&&n.grid.rows>1},{"grid-column":n.grid&&n.grid.rows>1&&n.grid.fill==="column"},{android:i.android},{ios:i.ios},{"css-mode":n.cssMode},{centered:n.cssMode&&n.centeredSlides},{"watch-progress":n.watchSlidesProgress}],n.containerModifierClass);t.push(...l),s.classList.add(...t),e.emitContainerClasses()}function Es(){let e=this,{el:t,classNames:n}=e;!t||typeof t=="string"||(t.classList.remove(...n),e.emitContainerClasses())}var xs={addClasses:Ss,removeClasses:Es};function Ts(){let e=this,{isLocked:t,params:n}=e,{slidesOffsetBefore:a}=n;if(a){let s=e.slides.length-1,i=e.slidesGrid[s]+e.slidesSizesGrid[s]+a*2;e.isLocked=e.size>i}else e.isLocked=e.snapGrid.length===1;n.allowSlideNext===!0&&(e.allowSlideNext=!e.isLocked),n.allowSlidePrev===!0&&(e.allowSlidePrev=!e.isLocked),t&&t!==e.isLocked&&(e.isEnd=!1),t!==e.isLocked&&e.emit(e.isLocked?"lock":"unlock")}var Ms={checkOverflow:Ts},Xa={init:!0,direction:"horizontal",oneWayMovement:!1,swiperElementNodeName:"SWIPER-CONTAINER",touchEventsTarget:"wrapper",initialSlide:0,speed:300,cssMode:!1,updateOnWindowResize:!0,resizeObserver:!0,nested:!1,createElements:!1,eventsPrefix:"swiper",enabled:!0,focusableElements:"input, select, option, textarea, button, video, label",width:null,height:null,preventInteractionOnTransition:!1,userAgent:null,url:null,edgeSwipeDetection:!1,edgeSwipeThreshold:20,autoHeight:!1,setWrapperSize:!1,virtualTranslate:!1,effect:"slide",breakpoints:void 0,breakpointsBase:"window",spaceBetween:0,slidesPerView:1,slidesPerGroup:1,slidesPerGroupSkip:0,slidesPerGroupAuto:!1,centeredSlides:!1,centeredSlidesBounds:!1,slidesOffsetBefore:0,slidesOffsetAfter:0,normalizeSlideIndex:!0,centerInsufficientSlides:!1,snapToSlideEdge:!1,watchOverflow:!0,roundLengths:!1,touchRatio:1,touchAngle:45,simulateTouch:!0,shortSwipes:!0,longSwipes:!0,longSwipesRatio:.5,longSwipesMs:300,followFinger:!0,allowTouchMove:!0,threshold:5,touchMoveStopPropagation:!1,touchStartPreventDefault:!0,touchStartForcePreventDefault:!1,touchReleaseOnEdges:!1,uniqueNavElements:!0,resistance:!0,resistanceRatio:.85,watchSlidesProgress:!1,grabCursor:!1,preventClicks:!0,preventClicksPropagation:!0,slideToClickedSlide:!1,loop:!1,loopAddBlankSlides:!0,loopAdditionalSlides:0,loopPreventsSliding:!0,rewind:!1,allowSlidePrev:!0,allowSlideNext:!0,swipeHandler:null,noSwiping:!0,noSwipingClass:"swiper-no-swiping",noSwipingSelector:null,passiveListeners:!0,maxBackfaceHiddenSlides:10,containerModifierClass:"swiper-",slideClass:"swiper-slide",slideBlankClass:"swiper-slide-blank",slideActiveClass:"swiper-slide-active",slideVisibleClass:"swiper-slide-visible",slideFullyVisibleClass:"swiper-slide-fully-visible",slideNextClass:"swiper-slide-next",slidePrevClass:"swiper-slide-prev",wrapperClass:"swiper-wrapper",lazyPreloaderClass:"swiper-lazy-preloader",lazyPreloadPrevNext:0,runCallbacksOnInit:!0,_emitClasses:!1};function Cs(e,t){return function(a={}){let s=Object.keys(a)[0],i=a[s];if(typeof i!="object"||i===null){et(t,a);return}if(e[s]===!0&&(e[s]={enabled:!0}),s==="navigation"&&e[s]&&e[s].enabled&&!e[s].prevEl&&!e[s].nextEl&&(e[s].auto=!0),["pagination","scrollbar"].indexOf(s)>=0&&e[s]&&e[s].enabled&&!e[s].el&&(e[s].auto=!0),!(s in e&&"enabled"in i)){et(t,a);return}typeof e[s]=="object"&&!("enabled"in e[s])&&(e[s].enabled=!0),e[s]||(e[s]={enabled:!1}),et(t,a)}}var ca={eventsEmitter:xi,update:Di,translate:Ri,transition:Xi,slide:Zi,loop:ts,grabCursor:is,events:hs,breakpoints:ys,checkOverflow:Ms,classes:xs},fa={},Ot=class e{constructor(...t){let n,a;t.length===1&&t[0].constructor&&Object.prototype.toString.call(t[0]).slice(8,-1)==="Object"?a=t[0]:[n,a]=t,a||(a={}),a=et({},a),n&&!a.el&&(a.el=n);let s=He();if(a.el&&typeof a.el=="string"&&s.querySelectorAll(a.el).length>1){let r=[];return s.querySelectorAll(a.el).forEach(u=>{let b=et({},a,{el:u});r.push(new e(b))}),r}let i=this;i.__swiper__=!0,i.support=Fa(),i.device=Ya({userAgent:a.userAgent}),i.browser=Wa(),i.eventsListeners={},i.eventsAnyListeners=[],i.modules=[...i.__modules__],a.modules&&Array.isArray(a.modules)&&a.modules.forEach(r=>{typeof r=="function"&&i.modules.indexOf(r)<0&&i.modules.push(r)});let l={};i.modules.forEach(r=>{r({params:a,swiper:i,extendParams:Cs(a,l),on:i.on.bind(i),once:i.once.bind(i),off:i.off.bind(i),emit:i.emit.bind(i)})});let c=et({},Xa,l);return i.params=et({},c,fa,a),i.originalParams=et({},i.params),i.passedParams=et({},a),i.params&&i.params.on&&Object.keys(i.params.on).forEach(r=>{i.on(r,i.params.on[r])}),i.params&&i.params.onAny&&i.onAny(i.params.onAny),Object.assign(i,{enabled:i.params.enabled,el:n,classNames:[],slides:[],slidesGrid:[],snapGrid:[],slidesSizesGrid:[],isHorizontal(){return i.params.direction==="horizontal"},isVertical(){return i.params.direction==="vertical"},activeIndex:0,realIndex:0,isBeginning:!0,isEnd:!1,translate:0,previousTranslate:0,progress:0,velocity:0,animating:!1,cssOverflowAdjustment(){return Math.trunc(this.translate/2**23)*2**23},allowSlideNext:i.params.allowSlideNext,allowSlidePrev:i.params.allowSlidePrev,touchEventsData:{isTouched:void 0,isMoved:void 0,allowTouchCallbacks:void 0,touchStartTime:void 0,isScrolling:void 0,currentTranslate:void 0,startTranslate:void 0,allowThresholdMove:void 0,focusableElements:i.params.focusableElements,lastClickTime:0,clickTimeout:void 0,velocities:[],allowMomentumBounce:void 0,startMoving:void 0,pointerId:null,touchId:null},allowClick:!0,allowTouchMove:i.params.allowTouchMove,touches:{startX:0,startY:0,currentX:0,currentY:0,diff:0},imagesToLoad:[],imagesLoaded:0}),i.emit("_swiper"),i.params.init&&i.init(),i}getDirectionLabel(t){return this.isHorizontal()?t:{width:"height","margin-top":"margin-left","margin-bottom ":"margin-right","margin-left":"margin-top","margin-right":"margin-bottom","padding-left":"padding-top","padding-right":"padding-bottom",marginRight:"marginBottom"}[t]}getSlideIndex(t){let{slidesEl:n,params:a}=this,s=Ye(n,`.${a.slideClass}, swiper-slide`),i=On(s[0]);return On(t)-i}getSlideIndexByData(t){return this.getSlideIndex(this.slides.find(n=>n.getAttribute("data-swiper-slide-index")*1===t))}getSlideIndexWhenGrid(t){return this.grid&&this.params.grid&&this.params.grid.rows>1&&(this.params.grid.fill==="column"?t=Math.floor(t/this.params.grid.rows):this.params.grid.fill==="row"&&(t=t%Math.ceil(this.slides.length/this.params.grid.rows))),t}recalcSlides(){let t=this,{slidesEl:n,params:a}=t;t.slides=Ye(n,`.${a.slideClass}, swiper-slide`)}enable(){let t=this;t.enabled||(t.enabled=!0,t.params.grabCursor&&t.setGrabCursor(),t.emit("enable"))}disable(){let t=this;t.enabled&&(t.enabled=!1,t.params.grabCursor&&t.unsetGrabCursor(),t.emit("disable"))}setProgress(t,n){let a=this;t=Math.min(Math.max(t,0),1);let s=a.minTranslate(),l=(a.maxTranslate()-s)*t+s;a.translateTo(l,typeof n=="undefined"?0:n),a.updateActiveIndex(),a.updateSlidesClasses()}emitContainerClasses(){let t=this;if(!t.params._emitClasses||!t.el)return;let n=t.el.className.split(" ").filter(a=>a.indexOf("swiper")===0||a.indexOf(t.params.containerModifierClass)===0);t.emit("_containerClasses",n.join(" "))}getSlideClasses(t){let n=this;return n.destroyed?"":t.className.split(" ").filter(a=>a.indexOf("swiper-slide")===0||a.indexOf(n.params.slideClass)===0).join(" ")}emitSlidesClasses(){let t=this;if(!t.params._emitClasses||!t.el)return;let n=[];t.slides.forEach(a=>{let s=t.getSlideClasses(a);n.push({slideEl:a,classNames:s}),t.emit("_slideClass",a,s)}),t.emit("_slideClasses",n)}slidesPerViewDynamic(t="current",n=!1){let a=this,{params:s,slides:i,slidesGrid:l,slidesSizesGrid:c,size:r,activeIndex:u}=a,b=1;if(typeof s.slidesPerView=="number")return s.slidesPerView;if(s.centeredSlides){let h=i[u]?Math.ceil(i[u].swiperSlideSize):0,E;for(let g=u+1;g<i.length;g+=1)i[g]&&!E&&(h+=Math.ceil(i[g].swiperSlideSize),b+=1,h>r&&(E=!0));for(let g=u-1;g>=0;g-=1)i[g]&&!E&&(h+=i[g].swiperSlideSize,b+=1,h>r&&(E=!0))}else if(t==="current")for(let h=u+1;h<i.length;h+=1)(n?l[h]+c[h]-l[u]<r:l[h]-l[u]<r)&&(b+=1);else for(let h=u-1;h>=0;h-=1)l[u]-l[h]<r&&(b+=1);return b}update(){let t=this;if(!t||t.destroyed)return;let{snapGrid:n,params:a}=t;a.breakpoints&&t.setBreakpoint(),[...t.el.querySelectorAll('[loading="lazy"]')].forEach(l=>{l.complete&&Fn(t,l)}),t.updateSize(),t.updateSlides(),t.updateProgress(),t.updateSlidesClasses();function s(){let l=t.rtlTranslate?t.translate*-1:t.translate,c=Math.min(Math.max(l,t.maxTranslate()),t.minTranslate());t.setTranslate(c),t.updateActiveIndex(),t.updateSlidesClasses()}let i;if(a.freeMode&&a.freeMode.enabled&&!a.cssMode)s(),a.autoHeight&&t.updateAutoHeight();else{if((a.slidesPerView==="auto"||a.slidesPerView>1)&&t.isEnd&&!a.centeredSlides){let l=t.virtual&&a.virtual.enabled?t.virtual.slides:t.slides;i=t.slideTo(l.length-1,0,!1,!0)}else i=t.slideTo(t.activeIndex,0,!1,!0);i||s()}a.watchOverflow&&n!==t.snapGrid&&t.checkOverflow(),t.emit("update")}changeDirection(t,n=!0){let a=this,s=a.params.direction;return t||(t=s==="horizontal"?"vertical":"horizontal"),t===s||t!=="horizontal"&&t!=="vertical"||(a.el.classList.remove(`${a.params.containerModifierClass}${s}`),a.el.classList.add(`${a.params.containerModifierClass}${t}`),a.emitContainerClasses(),a.params.direction=t,a.slides.forEach(i=>{t==="vertical"?i.style.width="":i.style.height=""}),a.emit("changeDirection"),n&&a.update()),a}changeLanguageDirection(t){let n=this;n.rtl&&t==="rtl"||!n.rtl&&t==="ltr"||(n.rtl=t==="rtl",n.rtlTranslate=n.params.direction==="horizontal"&&n.rtl,n.rtl?(n.el.classList.add(`${n.params.containerModifierClass}rtl`),n.el.dir="rtl"):(n.el.classList.remove(`${n.params.containerModifierClass}rtl`),n.el.dir="ltr"),n.update())}mount(t){let n=this;if(n.mounted)return!0;let a=t||n.params.el;if(typeof a=="string"&&(a=document.querySelector(a)),!a)return!1;a.swiper=n,a.parentNode&&a.parentNode.host&&a.parentNode.host.nodeName===n.params.swiperElementNodeName.toUpperCase()&&(n.isElement=!0);let s=()=>`.${(n.params.wrapperClass||"").trim().split(" ").join(".")}`,l=a&&a.shadowRoot&&a.shadowRoot.querySelector?a.shadowRoot.querySelector(s()):Ye(a,s())[0];return!l&&n.params.createElements&&(l=Mt("div",n.params.wrapperClass),a.append(l),Ye(a,`.${n.params.slideClass}`).forEach(c=>{l.append(c)})),Object.assign(n,{el:a,wrapperEl:l,slidesEl:n.isElement&&!a.parentNode.host.slideSlots?a.parentNode.host:l,hostEl:n.isElement?a.parentNode.host:a,mounted:!0,rtl:a.dir.toLowerCase()==="rtl"||At(a,"direction")==="rtl",rtlTranslate:n.params.direction==="horizontal"&&(a.dir.toLowerCase()==="rtl"||At(a,"direction")==="rtl"),wrongRTL:At(l,"display")==="-webkit-box"}),!0}init(t){let n=this;if(n.initialized||n.mount(t)===!1)return n;n.emit("beforeInit"),n.params.breakpoints&&n.setBreakpoint(),n.addClasses(),n.updateSize(),n.updateSlides(),n.params.watchOverflow&&n.checkOverflow(),n.params.grabCursor&&n.enabled&&n.setGrabCursor(),n.params.loop&&n.virtual&&n.params.virtual.enabled?n.slideTo(n.params.initialSlide+n.virtual.slidesBefore,0,n.params.runCallbacksOnInit,!1,!0):n.slideTo(n.params.initialSlide,0,n.params.runCallbacksOnInit,!1,!0),n.params.loop&&n.loopCreate(void 0,!0),n.attachEvents();let s=[...n.el.querySelectorAll('[loading="lazy"]')];return n.isElement&&s.push(...n.hostEl.querySelectorAll('[loading="lazy"]')),s.forEach(i=>{i.complete?Fn(n,i):i.addEventListener("load",l=>{Fn(n,l.target)})}),ua(n),n.initialized=!0,ua(n),n.emit("init"),n.emit("afterInit"),n}destroy(t=!0,n=!0){let a=this,{params:s,el:i,wrapperEl:l,slides:c}=a;return typeof a.params=="undefined"||a.destroyed||(a.emit("beforeDestroy"),a.initialized=!1,a.detachEvents(),s.loop&&a.loopDestroy(),n&&(a.removeClasses(),i&&typeof i!="string"&&i.removeAttribute("style"),l&&l.removeAttribute("style"),c&&c.length&&c.forEach(r=>{r.classList.remove(s.slideVisibleClass,s.slideFullyVisibleClass,s.slideActiveClass,s.slideNextClass,s.slidePrevClass),r.removeAttribute("style"),r.removeAttribute("data-swiper-slide-index")})),a.emit("destroy"),Object.keys(a.eventsListeners).forEach(r=>{a.off(r)}),t!==!1&&(a.el&&typeof a.el!="string"&&(a.el.swiper=null),Ba(a)),a.destroyed=!0),null}static extendDefaults(t){et(fa,t)}static get extendedDefaults(){return fa}static get defaults(){return Xa}static installModule(t){e.prototype.__modules__||(e.prototype.__modules__=[]);let n=e.prototype.__modules__;typeof t=="function"&&n.indexOf(t)<0&&n.push(t)}static use(t){return Array.isArray(t)?(t.forEach(n=>e.installModule(n)),e):(e.installModule(t),e)}};Object.keys(ca).forEach(e=>{Object.keys(ca[e]).forEach(t=>{Ot.prototype[t]=ca[e][t]})});Ot.use([Si,Ei]);function pa({swiper:e,extendParams:t,on:n,emit:a,params:s}){e.autoplay={running:!1,paused:!1,timeLeft:0},t({autoplay:{enabled:!1,delay:3e3,waitForTransition:!0,disableOnInteraction:!1,stopOnLastSlide:!1,reverseDirection:!1,pauseOnMouseEnter:!1}});let i,l,c=s&&s.autoplay?s.autoplay.delay:3e3,r=s&&s.autoplay?s.autoplay.delay:3e3,u,b=new Date().getTime(),h,E,g,P,z,se;function ae(U){!e||e.destroyed||!e.wrapperEl||U.target===e.wrapperEl&&(e.wrapperEl.removeEventListener("transitionend",ae),!(se||U.detail&&U.detail.bySwiperTouchMove)&&ve())}let Y=()=>{if(e.destroyed||!e.autoplay.running)return;e.autoplay.paused?h=!0:h&&(r=u,h=!1);let U=e.autoplay.paused?u:b+r-new Date().getTime();e.autoplay.timeLeft=U,a("autoplayTimeLeft",U,U/c),l=requestAnimationFrame(()=>{Y()})},A=()=>{let U;return e.virtual&&e.params.virtual.enabled?U=e.slides.find(G=>G.classList.contains("swiper-slide-active")):U=e.slides[e.activeIndex],U?parseInt(U.getAttribute("data-swiper-autoplay"),10):void 0},ne=()=>{let U=e.params.autoplay.delay,N=A();return!Number.isNaN(N)&&N>0&&(U=N),U},ee=U=>{if(e.destroyed||!e.autoplay.running)return;cancelAnimationFrame(l),Y();let N=U;typeof N=="undefined"&&(N=ne(),c=N,r=N),u=N;let G=e.params.speed,oe=()=>{!e||e.destroyed||(e.params.autoplay.reverseDirection?!e.isBeginning||e.params.loop||e.params.rewind?(e.slidePrev(G,!0,!0),a("autoplay")):e.params.autoplay.stopOnLastSlide||(e.slideTo(e.slides.length-1,G,!0,!0),a("autoplay")):!e.isEnd||e.params.loop||e.params.rewind?(e.slideNext(G,!0,!0),a("autoplay")):e.params.autoplay.stopOnLastSlide||(e.slideTo(0,G,!0,!0),a("autoplay")),e.params.cssMode&&(b=new Date().getTime(),requestAnimationFrame(()=>{ee()})))};return N>0?(clearTimeout(i),i=setTimeout(()=>{oe()},N)):requestAnimationFrame(()=>{oe()}),N},re=()=>{b=new Date().getTime(),e.autoplay.running=!0,ee(),a("autoplayStart")},ie=()=>{e.autoplay.running=!1,clearTimeout(i),cancelAnimationFrame(l),a("autoplayStop")},q=(U,N)=>{if(e.destroyed||!e.autoplay.running)return;clearTimeout(i),U||(z=!0);let G=()=>{a("autoplayPause"),e.params.autoplay.waitForTransition?e.wrapperEl.addEventListener("transitionend",ae):ve()};if(e.autoplay.paused=!0,N){G();return}u=(u||e.params.autoplay.delay)-(new Date().getTime()-b),!(e.isEnd&&u<0&&!e.params.loop)&&(u<0&&(u=0),G())},ve=()=>{e.isEnd&&u<0&&!e.params.loop||e.destroyed||!e.autoplay.running||(b=new Date().getTime(),z?(z=!1,ee(u)):ee(),e.autoplay.paused=!1,a("autoplayResume"))},te=()=>{if(e.destroyed||!e.autoplay.running)return;let U=He();U.visibilityState==="hidden"&&(z=!0,q(!0)),U.visibilityState==="visible"&&ve()},_=U=>{U.pointerType==="mouse"&&(z=!0,se=!0,!(e.animating||e.autoplay.paused)&&q(!0))},fe=U=>{U.pointerType==="mouse"&&(se=!1,e.autoplay.paused&&ve())},be=()=>{e.params.autoplay.pauseOnMouseEnter&&(e.el.addEventListener("pointerenter",_),e.el.addEventListener("pointerleave",fe))},xe=()=>{e.el&&typeof e.el!="string"&&(e.el.removeEventListener("pointerenter",_),e.el.removeEventListener("pointerleave",fe))},Se=()=>{He().addEventListener("visibilitychange",te)},Me=()=>{He().removeEventListener("visibilitychange",te)};n("init",()=>{e.params.autoplay.enabled&&(be(),Se(),re())}),n("destroy",()=>{xe(),Me(),e.autoplay.running&&ie()}),n("_freeModeStaticRelease",()=>{(g||z)&&ve()}),n("_freeModeNoMomentumRelease",()=>{e.params.autoplay.disableOnInteraction?ie():q(!0,!0)}),n("beforeTransitionStart",(U,N,G)=>{e.destroyed||!e.autoplay.running||(G||!e.params.autoplay.disableOnInteraction?q(!0,!0):ie())}),n("sliderFirstMove",()=>{if(!(e.destroyed||!e.autoplay.running)){if(e.params.autoplay.disableOnInteraction){ie();return}E=!0,g=!1,z=!1,P=setTimeout(()=>{z=!0,g=!0,q(!0)},200)}}),n("touchEnd",()=>{if(!(e.destroyed||!e.autoplay.running||!E)){if(clearTimeout(P),clearTimeout(i),e.params.autoplay.disableOnInteraction){g=!1,E=!1;return}g&&e.params.cssMode&&ve(),g=!1,E=!1}}),n("slideChange",()=>{e.destroyed||!e.autoplay.running||e.autoplay.paused&&(u=ne(),c=ne())}),Object.assign(e.autoplay,{start:re,stop:ie,pause:q,resume:ve})}Ot.use([pa]);window.Swiper=Ot;})();
+(() => {
+  var __typeError = (msg) => {
+    throw TypeError(msg);
+  };
+  var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
+  var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "access private method"), method);
+
+  // src/assets/libs/js/dynamic.js
+  var _TransferElements_instances, assembleBreakpoints_fn, getChildElementsOfTargetElement_fn, getBreakpointTrigger_fn, getScrollbarWidth_fn, getObjectType_fn, isTargetElementDescendantOfSourceElement_fn, isTagOfTargetElementSelfClosing_fn, sortBreakpointObjects_fn, removeSourceElements_fn, insertSourceElements_fn, throwExceptionIfMaximumTargetPositionIsExceeded_fn, generateBreakpointObject_fn;
+  var TransferElements = class {
+    constructor(...objectsWithParameters) {
+      __privateAdd(this, _TransferElements_instances);
+      if (objectsWithParameters.length === 0) {
+        throw TypeError("at least one object with parameters must be specified for the constructor");
+      }
+      const sourceElementsData = [];
+      const validatedObjectsWithParameters = objectsWithParameters.map(
+        (objectWithParameters) => {
+          if (__privateMethod(this, _TransferElements_instances, getObjectType_fn).call(this, objectWithParameters) !== "[object Object]") {
+            throw TypeError(`the arguments specified for the constructor must be objects of type 'Object'`);
+          }
+          ["sourceElement", "breakpoints"].forEach((parameterKey) => {
+            if (!Object.hasOwn(objectWithParameters, parameterKey)) {
+              throw TypeError(`the '${parameterKey}' parameter is not specified for the main object`);
+            }
+          });
+          const { sourceElement, breakpoints: breakpoints2 } = objectWithParameters;
+          if (!(sourceElement instanceof Element)) {
+            throw TypeError(`the value specified for the 'sourceElement' parameter must be an object of type 'Element'`);
+          }
+          if (sourceElementsData.some((data) => data.sourceElement === sourceElement)) {
+            throw TypeError(`there can only be one object in the constructor with such a 'sourceElement': '${sourceElement.cloneNode().outerHTML}'`);
+          }
+          const initialParent = sourceElement.parentElement;
+          const initialNextSibling = sourceElement.nextElementSibling;
+          sourceElementsData.push({
+            sourceElement,
+            initialParent,
+            initialNextSibling
+          });
+          objectWithParameters.breakpoints = __privateMethod(this, _TransferElements_instances, assembleBreakpoints_fn).call(this, breakpoints2, sourceElement);
+          return objectWithParameters;
+        }
+      );
+      const sortedBreakpointTriggers = [...validatedObjectsWithParameters.reduce(
+        (collection, { breakpoints: breakpoints2 }) => {
+          Object.keys(breakpoints2).forEach((breakpointTrigger) => {
+            if (Number(breakpointTrigger)) {
+              collection.add(breakpointTrigger);
+            }
+          });
+          return collection;
+        },
+        /* @__PURE__ */ new Set()
+      ).add("default")].sort((a, b) => a - b);
+      const storageOfBreakpoints = sortedBreakpointTriggers.reduce(
+        (storage, breakpointTrigger) => {
+          storage.set(breakpointTrigger, []);
+          return storage;
+        },
+        /* @__PURE__ */ new Map()
+      );
+      validatedObjectsWithParameters.forEach(
+        ({ sourceElement, breakpoints: breakpoints2 }) => {
+          Object.entries(breakpoints2).forEach(
+            ([breakpointTrigger, { targetElement, targetPosition }]) => {
+              storageOfBreakpoints.get(breakpointTrigger).push({
+                sourceElement,
+                targetElement,
+                targetPosition
+              });
+            }
+          );
+        }
+      );
+      storageOfBreakpoints.forEach((breakpointObjects) => {
+        __privateMethod(this, _TransferElements_instances, sortBreakpointObjects_fn).call(this, breakpointObjects);
+        __privateMethod(this, _TransferElements_instances, removeSourceElements_fn).call(this, breakpointObjects);
+        __privateMethod(this, _TransferElements_instances, insertSourceElements_fn).call(this, breakpointObjects, true);
+        breakpointObjects.length = 0;
+        sourceElementsData.forEach(({ sourceElement }) => {
+          breakpointObjects.push(__privateMethod(this, _TransferElements_instances, generateBreakpointObject_fn).call(this, sourceElement, true));
+        });
+        __privateMethod(this, _TransferElements_instances, sortBreakpointObjects_fn).call(this, breakpointObjects);
+      });
+      let previousBreakpointTrigger = "default";
+      const resizeObserver = new ResizeObserver(
+        ([{ borderBoxSize: [{ inlineSize }], target }]) => {
+          const currentWidth = inlineSize + __privateMethod(this, _TransferElements_instances, getScrollbarWidth_fn).call(this, target);
+          const currentBreakpointTrigger = __privateMethod(this, _TransferElements_instances, getBreakpointTrigger_fn).call(this, sortedBreakpointTriggers, currentWidth);
+          if (previousBreakpointTrigger !== currentBreakpointTrigger) {
+            const breakpointObjects = storageOfBreakpoints.get(
+              currentBreakpointTrigger
+            );
+            __privateMethod(this, _TransferElements_instances, removeSourceElements_fn).call(this, breakpointObjects);
+            if (currentBreakpointTrigger === "default") {
+              sourceElementsData.forEach(({ sourceElement, initialParent, initialNextSibling }) => {
+                if (initialParent) {
+                  try {
+                    if (initialNextSibling && initialNextSibling.parentNode === initialParent) {
+                      initialParent.insertBefore(sourceElement, initialNextSibling);
+                    } else {
+                      initialParent.appendChild(sourceElement);
+                    }
+                  } catch (e) {
+                    console.error("TransferElements: insertBefore failed", {
+                      sourceElement,
+                      initialParent,
+                      initialNextSibling,
+                      error: e
+                    });
+                    initialParent.appendChild(sourceElement);
+                  }
+                }
+              });
+            } else {
+              __privateMethod(this, _TransferElements_instances, insertSourceElements_fn).call(this, breakpointObjects, false);
+            }
+            previousBreakpointTrigger = currentBreakpointTrigger;
+          }
+        }
+      );
+      resizeObserver.observe(document.documentElement);
+    }
+  };
+  _TransferElements_instances = new WeakSet();
+  assembleBreakpoints_fn = function(breakpoints2, sourceElement) {
+    if (__privateMethod(this, _TransferElements_instances, getObjectType_fn).call(this, breakpoints2) !== "[object Object]") {
+      throw TypeError(`the value specified for the 'breakpoints' parameter must be an object of type 'Object'`);
+    }
+    const breakpointEntries = Object.entries(breakpoints2);
+    if (breakpointEntries.length === 0) {
+      throw TypeError(`at least one breakpoint must be specified for the 'breakpoints' object`);
+    }
+    const validatedBreakpoints = Object.fromEntries(
+      breakpointEntries.map(
+        ([breakpointTrigger, breakpointObject]) => {
+          const breakpointTriggerAsNumber = Number(breakpointTrigger);
+          if (!breakpointTriggerAsNumber || breakpointTriggerAsNumber <= 0 || breakpointTriggerAsNumber > Number.MAX_SAFE_INTEGER) {
+            throw RangeError(`the breakpoint trigger must be a safe (integer or fractional) number greater than zero`);
+          }
+          if (__privateMethod(this, _TransferElements_instances, getObjectType_fn).call(this, breakpointObject) !== "[object Object]") {
+            throw TypeError(`the breakpoint object must be of type 'Object'`);
+          }
+          if (!Object.hasOwn(breakpointObject, "targetElement")) {
+            throw TypeError(`the 'targetElement' parameter is not specified for the breakpoint object`);
+          }
+          const { targetElement, targetPosition } = breakpointObject;
+          if (!(targetElement instanceof Element)) {
+            throw TypeError(`the value specified for the 'targetElement' parameter must be an object of type 'Element'`);
+          }
+          if (sourceElement === targetElement) {
+            throw TypeError(`the value specified for the 'targetElement' parameter must be different from the value specified for the 'sourceElement' parameter`);
+          }
+          if (__privateMethod(this, _TransferElements_instances, isTargetElementDescendantOfSourceElement_fn).call(this, targetElement, sourceElement)) {
+            throw TypeError(`the element that is specified as the value for the 'targetElement' parameter must not be a descendant of the element specified as the value for the 'sourceElement' parameter`);
+          }
+          if (__privateMethod(this, _TransferElements_instances, isTagOfTargetElementSelfClosing_fn).call(this, targetElement)) {
+            throw TypeError(`the element specified as the value for the 'targetElement' parameter must be a paired tag`);
+          }
+          let targetPos = typeof breakpointTrigger == "number" ? breakpointTrigger : 0;
+          if (typeof breakpointTrigger != "number") {
+            if (breakpointTrigger == "first") {
+              targetPos = 0;
+            } else if (breakpointTrigger == "last") {
+              targetPos = targetElement.children.length;
+            } else {
+              targetPos = 0;
+            }
+          }
+          return [
+            breakpointTriggerAsNumber,
+            {
+              targetPosition: targetPos,
+              ...breakpointObject
+            }
+          ];
+        }
+      )
+    );
+    validatedBreakpoints.default = __privateMethod(this, _TransferElements_instances, generateBreakpointObject_fn).call(this, sourceElement, false);
+    return validatedBreakpoints;
+  };
+  getChildElementsOfTargetElement_fn = function(targetElement) {
+    return targetElement.children;
+  };
+  getBreakpointTrigger_fn = function(breakpointTriggers, currentWidth) {
+    let startIndex = 0;
+    let endIndex = breakpointTriggers.length - 2;
+    let savedBreakpointTrigger;
+    while (startIndex <= endIndex) {
+      const middleIndex = Math.floor((startIndex + endIndex) / 2);
+      const guessedBreakpointTrigger = breakpointTriggers[middleIndex];
+      if (guessedBreakpointTrigger == currentWidth) {
+        return guessedBreakpointTrigger;
+      } else if (guessedBreakpointTrigger > currentWidth) {
+        endIndex = middleIndex - 1;
+      } else {
+        startIndex = middleIndex + 1;
+      }
+      if (guessedBreakpointTrigger - currentWidth > 0) {
+        savedBreakpointTrigger = guessedBreakpointTrigger;
+      }
+    }
+    return savedBreakpointTrigger != null ? savedBreakpointTrigger : "default";
+  };
+  getScrollbarWidth_fn = function(observableElement) {
+    const viewportWidth = window.innerWidth;
+    const widthOfObservableElement = Math.min(
+      observableElement.clientWidth,
+      observableElement.offsetWidth
+    );
+    let scrollbarWidth = 0;
+    if (widthOfObservableElement !== viewportWidth) {
+      scrollbarWidth += viewportWidth - widthOfObservableElement;
+    }
+    return scrollbarWidth;
+  };
+  getObjectType_fn = function(object) {
+    return Object.prototype.toString.call(object);
+  };
+  isTargetElementDescendantOfSourceElement_fn = function(targetElement, sourceElement) {
+    while (targetElement = targetElement.parentElement) {
+      if (targetElement === sourceElement) {
+        return true;
+      }
+    }
+    return false;
+  };
+  isTagOfTargetElementSelfClosing_fn = function(targetElement) {
+    return !new RegExp(/<\/[a-zA-Z]+>$/).test(targetElement.outerHTML);
+  };
+  sortBreakpointObjects_fn = function(breakpointObjects) {
+    if (breakpointObjects.length > 1) {
+      breakpointObjects.sort((a, b) => a.targetPosition - b.targetPosition);
+    }
+  };
+  removeSourceElements_fn = function(breakpointObjects) {
+    breakpointObjects.forEach(({ sourceElement }) => {
+      sourceElement.remove();
+    });
+  };
+  insertSourceElements_fn = function(breakpointObjects, hasCheckOfMaximumTargetPosition) {
+    breakpointObjects.forEach(
+      ({ sourceElement, targetElement, targetPosition }) => {
+        const childElementsOfTargetElement = __privateMethod(this, _TransferElements_instances, getChildElementsOfTargetElement_fn).call(this, targetElement);
+        if (hasCheckOfMaximumTargetPosition) {
+          __privateMethod(this, _TransferElements_instances, throwExceptionIfMaximumTargetPositionIsExceeded_fn).call(this, childElementsOfTargetElement, targetPosition);
+        }
+        const childElementOfTargetElement = childElementsOfTargetElement[targetPosition];
+        if (childElementOfTargetElement && childElementOfTargetElement.parentNode === targetElement) {
+          targetElement.insertBefore(sourceElement, childElementOfTargetElement);
+        } else {
+          targetElement.append(sourceElement);
+        }
+      }
+    );
+  };
+  throwExceptionIfMaximumTargetPositionIsExceeded_fn = function(childElementsOfTargetElement, targetPosition) {
+    const maximumTargetPosition = childElementsOfTargetElement.length;
+  };
+  generateBreakpointObject_fn = function(sourceElement, isComplete) {
+    const parentElementOfSourceElement = sourceElement.parentElement;
+    const currentIndex = parentElementOfSourceElement ? Array.from(parentElementOfSourceElement.children).indexOf(sourceElement) : -1;
+    const breakpointObject = {
+      targetElement: parentElementOfSourceElement,
+      targetPosition: currentIndex
+    };
+    if (isComplete) {
+      breakpointObject.sourceElement = sourceElement;
+    }
+    return breakpointObject;
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    let dataDa = document.querySelectorAll("[data-da]");
+    dataDa.forEach((item) => {
+      let daMedia = item.getAttribute("data-da").split("|");
+      let breakpoints2 = {};
+      daMedia.forEach((media) => {
+        let [daTarget, daBreakpoint, daPos] = media.split(",");
+        if (daPos === "first") daPos = 0;
+        function getTargetElement(selector, context = document) {
+          let parts = selector.trim().split(" ");
+          let currentContext = context;
+          for (let part of parts) {
+            let match = part.match(/(.+?)\[(\d+)\]/);
+            if (match) {
+              let baseSelector = match[1];
+              let index = parseInt(match[2]);
+              let elements = currentContext.querySelectorAll(baseSelector);
+              currentContext = elements[index] || null;
+            } else {
+              currentContext = currentContext.querySelector(part);
+            }
+            if (!currentContext) break;
+          }
+          return currentContext;
+        }
+        let daTargetElement = getTargetElement(daTarget);
+        if (daTargetElement) {
+          breakpoints2[daBreakpoint] = {
+            targetElement: daTargetElement,
+            targetPosition: daPos
+          };
+        }
+      });
+      new TransferElements({
+        sourceElement: item,
+        breakpoints: breakpoints2
+      });
+    });
+  });
+
+  // src/assets/libs/js/mask.js
+  window.maskPhone = maskPhone;
+  window.addEventListener("DOMContentLoaded", () => {
+    maskPhone();
+  });
+  function maskPhone() {
+    const phoneInputs = document.querySelectorAll('[type="tel"]');
+    phoneInputs.forEach((input) => {
+      input.setAttribute("data-original-placeholder", input.placeholder);
+      input.addEventListener("focus", function() {
+        setTimeout(() => {
+          input.setSelectionRange(input.value.length, input.value.length);
+        }, 0);
+      });
+      input.addEventListener("blur", function() {
+        if (input.value == "+7 (") {
+          input.value = "";
+          input.placeholder = input.getAttribute("data-original-placeholder");
+        }
+      });
+      input.addEventListener("input", function(event2) {
+        input.setCustomValidity("");
+        const isDelete = event2.inputType === "deleteContentBackward";
+        const raw = input.value;
+        const digits = raw.replace(/\D/g, "");
+        if (isDelete) {
+          return;
+        }
+        const formatted = formatWithMask(digits);
+        input.value = formatted;
+        setTimeout(() => {
+          const pos = input.value.indexOf("_");
+          setCursorPosition(input, pos === -1 ? input.value.length : pos);
+        }, 0);
+      });
+      input.addEventListener("change", function() {
+        const digits = input.value.replace(/\D/g, "");
+        if (digits.length === 0) {
+          input.setCustomValidity("");
+          input.classList.remove("error");
+          return;
+        }
+        if (digits.length !== 11) {
+          if (input.hasAttribute("required")) {
+            input.setCustomValidity("\u0422\u0435\u043B\u0435\u0444\u043E\u043D \u0434\u043E\u043B\u0436\u0435\u043D \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0442\u044C 11 \u0446\u0438\u0444\u0440");
+          } else {
+            input.setCustomValidity("");
+          }
+          input.classList.add("error");
+        } else {
+          input.setCustomValidity("");
+          input.classList.remove("error");
+        }
+      });
+      input.addEventListener("paste", function(e) {
+        e.preventDefault();
+        let pasted = (e.clipboardData || window.clipboardData).getData("text");
+        pasted = pasted.replace(/\D/g, "");
+        input.value = formatWithMask(pasted);
+      });
+    });
+  }
+  function formatWithMask(digits) {
+    if (!digits) return "";
+    if (digits[0] !== "7" && digits[0] !== "8") {
+      digits = "7" + digits;
+    }
+    const mask = digits[0] === "8" ? "8 (___) ___ __ __" : "+7 (___) ___ __ __";
+    let i = 0;
+    let formatted = "";
+    for (const char of mask) {
+      if (i >= digits.length) break;
+      if (char === "_" || /\d/.test(char)) {
+        formatted += digits[i++];
+      } else {
+        formatted += char;
+      }
+    }
+    return formatted;
+  }
+  function setCursorPosition(el, pos) {
+    el.setSelectionRange(pos, pos);
+  }
+
+  // src/assets/libs/js/splide.js
+  function r(n2, t2) {
+    for (var i = 0; i < t2.length; i++) {
+      var r2 = t2[i];
+      r2.enumerable = r2.enumerable || false, r2.configurable = true, "value" in r2 && (r2.writable = true), Object.defineProperty(n2, r2.key, r2);
+    }
+  }
+  function Jt(n2, t2, i) {
+    t2 && r(n2.prototype, t2), i && r(n2, i), Object.defineProperty(n2, "prototype", { writable: false });
+  }
+  var n;
+  var t;
+  n = void 0, t = function() {
+    "use strict";
+    var v = "(prefers-reduced-motion: reduce)", G = 4, rn = 5, r2 = { CREATED: 1, MOUNTED: 2, IDLE: 3, MOVING: G, SCROLLING: rn, DRAGGING: 6, DESTROYED: 7 };
+    function D(n3) {
+      n3.length = 0;
+    }
+    function o(n3, t3, i2) {
+      return Array.prototype.slice.call(n3, t3, i2);
+    }
+    function R(n3) {
+      return n3.bind.apply(n3, [null].concat(o(arguments, 1)));
+    }
+    function on() {
+    }
+    var p = setTimeout;
+    function h(n3) {
+      return requestAnimationFrame(n3);
+    }
+    function u(n3, t3) {
+      return typeof t3 === n3;
+    }
+    function un(n3) {
+      return !c(n3) && u("object", n3);
+    }
+    var e = Array.isArray, x = R(u, "function"), C = R(u, "string"), en = R(u, "undefined");
+    function c(n3) {
+      return null === n3;
+    }
+    function m(n3) {
+      try {
+        return n3 instanceof (n3.ownerDocument.defaultView || window).HTMLElement;
+      } catch (n4) {
+        return false;
+      }
+    }
+    function y(n3) {
+      return e(n3) ? n3 : [n3];
+    }
+    function g(n3, t3) {
+      y(n3).forEach(t3);
+    }
+    function b(n3, t3) {
+      return -1 < n3.indexOf(t3);
+    }
+    function k(n3, t3) {
+      return n3.push.apply(n3, y(t3)), n3;
+    }
+    function A(t3, n3, i2) {
+      t3 && g(n3, function(n4) {
+        n4 && t3.classList[i2 ? "add" : "remove"](n4);
+      });
+    }
+    function M(n3, t3) {
+      A(n3, C(t3) ? t3.split(" ") : t3, true);
+    }
+    function L(n3, t3) {
+      g(t3, n3.appendChild.bind(n3));
+    }
+    function O(n3, i2) {
+      g(n3, function(n4) {
+        var t3 = (i2 || n4).parentNode;
+        t3 && t3.insertBefore(n4, i2);
+      });
+    }
+    function cn(n3, t3) {
+      return m(n3) && (n3.msMatchesSelector || n3.matches).call(n3, t3);
+    }
+    function S(n3, t3) {
+      n3 = n3 ? o(n3.children) : [];
+      return t3 ? n3.filter(function(n4) {
+        return cn(n4, t3);
+      }) : n3;
+    }
+    function fn(n3, t3) {
+      return t3 ? S(n3, t3)[0] : n3.firstElementChild;
+    }
+    var E = Object.keys;
+    function w(t3, i2, n3) {
+      t3 && (n3 ? E(t3).reverse() : E(t3)).forEach(function(n4) {
+        "__proto__" !== n4 && i2(t3[n4], n4);
+      });
+    }
+    function an(r3) {
+      return o(arguments, 1).forEach(function(i2) {
+        w(i2, function(n3, t3) {
+          r3[t3] = i2[t3];
+        });
+      }), r3;
+    }
+    function d(i2) {
+      return o(arguments, 1).forEach(function(n3) {
+        w(n3, function(n4, t3) {
+          e(n4) ? i2[t3] = n4.slice() : un(n4) ? i2[t3] = d({}, un(i2[t3]) ? i2[t3] : {}, n4) : i2[t3] = n4;
+        });
+      }), i2;
+    }
+    function sn(t3, n3) {
+      g(n3 || E(t3), function(n4) {
+        delete t3[n4];
+      });
+    }
+    function P(n3, i2) {
+      g(n3, function(t3) {
+        g(i2, function(n4) {
+          t3 && t3.removeAttribute(n4);
+        });
+      });
+    }
+    function I(i2, t3, r3) {
+      un(t3) ? w(t3, function(n3, t4) {
+        I(i2, t4, n3);
+      }) : g(i2, function(n3) {
+        c(r3) || "" === r3 ? P(n3, t3) : n3.setAttribute(t3, String(r3));
+      });
+    }
+    function j(n3, t3, i2) {
+      n3 = document.createElement(n3);
+      return t3 && (C(t3) ? M : I)(n3, t3), i2 && L(i2, n3), n3;
+    }
+    function _(n3, t3, i2) {
+      if (en(i2)) return getComputedStyle(n3)[t3];
+      c(i2) || (n3.style[t3] = "" + i2);
+    }
+    function ln(n3, t3) {
+      _(n3, "display", t3);
+    }
+    function dn(n3) {
+      n3.setActive && n3.setActive() || n3.focus({ preventScroll: true });
+    }
+    function z(n3, t3) {
+      return n3.getAttribute(t3);
+    }
+    function vn(n3, t3) {
+      return n3 && n3.classList.contains(t3);
+    }
+    function N(n3) {
+      return n3.getBoundingClientRect();
+    }
+    function T(n3) {
+      g(n3, function(n4) {
+        n4 && n4.parentNode && n4.parentNode.removeChild(n4);
+      });
+    }
+    function hn(n3) {
+      return fn(new DOMParser().parseFromString(n3, "text/html").body);
+    }
+    function F(n3, t3) {
+      n3.preventDefault(), t3 && (n3.stopPropagation(), n3.stopImmediatePropagation());
+    }
+    function pn(n3, t3) {
+      return n3 && n3.querySelector(t3);
+    }
+    function gn(n3, t3) {
+      return t3 ? o(n3.querySelectorAll(t3)) : [];
+    }
+    function X(n3, t3) {
+      A(n3, t3, false);
+    }
+    function mn(n3) {
+      return n3.timeStamp;
+    }
+    function W(n3) {
+      return C(n3) ? n3 : n3 ? n3 + "px" : "";
+    }
+    var yn = "splide", f = "data-" + yn;
+    function bn(n3, t3) {
+      if (!n3) throw new Error("[" + yn + "] " + (t3 || ""));
+    }
+    var Y = Math.min, wn = Math.max, xn = Math.floor, kn = Math.ceil, U = Math.abs;
+    function Sn(n3, t3, i2) {
+      return U(n3 - t3) < i2;
+    }
+    function En(n3, t3, i2, r3) {
+      var o2 = Y(t3, i2), t3 = wn(t3, i2);
+      return r3 ? o2 < n3 && n3 < t3 : o2 <= n3 && n3 <= t3;
+    }
+    function q(n3, t3, i2) {
+      var r3 = Y(t3, i2), t3 = wn(t3, i2);
+      return Y(wn(r3, n3), t3);
+    }
+    function Ln(n3) {
+      return (0 < n3) - (n3 < 0);
+    }
+    function On(t3, n3) {
+      return g(n3, function(n4) {
+        t3 = t3.replace("%s", "" + n4);
+      }), t3;
+    }
+    function An(n3) {
+      return n3 < 10 ? "0" + n3 : "" + n3;
+    }
+    var _n = {};
+    function zn() {
+      var c2 = [];
+      function i2(n3, i3, r3) {
+        g(n3, function(t3) {
+          t3 && g(i3, function(n4) {
+            n4.split(" ").forEach(function(n5) {
+              n5 = n5.split(".");
+              r3(t3, n5[0], n5[1]);
+            });
+          });
+        });
+      }
+      return {
+        bind: function(n3, t3, u2, e2) {
+          i2(n3, t3, function(n4, t4, i3) {
+            var r3 = "addEventListener" in n4, o2 = r3 ? n4.removeEventListener.bind(n4, t4, u2, e2) : n4.removeListener.bind(n4, u2);
+            r3 ? n4.addEventListener(t4, u2, e2) : n4.addListener(u2), c2.push([n4, t4, i3, u2, o2]);
+          });
+        },
+        unbind: function(n3, t3, o2) {
+          i2(n3, t3, function(t4, i3, r3) {
+            c2 = c2.filter(function(n4) {
+              return !!(n4[0] !== t4 || n4[1] !== i3 || n4[2] !== r3 || o2 && n4[3] !== o2) || (n4[4](), false);
+            });
+          });
+        },
+        dispatch: function(n3, t3, i3) {
+          var r3;
+          return "function" == typeof CustomEvent ? r3 = new CustomEvent(t3, { bubbles: true, detail: i3 }) : (r3 = document.createEvent("CustomEvent")).initCustomEvent(t3, true, false, i3), n3.dispatchEvent(r3), r3;
+        },
+        destroy: function() {
+          c2.forEach(function(n3) {
+            n3[4]();
+          }), D(c2);
+        }
+      };
+    }
+    var B = "mounted", H = "move", Dn = "moved", Mn = "click", Pn = "active", In = "inactive", Rn = "visible", Cn = "hidden", J = "refresh", K = "updated", jn = "resize", Nn = "resized", Tn = "scroll", V = "scrolled", a = "destroy", Gn = "navigation:mounted", Fn = "autoplay:play", Xn = "autoplay:pause", Wn = "lazyload:loaded", Yn = "sk", Un = "sh";
+    function Q(n3) {
+      var i2 = n3 ? n3.event.bus : document.createDocumentFragment(), r3 = zn();
+      return n3 && n3.event.on(a, r3.destroy), an(r3, {
+        bus: i2,
+        on: function(n4, t3) {
+          r3.bind(i2, y(n4).join(" "), function(n5) {
+            t3.apply(t3, e(n5.detail) ? n5.detail : []);
+          });
+        },
+        off: R(r3.unbind, i2),
+        emit: function(n4) {
+          r3.dispatch(i2, n4, o(arguments, 1));
+        }
+      });
+    }
+    function qn(t3, n3, i2, r3) {
+      var o2, u2, e2 = Date.now, c2 = 0, f2 = true, a2 = 0;
+      function s2() {
+        if (!f2) {
+          if (c2 = t3 ? Y((e2() - o2) / t3, 1) : 1, i2 && i2(c2), 1 <= c2 && (n3(), o2 = e2(), r3 && ++a2 >= r3)) return l2();
+          u2 = h(s2);
+        }
+      }
+      function l2() {
+        f2 = true;
+      }
+      function d2() {
+        u2 && cancelAnimationFrame(u2), f2 = !(u2 = c2 = 0);
+      }
+      return {
+        start: function(n4) {
+          n4 || d2(), o2 = e2() - (n4 ? c2 * t3 : 0), f2 = false, u2 = h(s2);
+        },
+        rewind: function() {
+          o2 = e2(), c2 = 0, i2 && i2(c2);
+        },
+        pause: l2,
+        cancel: d2,
+        set: function(n4) {
+          t3 = n4;
+        },
+        isPaused: function() {
+          return f2;
+        }
+      };
+    }
+    function s(n3) {
+      var t3 = n3;
+      return {
+        set: function(n4) {
+          t3 = n4;
+        },
+        is: function(n4) {
+          return b(y(n4), t3);
+        }
+      };
+    }
+    var n2 = "Arrow", Bn = n2 + "Left", Hn = n2 + "Right", t2 = n2 + "Up", n2 = n2 + "Down", Jn = "ttb", l = { width: ["height"], left: ["top", "right"], right: ["bottom", "left"], x: ["y"], X: ["Y"], Y: ["X"], ArrowLeft: [t2, Hn], ArrowRight: [n2, Bn] };
+    var Z = "role", $ = "tabindex", i = "aria-", Kn = i + "controls", Vn = i + "current", Qn = i + "selected", nn = i + "label", Zn = i + "labelledby", $n = i + "hidden", nt = i + "orientation", tt = i + "roledescription", it = i + "live", rt = i + "busy", ot = i + "atomic", ut = [Z, $, "disabled", Kn, Vn, nn, Zn, $n, nt, tt], i = yn + "__", et = yn, ct = i + "track", ft = i + "list", at = i + "slide", st = at + "--clone", lt = at + "__container", dt = i + "arrows", vt = i + "arrow", ht = vt + "--prev", pt = vt + "--next", gt = i + "pagination", mt = gt + "__page", yt = i + "progress__bar", bt = i + "toggle", wt = i + "sr", tn = "is-active", xt = "is-prev", kt = "is-next", St = "is-visible", Et = "is-loading", Lt = "is-focus-in", Ot = "is-overflow", At = [tn, St, xt, kt, Et, Lt, Ot];
+    var _t = "touchstart mousedown", zt = "touchmove mousemove", Dt = "touchend touchcancel mouseup click";
+    var Mt = "slide", Pt = "loop", It = "fade";
+    function Rt(o2, r3, t3, u2) {
+      var e2, n3 = Q(o2), i2 = n3.on, c2 = n3.emit, f2 = n3.bind, a2 = o2.Components, s2 = o2.root, l2 = o2.options, d2 = l2.isNavigation, v2 = l2.updateOnMove, h2 = l2.i18n, p2 = l2.pagination, g2 = l2.slideFocus, m2 = a2.Direction.resolve, y2 = z(u2, "style"), b2 = z(u2, nn), w2 = -1 < t3, x2 = fn(u2, "." + lt);
+      function k2() {
+        var n4 = o2.splides.map(function(n5) {
+          n5 = n5.splide.Components.Slides.getAt(r3);
+          return n5 ? n5.slide.id : "";
+        }).join(" ");
+        I(u2, nn, On(h2.slideX, (w2 ? t3 : r3) + 1)), I(u2, Kn, n4), I(u2, Z, g2 ? "button" : ""), g2 && P(u2, tt);
+      }
+      function S2() {
+        e2 || E2();
+      }
+      function E2() {
+        var n4, t4, i3;
+        e2 || (n4 = o2.index, (i3 = L2()) !== vn(u2, tn) && (A(u2, tn, i3), I(u2, Vn, d2 && i3 || ""), c2(i3 ? Pn : In, O2)), i3 = (function() {
+          if (o2.is(It)) return L2();
+          var n5 = N(a2.Elements.track), t5 = N(u2), i4 = m2("left", true), r4 = m2("right", true);
+          return xn(n5[i4]) <= kn(t5[i4]) && xn(t5[r4]) <= kn(n5[r4]);
+        })(), t4 = !i3 && (!L2() || w2), o2.state.is([G, rn]) || I(u2, $n, t4 || ""), I(gn(u2, l2.focusableNodes || ""), $, t4 ? -1 : ""), g2 && I(u2, $, t4 ? -1 : 0), i3 !== vn(u2, St) && (A(u2, St, i3), c2(i3 ? Rn : Cn, O2)), i3 || document.activeElement !== u2 || (t4 = a2.Slides.getAt(o2.index)) && dn(t4.slide), A(u2, xt, r3 === n4 - 1), A(u2, kt, r3 === n4 + 1));
+      }
+      function L2() {
+        var n4 = o2.index;
+        return n4 === r3 || l2.cloneStatus && n4 === t3;
+      }
+      var O2 = {
+        index: r3,
+        slideIndex: t3,
+        slide: u2,
+        container: x2,
+        isClone: w2,
+        mount: function() {
+          w2 || (u2.id = s2.id + "-slide" + An(r3 + 1), I(u2, Z, p2 ? "tabpanel" : "group"), I(u2, tt, h2.slide), I(u2, nn, b2 || On(h2.slideLabel, [r3 + 1, o2.length]))), f2(u2, "click", R(c2, Mn, O2)), f2(u2, "keydown", R(c2, Yn, O2)), i2([Dn, Un, V], E2), i2(Gn, k2), v2 && i2(H, S2);
+        },
+        destroy: function() {
+          e2 = true, n3.destroy(), X(u2, At), P(u2, ut), I(u2, "style", y2), I(u2, nn, b2 || "");
+        },
+        update: E2,
+        style: function(n4, t4, i3) {
+          _(i3 && x2 || u2, n4, t4);
+        },
+        isWithin: function(n4, t4) {
+          return n4 = U(n4 - r3), (n4 = w2 || !l2.rewind && !o2.is(Pt) ? n4 : Y(n4, o2.length - n4)) <= t4;
+        }
+      };
+      return O2;
+    }
+    var Ct = f + "-interval";
+    var jt = { passive: false, capture: true };
+    var Nt = { Spacebar: " ", Right: Hn, Left: Bn, Up: t2, Down: n2 };
+    function Tt(n3) {
+      return n3 = C(n3) ? n3 : n3.key, Nt[n3] || n3;
+    }
+    var Gt = "keydown";
+    var Ft = f + "-lazy", Xt = Ft + "-srcset", Wt = "[" + Ft + "], [" + Xt + "]";
+    var Yt = [" ", "Enter"];
+    var Ut = Object.freeze({
+      __proto__: null,
+      Media: function(r3, n3, o2) {
+        var u2 = r3.state, t3 = o2.breakpoints || {}, e2 = o2.reducedMotion || {}, i2 = zn(), c2 = [];
+        function f2(n4) {
+          n4 && i2.destroy();
+        }
+        function a2(n4, t4) {
+          t4 = matchMedia(t4);
+          i2.bind(t4, "change", s2), c2.push([n4, t4]);
+        }
+        function s2() {
+          var n4 = u2.is(7), t4 = o2.direction, i3 = c2.reduce(function(n5, t5) {
+            return d(n5, t5[1].matches ? t5[0] : {});
+          }, {});
+          sn(o2), l2(i3), o2.destroy ? r3.destroy("completely" === o2.destroy) : n4 ? (f2(true), r3.mount()) : t4 !== o2.direction && r3.refresh();
+        }
+        function l2(n4, t4, i3) {
+          d(o2, n4), t4 && d(Object.getPrototypeOf(o2), n4), !i3 && u2.is(1) || r3.emit(K, o2);
+        }
+        return {
+          setup: function() {
+            var i3 = "min" === o2.mediaQuery;
+            E(t3).sort(function(n4, t4) {
+              return i3 ? +n4 - +t4 : +t4 - +n4;
+            }).forEach(function(n4) {
+              a2(t3[n4], "(" + (i3 ? "min" : "max") + "-width:" + n4 + "px)");
+            }), a2(e2, v), s2();
+          },
+          destroy: f2,
+          reduce: function(n4) {
+            matchMedia(v).matches && (n4 ? d(o2, e2) : sn(o2, E(e2)));
+          },
+          set: l2
+        };
+      },
+      Direction: function(n3, t3, o2) {
+        return {
+          resolve: function(n4, t4, i2) {
+            var r3 = "rtl" !== (i2 = i2 || o2.direction) || t4 ? i2 === Jn ? 0 : -1 : 1;
+            return l[n4] && l[n4][r3] || n4.replace(/width|left|right/i, function(n5, t5) {
+              n5 = l[n5.toLowerCase()][r3] || n5;
+              return 0 < t5 ? n5.charAt(0).toUpperCase() + n5.slice(1) : n5;
+            });
+          },
+          orient: function(n4) {
+            return n4 * ("rtl" === o2.direction ? 1 : -1);
+          }
+        };
+      },
+      Elements: function(n3, t3, i2) {
+        var r3, o2, u2, e2 = Q(n3), c2 = e2.on, f2 = e2.bind, a2 = n3.root, s2 = i2.i18n, l2 = {}, d2 = [], v2 = [], h2 = [];
+        function p2() {
+          r3 = y2("." + ct), o2 = fn(r3, "." + ft), bn(r3 && o2, "A track/list element is missing."), k(d2, S(o2, "." + at + ":not(." + st + ")")), w({ arrows: dt, pagination: gt, prev: ht, next: pt, bar: yt, toggle: bt }, function(n5, t5) {
+            l2[t5] = y2("." + n5);
+          }), an(l2, { root: a2, track: r3, list: o2, slides: d2 });
+          var n4 = a2.id || (function(n5) {
+            return "" + n5 + An(_n[n5] = (_n[n5] || 0) + 1);
+          })(yn), t4 = i2.role;
+          a2.id = n4, r3.id = r3.id || n4 + "-track", o2.id = o2.id || n4 + "-list", !z(a2, Z) && "SECTION" !== a2.tagName && t4 && I(a2, Z, t4), I(a2, tt, s2.carousel), I(o2, Z, "presentation"), m2();
+        }
+        function g2(n4) {
+          var t4 = ut.concat("style");
+          D(d2), X(a2, v2), X(r3, h2), P([r3, o2], t4), P(a2, n4 ? t4 : ["style", tt]);
+        }
+        function m2() {
+          X(a2, v2), X(r3, h2), v2 = b2(et), h2 = b2(ct), M(a2, v2), M(r3, h2), I(a2, nn, i2.label), I(a2, Zn, i2.labelledby);
+        }
+        function y2(n4) {
+          n4 = pn(a2, n4);
+          return n4 && (function(n5, t4) {
+            if (x(n5.closest)) return n5.closest(t4);
+            for (var i3 = n5; i3 && 1 === i3.nodeType && !cn(i3, t4); ) i3 = i3.parentElement;
+            return i3;
+          })(n4, "." + et) === a2 ? n4 : void 0;
+        }
+        function b2(n4) {
+          return [n4 + "--" + i2.type, n4 + "--" + i2.direction, i2.drag && n4 + "--draggable", i2.isNavigation && n4 + "--nav", n4 === et && tn];
+        }
+        return an(l2, {
+          setup: p2,
+          mount: function() {
+            c2(J, g2), c2(J, p2), c2(K, m2), f2(
+              document,
+              _t + " keydown",
+              function(n4) {
+                u2 = "keydown" === n4.type;
+              },
+              { capture: true }
+            ), f2(a2, "focusin", function() {
+              A(a2, Lt, !!u2);
+            });
+          },
+          destroy: g2
+        });
+      },
+      Slides: function(r3, o2, u2) {
+        var n3 = Q(r3), t3 = n3.on, e2 = n3.emit, c2 = n3.bind, f2 = (n3 = o2.Elements).slides, a2 = n3.list, s2 = [];
+        function i2() {
+          f2.forEach(function(n4, t4) {
+            d2(n4, t4, -1);
+          });
+        }
+        function l2() {
+          h2(function(n4) {
+            n4.destroy();
+          }), D(s2);
+        }
+        function d2(n4, t4, i3) {
+          t4 = Rt(r3, t4, i3, n4);
+          t4.mount(), s2.push(t4), s2.sort(function(n5, t5) {
+            return n5.index - t5.index;
+          });
+        }
+        function v2(n4) {
+          return n4 ? p2(function(n5) {
+            return !n5.isClone;
+          }) : s2;
+        }
+        function h2(n4, t4) {
+          v2(t4).forEach(n4);
+        }
+        function p2(t4) {
+          return s2.filter(
+            x(t4) ? t4 : function(n4) {
+              return C(t4) ? cn(n4.slide, t4) : b(y(t4), n4.index);
+            }
+          );
+        }
+        return {
+          mount: function() {
+            i2(), t3(J, l2), t3(J, i2);
+          },
+          destroy: l2,
+          update: function() {
+            h2(function(n4) {
+              n4.update();
+            });
+          },
+          register: d2,
+          get: v2,
+          getIn: function(n4) {
+            var t4 = o2.Controller, i3 = t4.toIndex(n4), r4 = t4.hasFocus() ? 1 : u2.perPage;
+            return p2(function(n5) {
+              return En(n5.index, i3, i3 + r4 - 1);
+            });
+          },
+          getAt: function(n4) {
+            return p2(n4)[0];
+          },
+          add: function(n4, o3) {
+            g(n4, function(n5) {
+              var t4, i3, r4;
+              m(n5 = C(n5) ? hn(n5) : n5) && ((t4 = f2[o3]) ? O(n5, t4) : L(a2, n5), M(n5, u2.classes.slide), t4 = n5, i3 = R(e2, jn), t4 = gn(t4, "img"), (r4 = t4.length) ? t4.forEach(function(n6) {
+                c2(n6, "load error", function() {
+                  --r4 || i3();
+                });
+              }) : i3());
+            }), e2(J);
+          },
+          remove: function(n4) {
+            T(
+              p2(n4).map(function(n5) {
+                return n5.slide;
+              })
+            ), e2(J);
+          },
+          forEach: h2,
+          filter: p2,
+          style: function(t4, i3, r4) {
+            h2(function(n4) {
+              n4.style(t4, i3, r4);
+            });
+          },
+          getLength: function(n4) {
+            return (n4 ? f2 : s2).length;
+          },
+          isEnough: function() {
+            return s2.length > u2.perPage;
+          }
+        };
+      },
+      Layout: function(t3, n3, i2) {
+        var r3, o2, u2, e2 = (a2 = Q(t3)).on, c2 = a2.bind, f2 = a2.emit, a2 = n3.Slides, s2 = n3.Direction.resolve, l2 = (n3 = n3.Elements).root, d2 = n3.track, v2 = n3.list, h2 = a2.getAt, p2 = a2.style;
+        function g2() {
+          r3 = i2.direction === Jn, _(l2, "maxWidth", W(i2.width)), _(d2, s2("paddingLeft"), y2(false)), _(d2, s2("paddingRight"), y2(true)), m2(true);
+        }
+        function m2(n4) {
+          var t4 = N(l2);
+          !n4 && o2.width === t4.width && o2.height === t4.height || (_(
+            d2,
+            "height",
+            (function() {
+              var n5 = "";
+              r3 && (bn(n5 = b2(), "height or heightRatio is missing."), n5 = "calc(" + n5 + " - " + y2(false) + " - " + y2(true) + ")");
+              return n5;
+            })()
+          ), p2(s2("marginRight"), W(i2.gap)), p2("width", i2.autoWidth ? null : W(i2.fixedWidth) || (r3 ? "" : w2())), p2("height", W(i2.fixedHeight) || (r3 ? i2.autoHeight ? null : w2() : b2()), true), o2 = t4, f2(Nn), u2 !== (u2 = O2()) && (A(l2, Ot, u2), f2("overflow", u2)));
+        }
+        function y2(n4) {
+          var t4 = i2.padding, n4 = s2(n4 ? "right" : "left");
+          return t4 && W(t4[n4] || (un(t4) ? 0 : t4)) || "0px";
+        }
+        function b2() {
+          return W(i2.height || N(v2).width * i2.heightRatio);
+        }
+        function w2() {
+          var n4 = W(i2.gap);
+          return "calc((100%" + (n4 && " + " + n4) + ")/" + (i2.perPage || 1) + (n4 && " - " + n4) + ")";
+        }
+        function x2() {
+          return N(v2)[s2("width")];
+        }
+        function k2(n4, t4) {
+          n4 = h2(n4 || 0);
+          return n4 ? N(n4.slide)[s2("width")] + (t4 ? 0 : L2()) : 0;
+        }
+        function S2(n4, t4) {
+          var i3, n4 = h2(n4);
+          return n4 ? (n4 = N(n4.slide)[s2("right")], i3 = N(v2)[s2("left")], U(n4 - i3) + (t4 ? 0 : L2())) : 0;
+        }
+        function E2(n4) {
+          return S2(t3.length - 1) - S2(0) + k2(0, n4);
+        }
+        function L2() {
+          var n4 = h2(0);
+          return n4 && parseFloat(_(n4.slide, s2("marginRight"))) || 0;
+        }
+        function O2() {
+          return t3.is(It) || E2(true) > x2();
+        }
+        return {
+          mount: function() {
+            var n4, t4, i3;
+            g2(), c2(
+              window,
+              "resize load",
+              (n4 = R(f2, jn), i3 = qn(t4 || 0, n4, null, 1), function() {
+                i3.isPaused() && i3.start();
+              })
+            ), e2([K, J], g2), e2(jn, m2);
+          },
+          resize: m2,
+          listSize: x2,
+          slideSize: k2,
+          sliderSize: E2,
+          totalSize: S2,
+          getPadding: function(n4) {
+            return parseFloat(_(d2, s2("padding" + (n4 ? "Right" : "Left")))) || 0;
+          },
+          isOverflow: O2
+        };
+      },
+      Clones: function(c2, i2, f2) {
+        var t3, r3 = Q(c2), n3 = r3.on, a2 = i2.Elements, s2 = i2.Slides, o2 = i2.Direction.resolve, l2 = [];
+        function u2() {
+          if (n3(J, d2), n3([K, jn], v2), t3 = h2()) {
+            var o3 = t3, u3 = s2.get().slice(), e3 = u3.length;
+            if (e3) {
+              for (; u3.length < o3; ) k(u3, u3);
+              k(u3.slice(-o3), u3.slice(0, o3)).forEach(function(n4, t4) {
+                var i3 = t4 < o3, r4 = (function(n5, t5) {
+                  n5 = n5.cloneNode(true);
+                  return M(n5, f2.classes.clone), n5.id = c2.root.id + "-clone" + An(t5 + 1), n5;
+                })(n4.slide, t4);
+                i3 ? O(r4, u3[0].slide) : L(a2.list, r4), k(l2, r4), s2.register(r4, t4 - o3 + (i3 ? 0 : e3), n4.index);
+              });
+            }
+            i2.Layout.resize(true);
+          }
+        }
+        function d2() {
+          e2(), u2();
+        }
+        function e2() {
+          T(l2), D(l2), r3.destroy();
+        }
+        function v2() {
+          var n4 = h2();
+          t3 !== n4 && (t3 < n4 || !n4) && r3.emit(J);
+        }
+        function h2() {
+          var n4, t4 = f2.clones;
+          return c2.is(Pt) ? en(t4) && (t4 = (n4 = f2[o2("fixedWidth")] && i2.Layout.slideSize(0)) && kn(N(a2.track)[o2("width")] / n4) || f2[o2("autoWidth")] && c2.length || 2 * f2.perPage) : t4 = 0, t4;
+        }
+        return { mount: u2, destroy: e2 };
+      },
+      Move: function(r3, c2, o2) {
+        var e2, n3 = Q(r3), t3 = n3.on, f2 = n3.emit, a2 = r3.state.set, u2 = (n3 = c2.Layout).slideSize, i2 = n3.getPadding, s2 = n3.totalSize, l2 = n3.listSize, d2 = n3.sliderSize, v2 = (n3 = c2.Direction).resolve, h2 = n3.orient, p2 = (n3 = c2.Elements).list, g2 = n3.track;
+        function m2() {
+          c2.Controller.isBusy() || (c2.Scroll.cancel(), y2(r3.index), c2.Slides.update());
+        }
+        function y2(n4) {
+          b2(S2(n4, true));
+        }
+        function b2(n4, t4) {
+          r3.is(It) || (t4 = t4 ? n4 : (function(n5) {
+            {
+              var t5, i3;
+              r3.is(Pt) && (t5 = k2(n5), i3 = t5 > c2.Controller.getEnd(), (t5 < 0 || i3) && (n5 = w2(n5, i3)));
+            }
+            return n5;
+          })(n4), _(p2, "transform", "translate" + v2("X") + "(" + t4 + "px)"), n4 !== t4 && f2(Un));
+        }
+        function w2(n4, t4) {
+          var i3 = n4 - L2(t4), r4 = d2();
+          return n4 -= h2(r4 * (kn(U(i3) / r4) || 1)) * (t4 ? 1 : -1);
+        }
+        function x2() {
+          b2(E2(), true), e2.cancel();
+        }
+        function k2(n4) {
+          for (var t4 = c2.Slides.get(), i3 = 0, r4 = 1 / 0, o3 = 0; o3 < t4.length; o3++) {
+            var u3 = t4[o3].index, e3 = U(S2(u3, true) - n4);
+            if (!(e3 <= r4)) break;
+            r4 = e3, i3 = u3;
+          }
+          return i3;
+        }
+        function S2(n4, t4) {
+          var i3 = h2(s2(n4 - 1) - (n4 = n4, "center" === (i3 = o2.focus) ? (l2() - u2(n4, true)) / 2 : +i3 * u2(n4) || 0));
+          return t4 ? (n4 = i3, n4 = o2.trimSpace && r3.is(Mt) ? q(n4, 0, h2(d2(true) - l2())) : n4) : i3;
+        }
+        function E2() {
+          var n4 = v2("left");
+          return N(p2)[n4] - N(g2)[n4] + h2(i2(false));
+        }
+        function L2(n4) {
+          return S2(n4 ? c2.Controller.getEnd() : 0, !!o2.trimSpace);
+        }
+        return {
+          mount: function() {
+            e2 = c2.Transition, t3([B, Nn, K, J], m2);
+          },
+          move: function(n4, t4, i3, r4) {
+            var o3, u3;
+            n4 !== t4 && (o3 = i3 < n4, u3 = h2(w2(E2(), o3)), o3 ? 0 <= u3 : u3 <= p2[v2("scrollWidth")] - N(g2)[v2("width")]) && (x2(), b2(w2(E2(), i3 < n4), true)), a2(G), f2(H, t4, i3, n4), e2.start(t4, function() {
+              a2(3), f2(Dn, t4, i3, n4), r4 && r4();
+            });
+          },
+          jump: y2,
+          translate: b2,
+          shift: w2,
+          cancel: x2,
+          toIndex: k2,
+          toPosition: S2,
+          getPosition: E2,
+          getLimit: L2,
+          exceededLimit: function(n4, t4) {
+            t4 = en(t4) ? E2() : t4;
+            var i3 = true !== n4 && h2(t4) < h2(L2(false)), n4 = false !== n4 && h2(t4) > h2(L2(true));
+            return i3 || n4;
+          },
+          reposition: m2
+        };
+      },
+      Controller: function(o2, u2, e2) {
+        var c2, f2, a2, s2, n3 = Q(o2), t3 = n3.on, i2 = n3.emit, l2 = u2.Move, d2 = l2.getPosition, r3 = l2.getLimit, v2 = l2.toPosition, h2 = (n3 = u2.Slides).isEnough, p2 = n3.getLength, g2 = e2.omitEnd, m2 = o2.is(Pt), y2 = o2.is(Mt), b2 = R(L2, false), w2 = R(L2, true), x2 = e2.start || 0, k2 = x2;
+        function S2() {
+          f2 = p2(true), a2 = e2.perMove, s2 = e2.perPage, c2 = _2();
+          var n4 = q(x2, 0, g2 ? c2 : f2 - 1);
+          n4 !== x2 && (x2 = n4, l2.reposition());
+        }
+        function E2() {
+          c2 !== _2() && i2("ei");
+        }
+        function L2(n4, t4) {
+          var i3 = a2 || (P2() ? 1 : s2), i3 = O2(x2 + i3 * (n4 ? -1 : 1), x2, !(a2 || P2()));
+          return -1 === i3 && y2 && !Sn(d2(), r3(!n4), 1) ? n4 ? 0 : c2 : t4 ? i3 : A2(i3);
+        }
+        function O2(n4, t4, i3) {
+          var r4;
+          return h2() || P2() ? ((r4 = (function(n5) {
+            if (y2 && "move" === e2.trimSpace && n5 !== x2) for (var t5 = d2(); t5 === v2(n5, true) && En(n5, 0, o2.length - 1, !e2.rewind); ) n5 < x2 ? --n5 : ++n5;
+            return n5;
+          })(n4)) !== n4 && (t4 = n4, n4 = r4, i3 = false), n4 < 0 || c2 < n4 ? n4 = a2 || !En(0, n4, t4, true) && !En(c2, t4, n4, true) ? m2 ? i3 ? n4 < 0 ? -(f2 % s2 || s2) : f2 : n4 : e2.rewind ? n4 < 0 ? c2 : 0 : -1 : z2(D2(n4)) : i3 && n4 !== t4 && (n4 = z2(D2(t4) + (n4 < t4 ? -1 : 1)))) : n4 = -1, n4;
+        }
+        function A2(n4) {
+          return m2 ? (n4 + f2) % f2 || 0 : n4;
+        }
+        function _2() {
+          for (var n4 = f2 - (P2() || m2 && a2 ? 1 : s2); g2 && 0 < n4--; )
+            if (v2(f2 - 1, true) !== v2(n4, true)) {
+              n4++;
+              break;
+            }
+          return q(n4, 0, f2 - 1);
+        }
+        function z2(n4) {
+          return q(P2() ? n4 : s2 * n4, 0, c2);
+        }
+        function D2(n4) {
+          return P2() ? Y(n4, c2) : xn((c2 <= n4 ? f2 - 1 : n4) / s2);
+        }
+        function M2(n4) {
+          n4 !== x2 && (k2 = x2, x2 = n4);
+        }
+        function P2() {
+          return !en(e2.focus) || e2.isNavigation;
+        }
+        function I2() {
+          return o2.state.is([G, rn]) && !!e2.waitForTransition;
+        }
+        return {
+          mount: function() {
+            S2(), t3([K, J, "ei"], S2), t3(Nn, E2);
+          },
+          go: function(n4, t4, i3) {
+            var r4;
+            I2() || -1 < (r4 = A2(
+              n4 = (function(n5) {
+                var t5 = x2;
+                {
+                  var i4, r5;
+                  C(n5) ? (r5 = n5.match(/([+\-<>])(\d+)?/) || [], i4 = r5[1], r5 = r5[2], "+" === i4 || "-" === i4 ? t5 = O2(x2 + +("" + i4 + (+r5 || 1)), x2) : ">" === i4 ? t5 = r5 ? z2(+r5) : b2(true) : "<" === i4 && (t5 = w2(true))) : t5 = m2 ? n5 : q(n5, 0, c2);
+                }
+                return t5;
+              })(n4)
+            )) && (t4 || r4 !== x2) && (M2(r4), l2.move(n4, r4, k2, i3));
+          },
+          scroll: function(n4, t4, i3, r4) {
+            u2.Scroll.scroll(n4, t4, i3, function() {
+              var n5 = A2(l2.toIndex(d2()));
+              M2(g2 ? Y(n5, c2) : n5), r4 && r4();
+            });
+          },
+          getNext: b2,
+          getPrev: w2,
+          getAdjacent: L2,
+          getEnd: _2,
+          setIndex: M2,
+          getIndex: function(n4) {
+            return n4 ? k2 : x2;
+          },
+          toIndex: z2,
+          toPage: D2,
+          toDest: function(n4) {
+            return n4 = l2.toIndex(n4), y2 ? q(n4, 0, c2) : n4;
+          },
+          hasFocus: P2,
+          isBusy: I2
+        };
+      },
+      Arrows: function(o2, n3, t3) {
+        var i2, r3, u2 = Q(o2), e2 = u2.on, c2 = u2.bind, f2 = u2.emit, a2 = t3.classes, s2 = t3.i18n, l2 = n3.Elements, d2 = n3.Controller, v2 = l2.arrows, h2 = l2.track, p2 = v2, g2 = l2.prev, m2 = l2.next, y2 = {};
+        function b2() {
+          var n4 = t3.arrows;
+          !n4 || g2 && m2 || (p2 = v2 || j("div", a2.arrows), g2 = S2(true), m2 = S2(false), i2 = true, L(p2, [g2, m2]), v2 || O(p2, h2)), g2 && m2 && (an(y2, { prev: g2, next: m2 }), ln(p2, n4 ? "" : "none"), M(p2, r3 = dt + "--" + t3.direction), n4 && (e2([B, Dn, J, V, "ei"], E2), c2(m2, "click", R(k2, ">")), c2(g2, "click", R(k2, "<")), E2(), I([g2, m2], Kn, h2.id), f2("arrows:mounted", g2, m2))), e2(K, w2);
+        }
+        function w2() {
+          x2(), b2();
+        }
+        function x2() {
+          u2.destroy(), X(p2, r3), i2 ? (T(v2 ? [g2, m2] : p2), g2 = m2 = null) : P([g2, m2], ut);
+        }
+        function k2(n4) {
+          d2.go(n4, true);
+        }
+        function S2(n4) {
+          return hn('<button class="' + a2.arrow + " " + (n4 ? a2.prev : a2.next) + '" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" focusable="false"><path d="' + (t3.arrowPath || "m15.5 0.932-4.3 4.38 14.5 14.6-14.5 14.5 4.3 4.4 14.6-14.6 4.4-4.3-4.4-4.4-14.6-14.6z") + '" />');
+        }
+        function E2() {
+          var n4, t4, i3, r4;
+          g2 && m2 && (r4 = o2.index, n4 = d2.getPrev(), t4 = d2.getNext(), i3 = -1 < n4 && r4 < n4 ? s2.last : s2.prev, r4 = -1 < t4 && t4 < r4 ? s2.first : s2.next, g2.disabled = n4 < 0, m2.disabled = t4 < 0, I(g2, nn, i3), I(m2, nn, r4), f2("arrows:updated", g2, m2, n4, t4));
+        }
+        return { arrows: y2, mount: b2, destroy: x2, update: E2 };
+      },
+      Autoplay: function(n3, t3, i2) {
+        var r3, o2, u2 = Q(n3), e2 = u2.on, c2 = u2.bind, f2 = u2.emit, a2 = qn(i2.interval, n3.go.bind(n3, ">"), function(n4) {
+          var t4 = l2.bar;
+          t4 && _(t4, "width", 100 * n4 + "%"), f2("autoplay:playing", n4);
+        }), s2 = a2.isPaused, l2 = t3.Elements, d2 = (u2 = t3.Elements).root, v2 = u2.toggle, h2 = i2.autoplay, p2 = "pause" === h2;
+        function g2() {
+          s2() && t3.Slides.isEnough() && (a2.start(!i2.resetProgress), o2 = r3 = p2 = false, b2(), f2(Fn));
+        }
+        function m2(n4) {
+          p2 = !!(n4 = void 0 === n4 ? true : n4), b2(), s2() || (a2.pause(), f2(Xn));
+        }
+        function y2() {
+          p2 || (r3 || o2 ? m2(false) : g2());
+        }
+        function b2() {
+          v2 && (A(v2, tn, !p2), I(v2, nn, i2.i18n[p2 ? "play" : "pause"]));
+        }
+        function w2(n4) {
+          n4 = t3.Slides.getAt(n4);
+          a2.set(n4 && +z(n4.slide, Ct) || i2.interval);
+        }
+        return {
+          mount: function() {
+            h2 && (i2.pauseOnHover && c2(d2, "mouseenter mouseleave", function(n4) {
+              r3 = "mouseenter" === n4.type, y2();
+            }), i2.pauseOnFocus && c2(d2, "focusin focusout", function(n4) {
+              o2 = "focusin" === n4.type, y2();
+            }), v2 && c2(v2, "click", function() {
+              p2 ? g2() : m2(true);
+            }), e2([H, Tn, J], a2.rewind), e2(H, w2), v2 && I(v2, Kn, l2.track.id), p2 || g2(), b2());
+          },
+          destroy: a2.cancel,
+          play: g2,
+          pause: m2,
+          isPaused: s2
+        };
+      },
+      Cover: function(n3, t3, i2) {
+        var r3 = Q(n3).on;
+        function o2(i3) {
+          t3.Slides.forEach(function(n4) {
+            var t4 = fn(n4.container || n4.slide, "img");
+            t4 && t4.src && u2(i3, t4, n4);
+          });
+        }
+        function u2(n4, t4, i3) {
+          i3.style("background", n4 ? 'center/cover no-repeat url("' + t4.src + '")' : "", true), ln(t4, n4 ? "none" : "");
+        }
+        return {
+          mount: function() {
+            i2.cover && (r3(Wn, R(u2, true)), r3([B, K, J], R(o2, true)));
+          },
+          destroy: R(o2, false)
+        };
+      },
+      Scroll: function(n3, c2, u2) {
+        var f2, a2, t3 = Q(n3), i2 = t3.on, s2 = t3.emit, l2 = n3.state.set, d2 = c2.Move, v2 = d2.getPosition, e2 = d2.getLimit, h2 = d2.exceededLimit, p2 = d2.translate, g2 = n3.is(Mt), m2 = 1;
+        function y2(n4, t4, i3, r4, o2) {
+          var u3, e3 = v2(), i3 = (x2(), !i3 || g2 && h2() || (i3 = c2.Layout.sliderSize(), u3 = Ln(n4) * i3 * xn(U(n4) / i3) || 0, n4 = d2.toPosition(c2.Controller.toDest(n4 % i3)) + u3), Sn(e3, n4, 1));
+          m2 = 1, t4 = i3 ? 0 : t4 || wn(U(n4 - e3) / 1.5, 800), a2 = r4, f2 = qn(t4, b2, R(w2, e3, n4, o2), 1), l2(rn), s2(Tn), f2.start();
+        }
+        function b2() {
+          l2(3), a2 && a2(), s2(V);
+        }
+        function w2(n4, t4, i3, r4) {
+          var o2 = v2(), r4 = (n4 + (t4 - n4) * (t4 = r4, (n4 = u2.easingFunc) ? n4(t4) : 1 - Math.pow(1 - t4, 4)) - o2) * m2;
+          p2(o2 + r4), g2 && !i3 && h2() && (m2 *= 0.6, U(r4) < 10 && y2(e2(h2(true)), 600, false, a2, true));
+        }
+        function x2() {
+          f2 && f2.cancel();
+        }
+        function r3() {
+          f2 && !f2.isPaused() && (x2(), b2());
+        }
+        return {
+          mount: function() {
+            i2(H, x2), i2([K, J], r3);
+          },
+          destroy: x2,
+          scroll: y2,
+          cancel: r3
+        };
+      },
+      Drag: function(e2, o2, c2) {
+        var f2, t3, u2, a2, s2, l2, d2, v2, n3 = Q(e2), i2 = n3.on, h2 = n3.emit, p2 = n3.bind, g2 = n3.unbind, m2 = e2.state, y2 = o2.Move, b2 = o2.Scroll, w2 = o2.Controller, x2 = o2.Elements.track, k2 = o2.Media.reduce, r3 = (n3 = o2.Direction).resolve, S2 = n3.orient, E2 = y2.getPosition, L2 = y2.exceededLimit, O2 = false;
+        function j2() {
+          var n4 = c2.drag;
+          C2(!n4), a2 = "free" === n4;
+        }
+        function N2(n4) {
+          var t4, i3, r4;
+          l2 = false, d2 || (t4 = R2(n4), i3 = n4.target, r4 = c2.noDrag, cn(i3, "." + mt + ", ." + vt) || r4 && cn(i3, r4) || !t4 && n4.button || (w2.isBusy() ? F(n4, true) : (v2 = t4 ? x2 : window, s2 = m2.is([G, rn]), u2 = null, p2(v2, zt, A2, jt), p2(v2, Dt, _2, jt), y2.cancel(), b2.cancel(), z2(n4))));
+        }
+        function A2(n4) {
+          var t4, i3, r4, o3, u3;
+          m2.is(6) || (m2.set(6), h2("drag")), n4.cancelable && (s2 ? (y2.translate(f2 + D2(n4) / (O2 && e2.is(Mt) ? 5 : 1)), u3 = 200 < M2(n4), t4 = O2 !== (O2 = L2()), (u3 || t4) && z2(n4), l2 = true, h2("dragging"), F(n4)) : U(D2(u3 = n4)) > U(D2(u3, true)) && (t4 = n4, i3 = c2.dragMinThreshold, r4 = un(i3), o3 = r4 && i3.mouse || 0, r4 = (r4 ? i3.touch : +i3) || 10, s2 = U(D2(t4)) > (R2(t4) ? r4 : o3), F(n4)));
+        }
+        function _2(n4) {
+          var t4, i3, r4;
+          m2.is(6) && (m2.set(3), h2("dragged")), s2 && (i3 = (function(n5) {
+            return E2() + Ln(n5) * Y(U(n5) * (c2.flickPower || 600), a2 ? 1 / 0 : o2.Layout.listSize() * (c2.flickMaxPages || 1));
+          })(
+            t4 = (function(n5) {
+              if (e2.is(Pt) || !O2) {
+                var t5 = M2(n5);
+                if (t5 && t5 < 200) return D2(n5) / t5;
+              }
+              return 0;
+            })(t4 = n4)
+          ), r4 = c2.rewind && c2.rewindByDrag, k2(false), a2 ? w2.scroll(i3, 0, c2.snap) : e2.is(It) ? w2.go(S2(Ln(t4)) < 0 ? r4 ? "<" : "-" : r4 ? ">" : "+") : e2.is(Mt) && O2 && r4 ? w2.go(L2(true) ? ">" : "<") : w2.go(w2.toDest(i3), true), k2(true), F(n4)), g2(v2, zt, A2), g2(v2, Dt, _2), s2 = false;
+        }
+        function T2(n4) {
+          !d2 && l2 && F(n4, true);
+        }
+        function z2(n4) {
+          u2 = t3, t3 = n4, f2 = E2();
+        }
+        function D2(n4, t4) {
+          return I2(n4, t4) - I2(P2(n4), t4);
+        }
+        function M2(n4) {
+          return mn(n4) - mn(P2(n4));
+        }
+        function P2(n4) {
+          return t3 === n4 && u2 || t3;
+        }
+        function I2(n4, t4) {
+          return (R2(n4) ? n4.changedTouches[0] : n4)["page" + r3(t4 ? "Y" : "X")];
+        }
+        function R2(n4) {
+          return "undefined" != typeof TouchEvent && n4 instanceof TouchEvent;
+        }
+        function C2(n4) {
+          d2 = n4;
+        }
+        return {
+          mount: function() {
+            p2(x2, zt, on, jt), p2(x2, Dt, on, jt), p2(x2, _t, N2, jt), p2(x2, "click", T2, { capture: true }), p2(x2, "dragstart", F), i2([B, K], j2);
+          },
+          disable: C2,
+          isDragging: function() {
+            return s2;
+          }
+        };
+      },
+      Keyboard: function(t3, n3, i2) {
+        var r3, o2, u2 = Q(t3), e2 = u2.on, c2 = u2.bind, f2 = u2.unbind, a2 = t3.root, s2 = n3.Direction.resolve;
+        function l2() {
+          var n4 = i2.keyboard;
+          n4 && (r3 = "global" === n4 ? window : a2, c2(r3, Gt, h2));
+        }
+        function d2() {
+          f2(r3, Gt);
+        }
+        function v2() {
+          var n4 = o2;
+          o2 = true, p(function() {
+            o2 = n4;
+          });
+        }
+        function h2(n4) {
+          o2 || ((n4 = Tt(n4)) === s2(Bn) ? t3.go("<") : n4 === s2(Hn) && t3.go(">"));
+        }
+        return {
+          mount: function() {
+            l2(), e2(K, d2), e2(K, l2), e2(H, v2);
+          },
+          destroy: d2,
+          disable: function(n4) {
+            o2 = n4;
+          }
+        };
+      },
+      LazyLoad: function(i2, n3, o2) {
+        var t3 = Q(i2), r3 = t3.on, u2 = t3.off, e2 = t3.bind, c2 = t3.emit, f2 = "sequential" === o2.lazyLoad, a2 = [Dn, V], s2 = [];
+        function l2() {
+          D(s2), n3.Slides.forEach(function(r4) {
+            gn(r4.slide, Wt).forEach(function(n4) {
+              var t4 = z(n4, Ft), i3 = z(n4, Xt);
+              t4 === n4.src && i3 === n4.srcset || (t4 = o2.classes.spinner, t4 = fn(i3 = n4.parentElement, "." + t4) || j("span", t4, i3), s2.push([n4, r4, t4]), n4.src || ln(n4, "none"));
+            });
+          }), (f2 ? p2 : (u2(a2), r3(a2, d2), d2))();
+        }
+        function d2() {
+          (s2 = s2.filter(function(n4) {
+            var t4 = o2.perPage * ((o2.preloadPages || 1) + 1) - 1;
+            return !n4[1].isWithin(i2.index, t4) || v2(n4);
+          })).length || u2(a2);
+        }
+        function v2(n4) {
+          var t4 = n4[0];
+          M(n4[1].slide, Et), e2(t4, "load error", R(h2, n4)), I(t4, "src", z(t4, Ft)), I(t4, "srcset", z(t4, Xt)), P(t4, Ft), P(t4, Xt);
+        }
+        function h2(n4, t4) {
+          var i3 = n4[0], r4 = n4[1];
+          X(r4.slide, Et), "error" !== t4.type && (T(n4[2]), ln(i3, ""), c2(Wn, i3, r4), c2(jn)), f2 && p2();
+        }
+        function p2() {
+          s2.length && v2(s2.shift());
+        }
+        return {
+          mount: function() {
+            o2.lazyLoad && (l2(), r3(J, l2));
+          },
+          destroy: R(D, s2),
+          check: d2
+        };
+      },
+      Pagination: function(l2, n3, d2) {
+        var v2, h2, t3 = Q(l2), p2 = t3.on, g2 = t3.emit, m2 = t3.bind, y2 = n3.Slides, b2 = n3.Elements, w2 = n3.Controller, x2 = w2.hasFocus, r3 = w2.getIndex, e2 = w2.go, c2 = n3.Direction.resolve, k2 = b2.pagination, S2 = [];
+        function E2() {
+          v2 && (T(k2 ? o(v2.children) : v2), X(v2, h2), D(S2), v2 = null), t3.destroy();
+        }
+        function L2(n4) {
+          e2(">" + n4, true);
+        }
+        function O2(n4, t4) {
+          var i2 = S2.length, r4 = Tt(t4), o2 = A2(), u2 = -1, o2 = (r4 === c2(Hn, false, o2) ? u2 = ++n4 % i2 : r4 === c2(Bn, false, o2) ? u2 = (--n4 + i2) % i2 : "Home" === r4 ? u2 = 0 : "End" === r4 && (u2 = i2 - 1), S2[u2]);
+          o2 && (dn(o2.button), e2(">" + u2), F(t4, true));
+        }
+        function A2() {
+          return d2.paginationDirection || d2.direction;
+        }
+        function _2(n4) {
+          return S2[w2.toPage(n4)];
+        }
+        function z2() {
+          var n4, t4 = _2(r3(true)), i2 = _2(r3());
+          t4 && (X(n4 = t4.button, tn), P(n4, Qn), I(n4, $, -1)), i2 && (M(n4 = i2.button, tn), I(n4, Qn, true), I(n4, $, "")), g2("pagination:updated", { list: v2, items: S2 }, t4, i2);
+        }
+        return {
+          items: S2,
+          mount: function n4() {
+            E2(), p2([K, J, "ei"], n4);
+            var t4 = d2.pagination;
+            if (k2 && ln(k2, t4 ? "" : "none"), t4) {
+              p2([H, Tn, V], z2);
+              var t4 = l2.length, i2 = d2.classes, r4 = d2.i18n, o2 = d2.perPage, u2 = x2() ? w2.getEnd() + 1 : kn(t4 / o2);
+              M(v2 = k2 || j("ul", i2.pagination, b2.track.parentElement), h2 = gt + "--" + A2()), I(v2, Z, "tablist"), I(v2, nn, r4.select), I(v2, nt, A2() === Jn ? "vertical" : "");
+              for (var e3 = 0; e3 < u2; e3++) {
+                var c3 = j("li", null, v2), f2 = j("button", { class: i2.page, type: "button" }, c3), a2 = y2.getIn(e3).map(function(n5) {
+                  return n5.slide.id;
+                }), s2 = !x2() && 1 < o2 ? r4.pageX : r4.slideX;
+                m2(f2, "click", R(L2, e3)), d2.paginationKeyboard && m2(f2, "keydown", R(O2, e3)), I(c3, Z, "presentation"), I(f2, Z, "tab"), I(f2, Kn, a2.join(" ")), I(f2, nn, On(s2, e3 + 1)), I(f2, $, -1), S2.push({ li: c3, button: f2, page: e3 });
+              }
+              z2(), g2("pagination:mounted", { list: v2, items: S2 }, _2(l2.index));
+            }
+          },
+          destroy: E2,
+          getAt: _2,
+          update: z2
+        };
+      },
+      Sync: function(i2, n3, t3) {
+        var r3 = t3.isNavigation, o2 = t3.slideFocus, u2 = [];
+        function e2() {
+          var n4, t4;
+          i2.splides.forEach(function(n5) {
+            n5.isParent || (f2(i2, n5.splide), f2(n5.splide, i2));
+          }), r3 && (n4 = Q(i2), (t4 = n4.on)(Mn, s2), t4(Yn, l2), t4([B, K], a2), u2.push(n4), n4.emit(Gn, i2.splides));
+        }
+        function c2() {
+          u2.forEach(function(n4) {
+            n4.destroy();
+          }), D(u2);
+        }
+        function f2(n4, r4) {
+          n4 = Q(n4);
+          n4.on(H, function(n5, t4, i3) {
+            r4.go(r4.is(Pt) ? i3 : n5);
+          }), u2.push(n4);
+        }
+        function a2() {
+          I(n3.Elements.list, nt, t3.direction === Jn ? "vertical" : "");
+        }
+        function s2(n4) {
+          i2.go(n4.index);
+        }
+        function l2(n4, t4) {
+          b(Yt, Tt(t4)) && (s2(n4), F(t4));
+        }
+        return {
+          setup: R(n3.Media.set, { slideFocus: en(o2) ? r3 : o2 }, true),
+          mount: e2,
+          destroy: c2,
+          remount: function() {
+            c2(), e2();
+          }
+        };
+      },
+      Wheel: function(e2, c2, f2) {
+        var n3 = Q(e2).bind, a2 = 0;
+        function t3(n4) {
+          var t4, i2, r3, o2, u2;
+          n4.cancelable && (t4 = (u2 = n4.deltaY) < 0, i2 = mn(n4), r3 = f2.wheelMinThreshold || 0, o2 = f2.wheelSleep || 0, U(u2) > r3 && o2 < i2 - a2 && (e2.go(t4 ? "<" : ">"), a2 = i2), u2 = t4, f2.releaseWheel && !e2.state.is(G) && -1 === c2.Controller.getAdjacent(u2) || F(n4));
+        }
+        return {
+          mount: function() {
+            f2.wheel && n3(c2.Elements.track, "wheel", t3, jt);
+          }
+        };
+      },
+      Live: function(n3, t3, i2) {
+        var r3 = Q(n3).on, o2 = t3.Elements.track, u2 = i2.live && !i2.isNavigation, e2 = j("span", wt), c2 = qn(90, R(f2, false));
+        function f2(n4) {
+          I(o2, rt, n4), n4 ? (L(o2, e2), c2.start()) : (T(e2), c2.cancel());
+        }
+        function a2(n4) {
+          u2 && I(o2, it, n4 ? "off" : "polite");
+        }
+        return {
+          mount: function() {
+            u2 && (a2(!t3.Autoplay.isPaused()), I(o2, ot, true), e2.textContent = "\u2026", r3(Fn, R(a2, true)), r3(Xn, R(a2, false)), r3([Dn, V], R(f2, true)));
+          },
+          disable: a2,
+          destroy: function() {
+            P(o2, [it, ot, rt]), T(e2);
+          }
+        };
+      }
+    }), qt = { type: "slide", role: "region", speed: 400, perPage: 1, cloneStatus: true, arrows: true, pagination: true, paginationKeyboard: true, interval: 5e3, pauseOnHover: true, pauseOnFocus: true, resetProgress: true, easing: "cubic-bezier(0.25, 1, 0.5, 1)", drag: true, direction: "ltr", trimSpace: true, focusableNodes: "a, button, textarea, input, select, iframe", live: true, classes: { slide: at, clone: st, arrows: dt, arrow: vt, prev: ht, next: pt, pagination: gt, page: mt, spinner: i + "spinner" }, i18n: { prev: "Previous slide", next: "Next slide", first: "Go to first slide", last: "Go to last slide", slideX: "Go to slide %s", pageX: "Go to page %s", play: "Start autoplay", pause: "Pause autoplay", carousel: "carousel", slide: "slide", select: "Select a slide to show", slideLabel: "%s of %s" }, reducedMotion: { speed: 0, rewindSpeed: 0, autoplay: "pause" } };
+    function Bt(n3, t3, i2) {
+      var r3 = t3.Slides;
+      function o2() {
+        r3.forEach(function(n4) {
+          n4.style("transform", "translateX(-" + 100 * n4.index + "%)");
+        });
+      }
+      return {
+        mount: function() {
+          Q(n3).on([B, J], o2);
+        },
+        start: function(n4, t4) {
+          r3.style("transition", "opacity " + i2.speed + "ms " + i2.easing), p(t4);
+        },
+        cancel: on
+      };
+    }
+    function Ht(u2, n3, e2) {
+      var c2, f2 = n3.Move, a2 = n3.Controller, s2 = n3.Scroll, t3 = n3.Elements.list, l2 = R(_, t3, "transition");
+      function i2() {
+        l2(""), s2.cancel();
+      }
+      return {
+        mount: function() {
+          Q(u2).bind(t3, "transitionend", function(n4) {
+            n4.target === t3 && c2 && (i2(), c2());
+          });
+        },
+        start: function(n4, t4) {
+          var i3 = f2.toPosition(n4, true), r3 = f2.getPosition(), o2 = (function(n5) {
+            var t5 = e2.rewindSpeed;
+            if (u2.is(Mt) && t5) {
+              var i4 = a2.getIndex(true), r4 = a2.getEnd();
+              if (0 === i4 && r4 <= n5 || r4 <= i4 && 0 === n5) return t5;
+            }
+            return e2.speed;
+          })(n4);
+          1 <= U(i3 - r3) && 1 <= o2 ? e2.useScroll ? s2.scroll(i3, o2, false, t4) : (l2("transform " + o2 + "ms " + e2.easing), f2.translate(i3, true), c2 = t4) : (f2.jump(n4), t4());
+        },
+        cancel: i2
+      };
+    }
+    t2 = (function() {
+      function i2(n4, t3) {
+        this.event = Q(), this.Components = {}, this.state = s(1), this.splides = [], this.n = {}, this.t = {};
+        n4 = C(n4) ? pn(document, n4) : n4;
+        bn(n4, n4 + " is invalid."), t3 = d({ label: z(this.root = n4, nn) || "", labelledby: z(n4, Zn) || "" }, qt, i2.defaults, t3 || {});
+        try {
+          d(t3, JSON.parse(z(n4, f)));
+        } catch (n5) {
+          bn(false, "Invalid JSON");
+        }
+        this.n = Object.create(d({}, t3));
+      }
+      var n3 = i2.prototype;
+      return n3.mount = function(n4, t3) {
+        var i3 = this, r3 = this.state, o2 = this.Components;
+        return bn(r3.is([1, 7]), "Already mounted!"), r3.set(1), this.i = o2, this.r = t3 || this.r || (this.is(It) ? Bt : Ht), this.t = n4 || this.t, w(an({}, Ut, this.t, { Transition: this.r }), function(n5, t4) {
+          n5 = n5(i3, o2, i3.n);
+          (o2[t4] = n5).setup && n5.setup();
+        }), w(o2, function(n5) {
+          n5.mount && n5.mount();
+        }), this.emit(B), M(this.root, "is-initialized"), r3.set(3), this.emit("ready"), this;
+      }, n3.sync = function(n4) {
+        return this.splides.push({ splide: n4 }), n4.splides.push({ splide: this, isParent: true }), this.state.is(3) && (this.i.Sync.remount(), n4.Components.Sync.remount()), this;
+      }, n3.go = function(n4) {
+        return this.i.Controller.go(n4), this;
+      }, n3.on = function(n4, t3) {
+        return this.event.on(n4, t3), this;
+      }, n3.off = function(n4) {
+        return this.event.off(n4), this;
+      }, n3.emit = function(n4) {
+        var t3;
+        return (t3 = this.event).emit.apply(t3, [n4].concat(o(arguments, 1))), this;
+      }, n3.add = function(n4, t3) {
+        return this.i.Slides.add(n4, t3), this;
+      }, n3.remove = function(n4) {
+        return this.i.Slides.remove(n4), this;
+      }, n3.is = function(n4) {
+        return this.n.type === n4;
+      }, n3.refresh = function() {
+        return this.emit(J), this;
+      }, n3.destroy = function(t3) {
+        void 0 === t3 && (t3 = true);
+        var n4 = this.event, i3 = this.state;
+        return i3.is(1) ? Q(this).on("ready", this.destroy.bind(this, t3)) : (w(
+          this.i,
+          function(n5) {
+            n5.destroy && n5.destroy(t3);
+          },
+          true
+        ), n4.emit(a), n4.destroy(), t3 && D(this.splides), i3.set(7)), this;
+      }, Jt(i2, [
+        {
+          key: "options",
+          get: function() {
+            return this.n;
+          },
+          set: function(n4) {
+            this.i.Media.set(n4, true, true);
+          }
+        },
+        {
+          key: "length",
+          get: function() {
+            return this.i.Slides.getLength(true);
+          }
+        },
+        {
+          key: "index",
+          get: function() {
+            return this.i.Controller.getIndex();
+          }
+        }
+      ]), i2;
+    })();
+    return t2.defaults = {}, t2.STATES = r2, t2;
+  }, "object" == typeof exports && "undefined" != typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define(t) : (n = "undefined" != typeof globalThis ? globalThis : n || self).Splide = t();
+
+  // src/assets/libs/js/viewer.js
+  (function() {
+    "use strict";
+    Object.assign || (Object.assign = function(a, b) {
+      for (var c = Object.keys(b), e = 0, f; e < c.length; e++) f = c[e], a[f] = b[f];
+      return a;
+    });
+    Element.prototype.closest || (Element.prototype.closest = function(a) {
+      a = a.substring(1);
+      for (var b = this; b && 1 === b.nodeType; ) {
+        if (b.classList.contains(a)) return b;
+        b = b.parentElement;
+      }
+      return null;
+    });
+    function d(a, b, c) {
+      a.classList[c ? "add" : "remove"](b);
+    }
+    function g(a, b, c) {
+      c = "" + c;
+      a["_s_" + b] !== c && (a.style.setProperty(b, c), a["_s_" + b] = c);
+    }
+    var aa = 0;
+    function ba(a, b) {
+      b && (g(a, "transition", "none"), b());
+      aa || (aa = a.clientTop && 0);
+      b && g(a, "transition", "");
+    }
+    function h(a, b, c, e) {
+      k(true, a, b, c, e);
+    }
+    function k(a, b, c, e, f) {
+      b[(a ? "add" : "remove") + "EventListener"](c, e, f || false === f ? f : true);
+    }
+    function ca(a, b) {
+      a.stopPropagation();
+      b && a.preventDefault();
+    }
+    function l(a, b) {
+      g(a, "display", b ? "" : "none");
+    }
+    function da(a, b) {
+      g(a, "visibility", b ? "" : "hidden");
+    }
+    function m(a, b) {
+      g(a, "transition", b ? "" : "none");
+    }
+    var n2 = "theme download play page close autofit zoom-in zoom-out prev next fullscreen".split(" "), ea = { page: 1, close: 1, autofit: 1, "zoom-in": 1, "zoom-out": 1, prev: 1, next: 1, fullscreen: 1 };
+    var p = document.createElement("div");
+    p.id = "spotlight";
+    p.innerHTML = "<div class=spl-spinner></div><div class=spl-track><div class=spl-scene><div class=spl-pane></div></div></div><div class=spl-header><div class=spl-page> </div></div><div class=spl-progress></div><div class=spl-footer><div class=spl-title> </div><div class=spl-description> </div><div class=spl-button> </div></div><div class=spl-prev></div><div class=spl-next></div>";
+    var fa = {}, ha = document.createElement("video");
+    function ia(a, b, c, e) {
+      if ("node" !== e) {
+        for (var f = Object.keys(c), A = 0, w; A < f.length; A++)
+          if (w = f[A], 3 < w.length && 0 === w.indexOf("src")) {
+            if ("video" === e) {
+              var F = fa[w];
+              if (F) {
+                if (0 < F) {
+                  var Ea = c[w];
+                  break;
+                }
+              } else if (ha.canPlayType("video/" + w.substring(3).replace("-", "").toLowerCase())) {
+                fa[w] = 1;
+                Ea = c[w];
+                break;
+              } else fa[w] = -1;
+            } else if (F = parseInt(w.substring(4), 10)) {
+              if (F = Math.abs(b - F), !hb || F < hb) {
+                var hb = F;
+                Ea = c[w];
+              }
+            }
+          }
+      }
+      return Ea || c.src || c.href || a.src || a.href;
+    }
+    var q = {}, ja = navigator.connection, ka = window.devicePixelRatio || 1, r2, t2, la, ma, u, na, oa, pa, v, qa, ra, sa, x, y, z, B, C, D, ta, E, G, ua, va, wa, xa, ya, za, H, Aa, Ba, Ca, Da, I, Fa, Ga, Ha, Ia, J, K, L, M, N, Ja = document.createElement("img"), Ka, La, Ma, Na, Oa, Pa, Qa, Ra, Sa, Ta, Ua, O, Va, P, Q, R, S, Wa, T, Xa;
+    h(document, "click", Ya);
+    function Za() {
+      function a(c) {
+        return q[c] = (p || document).getElementsByClassName("spl-" + c)[0];
+      }
+      if (!K) {
+        K = document.body;
+        Ka = a("scene");
+        La = a("header");
+        Ma = a("footer");
+        Na = a("title");
+        Oa = a("description");
+        Pa = a("button");
+        Qa = a("prev");
+        Ra = a("next");
+        Ta = a("page");
+        O = a("progress");
+        Va = a("spinner");
+        M = [a("pane")];
+        U("close", $a);
+        K[T = "requestFullscreen"] || K[T = "msRequestFullscreen"] || K[T = "webkitRequestFullscreen"] || K[T = "mozRequestFullscreen"] || (T = "");
+        T ? (Xa = T.replace("request", "exit").replace("mozRequest", "mozCancel").replace("Request", "Exit"), Sa = U("fullscreen", ab)) : n2.pop();
+        U("autofit", V);
+        U("zoom-in", bb);
+        U("zoom-out", cb);
+        U("theme", db);
+        Ua = U("play", W);
+        U("download", eb);
+        h(Qa, "click", fb);
+        h(Ra, "click", gb);
+        var b = a("track");
+        h(b, "mousedown", ib);
+        h(b, "mousemove", jb);
+        h(b, "mouseleave", kb);
+        h(b, "mouseup", kb);
+        h(b, "touchstart", ib, { passive: false });
+        h(b, "touchmove", jb, { passive: true });
+        h(b, "touchend", kb);
+        h(Pa, "click", function() {
+          Da ? Da(z, D) : Ca && (location.href = Ca);
+        });
+      }
+    }
+    function U(a, b) {
+      var c = document.createElement("div");
+      c.className = "spl-" + a;
+      h(c, "click", b);
+      La.appendChild(c);
+      return q[a] = c;
+    }
+    function Ya(a) {
+      var b = a.target.closest(".spotlight");
+      if (b) {
+        ca(a, true);
+        a = b.closest(".spotlight-group");
+        C = (a || document).getElementsByClassName("spotlight");
+        for (var c = 0; c < C.length; c++)
+          if (C[c] === b) {
+            E = a && a.dataset;
+            lb(c + 1);
+            break;
+          }
+      }
+    }
+    function lb(a) {
+      if (B = C.length) {
+        K || Za();
+        va && va(a);
+        for (var b = M[0], c = b.parentNode, e = M.length; e < B; e++) {
+          var f = b.cloneNode(false);
+          g(f, "left", 100 * e + "%");
+          c.appendChild(f);
+          M[e] = f;
+        }
+        L || (K.appendChild(p), mb());
+        z = a || 1;
+        m(Ka);
+        nb(true);
+        T && l(Sa, 0 < screen.availHeight - window.innerHeight);
+        history.pushState({ spl: 1 }, "");
+        history.pushState({ spl: 2 }, "");
+        m(p, true);
+        d(K, "hide-scrollbars", true);
+        d(p, "show", true);
+        ob(true);
+        mb();
+        X();
+        H && W(true, true);
+      }
+    }
+    function Y(a, b) {
+      a = D[a];
+      return "undefined" !== typeof a ? (a = "" + a, "false" !== a && (a || b)) : b;
+    }
+    function pb(a) {
+      a ? ba(N, pb) : (m(Ka, Ia), g(N, "opacity", Ha ? 0 : 1), qb(Ga && 0.8), J && d(N, J, true));
+    }
+    function rb(a) {
+      L = M[a - 1];
+      N = L.firstChild;
+      z = a;
+      if (N) x && V(), ya && d(N, ya, true), pb(true), J && d(N, J), Ha && g(N, "opacity", 1), Ga && g(N, "transform", ""), g(N, "visibility", "visible"), Q && (Ja.src = Q), H && sb(R);
+      else {
+        var b = P.media, c = Y("spinner", true);
+        if ("video" === b)
+          tb(c, true), N = document.createElement("video"), N.onloadedmetadata = function() {
+            N === this && (N.onerror = null, N.width = N.videoWidth, N.height = N.videoHeight, ub(), tb(c), rb(a));
+          }, N.poster = D.poster, N.preload = Ba ? "auto" : "metadata", N.controls = Y("controls", true), N.autoplay = D.autoplay, N.h = Y("inline"), N.muted = Y("muted"), N.src = P.src, L.appendChild(N);
+        else {
+          if ("node" === b) {
+            N = P.src;
+            "string" === typeof N && (N = document.querySelector(N));
+            N && (N.g || (N.g = N.parentNode), ub(), L.appendChild(N), rb(a));
+            return;
+          }
+          tb(c, true);
+          N = document.createElement("img");
+          N.onload = function() {
+            N === this && (N.onerror = null, tb(c), rb(a), ub());
+          };
+          N.src = P.src;
+          L.appendChild(N);
+        }
+        N && (c || g(N, "visibility", "visible"), N.onerror = function() {
+          N === this && (vb(N), d(Va, "error", true), tb(c));
+        });
+      }
+    }
+    function tb(a, b) {
+      a && d(Va, "spin", b);
+    }
+    function wb() {
+      return document.fullscreen || document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
+    }
+    function xb() {
+      mb();
+      N && ub();
+      if (T) {
+        var a = wb();
+        d(Sa, "on", a);
+        a || l(Sa, 0 < screen.availHeight - window.innerHeight);
+      }
+    }
+    function mb() {
+      u = p.clientWidth;
+      na = p.clientHeight;
+    }
+    function ub() {
+      oa = N.clientWidth;
+      pa = N.clientHeight;
+    }
+    function qb(a) {
+      g(N, "transform", "translate(-50%, -50%) scale(" + (a || v) + ")");
+    }
+    function Z(a, b) {
+      g(L, "transform", a || b ? "translate(" + a + "px, " + b + "px)" : "");
+    }
+    function yb(a, b, c) {
+      b ? ba(Ka, function() {
+        yb(a, false, c);
+      }) : g(Ka, "transform", "translateX(" + (100 * -a + (c || 0)) + "%)");
+    }
+    function ob(a) {
+      k(a, window, "keydown", zb);
+      k(a, window, "wheel", Ab);
+      k(a, window, "resize", xb);
+      k(a, window, "popstate", Bb);
+    }
+    function Bb(a) {
+      L && a.state.spl && $a(true);
+    }
+    function zb(a) {
+      if (L) {
+        var b = false !== D["zoom-in"];
+        switch (a.keyCode) {
+          case 8:
+            b && V();
+            break;
+          case 27:
+            $a();
+            break;
+          case 32:
+            H && W();
+            break;
+          case 37:
+            fb();
+            break;
+          case 39:
+            gb();
+            break;
+          case 38:
+          case 107:
+          case 187:
+            b && bb();
+            break;
+          case 40:
+          case 109:
+          case 189:
+            b && cb();
+        }
+      }
+    }
+    function Ab(a) {
+      L && false !== D["zoom-in"] && (a = a.deltaY, 0 > 0.5 * (0 > a ? 1 : a ? -1 : 0) ? cb() : bb());
+    }
+    function W(a, b) {
+      ("boolean" === typeof a ? a : !R) === !R && (R = R ? clearTimeout(R) : 1, d(Ua, "on", R), b || sb(R));
+    }
+    function sb(a) {
+      ua && (ba(O, function() {
+        g(O, "transition-duration", "");
+        g(O, "transform", "");
+      }), a && (g(O, "transition-duration", Fa + "s"), g(O, "transform", "translateX(0)")));
+      a && (R = setTimeout(gb, 1e3 * Fa));
+    }
+    function X() {
+      za && (Wa = Date.now() + 2950, S || (d(p, "menu", true), Cb(3e3)));
+    }
+    function Cb(a) {
+      S = setTimeout(function() {
+        var b = Date.now();
+        b >= Wa ? (d(p, "menu"), S = 0) : Cb(Wa - b);
+      }, a);
+    }
+    function Db(a) {
+      "boolean" === typeof a && (S = a ? S : 0);
+      S ? (S = clearTimeout(S), d(p, "menu")) : X();
+    }
+    function ib(a) {
+      ca(a, true);
+      qa = true;
+      ra = false;
+      var b = a.touches;
+      b && (b = b[0]) && (a = b);
+      la = a.pageX;
+      ma = a.pageY;
+      m(L);
+    }
+    function kb(a) {
+      ca(a);
+      if (qa) {
+        if (ra) {
+          if (ra && v === 1) {
+            var threshold = u / 120;
+            var nextSlide = r2 < -threshold && (z < B || G);
+            var prevSlide = r2 > threshold && (1 < z || G);
+            if (nextSlide || prevSlide) {
+              yb(z - 1, true, r2 / u * 100);
+              if (nextSlide) {
+                gb();
+              } else if (prevSlide) {
+                fb();
+              }
+            }
+            r2 = 0;
+            Z();
+          }
+          if (v > 1) {
+            m(L, true);
+            qa = false;
+            return;
+          }
+          m(L, true);
+        } else {
+          Db();
+        }
+        qa = false;
+      }
+    }
+    function jb(a) {
+      ca(a);
+      if (qa) {
+        var touch = a.touches;
+        touch && (touch = touch[0]) && (a = touch);
+        var currentX = a.pageX;
+        var currentY = a.pageY;
+        var deltaX = currentX - la;
+        var deltaY = currentY - ma;
+        la = currentX;
+        ma = currentY;
+        var overflowX = oa * v - u;
+        var overflowY = pa * v - na;
+        if (v === 1) {
+          r2 += deltaX;
+        } else {
+          if (overflowX > 0) {
+            r2 += deltaX;
+            var limitX = overflowX / 2;
+            if (r2 > limitX) r2 = limitX;
+            if (r2 < -limitX) r2 = -limitX;
+          }
+          if (overflowY > 0) {
+            t2 += deltaY;
+            var limitY = overflowY / 2;
+            if (t2 > limitY) t2 = limitY;
+            if (t2 < -limitY) t2 = -limitY;
+          }
+        }
+        ra = true;
+        Z(r2, t2);
+      } else {
+        X();
+      }
+    }
+    function ab(a) {
+      var b = wb();
+      if ("boolean" !== typeof a || a !== !!b)
+        if (b) document[Xa]();
+        else p[T]();
+    }
+    function db(a) {
+      "string" !== typeof a && (a = y ? "" : Aa || "white");
+      y !== a && (y && d(p, y), a && d(p, a, true), y = a);
+    }
+    function V(a) {
+      "boolean" === typeof a && (x = !a);
+      x = 1 === v && !x;
+      d(N, "autofit", x);
+      g(N, "transform", "");
+      v = 1;
+      t2 = r2 = 0;
+      ub();
+      m(L);
+      Z();
+    }
+    function bb(isButton) {
+      var factor = isButton ? 1.25 : 1.05;
+      var a = v * factor;
+      if (a > 5) a = 5;
+      Eb(a);
+    }
+    function cb(isButton) {
+      var factor = isButton ? 0.8 : 0.95;
+      var a = v * factor;
+      if (a < 0.2) a = 0.2;
+      Eb(a);
+    }
+    function Eb(a) {
+      v = a || 1;
+      g(N, "transition", "transform 0.2s ease-out");
+      qb();
+      setTimeout(() => g(N, "transition", ""), 200);
+    }
+    function eb() {
+      var a = K, b = document.createElement("a"), c = N.src;
+      b.href = c;
+      b.download = c.substring(c.lastIndexOf("/") + 1);
+      a.appendChild(b);
+      b.click();
+      a.removeChild(b);
+    }
+    function $a(a) {
+      setTimeout(function() {
+        K.removeChild(p);
+        L = N = P = D = E = C = va = wa = xa = Da = null;
+      }, 200);
+      d(K, "hide-scrollbars");
+      d(p, "show");
+      ab(false);
+      ob();
+      history.go(true === a ? -1 : -2);
+      Q && (Ja.src = "");
+      R && W();
+      N && vb(N);
+      S && (S = clearTimeout(S));
+      y && db();
+      I && d(p, I);
+      xa && xa();
+    }
+    function vb(a) {
+      if (a.g) a.g.appendChild(a), a.g = null;
+      else {
+        var b = a.parentNode;
+        b && b.removeChild(a);
+        a.src = a.onerror = "";
+      }
+    }
+    function fb(a) {
+      a && X();
+      if (1 < B) {
+        if (1 < z) return Fb(z - 1);
+        if (G) return yb(B, true), Fb(B);
+      }
+    }
+    function gb(a) {
+      a && X();
+      if (1 < B) {
+        if (z < B) return Fb(z + 1);
+        if (G) return yb(-1, true), Fb(1);
+        R && W();
+      }
+    }
+    function Fb(a) {
+      if (a !== z) {
+        R ? (clearTimeout(R), sb()) : X();
+        var b = a > z;
+        z = a;
+        nb(b);
+        return true;
+      }
+    }
+    function Gb(a) {
+      var b = C[z - 1], c = b;
+      D = {};
+      E && Object.assign(D, E);
+      Object.assign(D, c.dataset || c);
+      ta = D.media;
+      Da = D.onclick;
+      Aa = D.theme;
+      I = D["class"];
+      za = Y("autohide", true);
+      G = Y("infinite");
+      ua = Y("progress", true);
+      H = Y("autoslide");
+      Ba = Y("preload", true);
+      Ca = D.buttonHref;
+      Fa = H && parseFloat(H) || 7;
+      y || Aa && db(Aa);
+      I && d(p, I, true);
+      I && ba(p);
+      if (c = D.control) {
+        c = "string" === typeof c ? c.split(",") : c;
+        for (var e = 0; e < n2.length; e++) D[n2[e]] = false;
+        for (e = 0; e < c.length; e++) {
+          var f = c[e].trim();
+          "zoom" === f ? D["zoom-in"] = D["zoom-out"] = true : D[f] = true;
+        }
+      }
+      c = D.animation;
+      Ga = Ha = Ia = !c;
+      J = false;
+      if (c) for (c = "string" === typeof c ? c.split(",") : c, e = 0; e < c.length; e++) f = c[e].trim(), "scale" === f ? Ga = true : "fade" === f ? Ha = true : "slide" === f ? Ia = true : f && (J = f);
+      ya = D.fit;
+      e = ja && ja.downlink;
+      c = Math.max(na, u) * ka;
+      e && 1200 * e < c && (c = 1200 * e);
+      var A;
+      P = { media: ta, src: ia(b, c, D, ta), title: Y("title", b.alt || b.title || (A = b.firstElementChild) && (A.alt || A.title)) };
+      Q && (Ja.src = Q = "");
+      Ba && a && (b = C[z]) && (a = b.dataset || b, (A = a.media) && "image" !== A || (Q = ia(b, c, a, A)));
+      for (b = 0; b < n2.length; b++) a = n2[b], l(q[a], Y(a, ea[a]));
+    }
+    function nb(a) {
+      t2 = r2 = 0;
+      v = 1;
+      if (N)
+        if (N.onerror) vb(N);
+        else {
+          var b = N;
+          setTimeout(function() {
+            b && N !== b && (vb(b), b = null);
+          }, 650);
+          pb();
+          Z();
+        }
+      Gb(a);
+      yb(z - 1);
+      d(Va, "error");
+      rb(z);
+      m(L);
+      Z();
+      a = P.title;
+      var c = Y("description"), e = Y("button"), f = a || c || e;
+      f && (a && (Na.firstChild.nodeValue = a), c && (Oa.firstChild.nodeValue = c), e && (Pa.firstChild.nodeValue = e), l(Na, a), l(Oa, c), l(Pa, e), g(Ma, "transform", "all" === za ? "" : "none"));
+      za || d(p, "menu", true);
+      da(Ma, f);
+      da(Qa, G || 1 < z);
+      da(Ra, G || z < B);
+      Ta.firstChild.nodeValue = 1 < B ? z + " / " + B : "";
+      wa && wa(z, D);
+    }
+    window.Spotlight = {
+      init: Za,
+      theme: db,
+      fullscreen: ab,
+      download: eb,
+      autofit: V,
+      next: gb,
+      prev: fb,
+      goto: Fb,
+      close: $a,
+      zoom: Eb,
+      menu: Db,
+      show: function(a, b, c) {
+        C = a;
+        b && (E = b, va = b.onshow, wa = b.onchange, xa = b.onclose, c = c || b.index);
+        lb(c);
+      },
+      play: W,
+      addControl: U,
+      removeControl: function(a) {
+        var b = q[a];
+        b && (La.removeChild(b), q[a] = null);
+      }
+    };
+  }).call(void 0);
+
+  // node_modules/swiper/shared/ssr-window.esm.mjs
+  function isObject(obj) {
+    return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
+  }
+  function extend(target = {}, src = {}) {
+    const noExtend = ["__proto__", "constructor", "prototype"];
+    Object.keys(src).filter((key) => noExtend.indexOf(key) < 0).forEach((key) => {
+      if (typeof target[key] === "undefined") target[key] = src[key];
+      else if (isObject(src[key]) && isObject(target[key]) && Object.keys(src[key]).length > 0) {
+        extend(target[key], src[key]);
+      }
+    });
+  }
+  var ssrDocument = {
+    body: {},
+    addEventListener() {
+    },
+    removeEventListener() {
+    },
+    activeElement: {
+      blur() {
+      },
+      nodeName: ""
+    },
+    querySelector() {
+      return null;
+    },
+    querySelectorAll() {
+      return [];
+    },
+    getElementById() {
+      return null;
+    },
+    createEvent() {
+      return {
+        initEvent() {
+        }
+      };
+    },
+    createElement() {
+      return {
+        children: [],
+        childNodes: [],
+        style: {},
+        setAttribute() {
+        },
+        getElementsByTagName() {
+          return [];
+        }
+      };
+    },
+    createElementNS() {
+      return {};
+    },
+    importNode() {
+      return null;
+    },
+    location: {
+      hash: "",
+      host: "",
+      hostname: "",
+      href: "",
+      origin: "",
+      pathname: "",
+      protocol: "",
+      search: ""
+    }
+  };
+  function getDocument() {
+    const doc = typeof document !== "undefined" ? document : {};
+    extend(doc, ssrDocument);
+    return doc;
+  }
+  var ssrWindow = {
+    document: ssrDocument,
+    navigator: {
+      userAgent: ""
+    },
+    location: {
+      hash: "",
+      host: "",
+      hostname: "",
+      href: "",
+      origin: "",
+      pathname: "",
+      protocol: "",
+      search: ""
+    },
+    history: {
+      replaceState() {
+      },
+      pushState() {
+      },
+      go() {
+      },
+      back() {
+      }
+    },
+    CustomEvent: function CustomEvent2() {
+      return this;
+    },
+    addEventListener() {
+    },
+    removeEventListener() {
+    },
+    getComputedStyle() {
+      return {
+        getPropertyValue() {
+          return "";
+        }
+      };
+    },
+    Image() {
+    },
+    Date() {
+    },
+    screen: {},
+    setTimeout() {
+    },
+    clearTimeout() {
+    },
+    matchMedia() {
+      return {};
+    },
+    requestAnimationFrame(callback) {
+      if (typeof setTimeout === "undefined") {
+        callback();
+        return null;
+      }
+      return setTimeout(callback, 0);
+    },
+    cancelAnimationFrame(id) {
+      if (typeof setTimeout === "undefined") {
+        return;
+      }
+      clearTimeout(id);
+    }
+  };
+  function getWindow() {
+    const win = typeof window !== "undefined" ? window : {};
+    extend(win, ssrWindow);
+    return win;
+  }
+
+  // node_modules/swiper/shared/utils.mjs
+  function classesToTokens(classes2 = "") {
+    return classes2.trim().split(" ").filter((c) => !!c.trim());
+  }
+  function deleteProps(obj) {
+    const object = obj;
+    Object.keys(object).forEach((key) => {
+      try {
+        object[key] = null;
+      } catch (e) {
+      }
+      try {
+        delete object[key];
+      } catch (e) {
+      }
+    });
+  }
+  function nextTick(callback, delay = 0) {
+    return setTimeout(callback, delay);
+  }
+  function now() {
+    return Date.now();
+  }
+  function getComputedStyle2(el) {
+    const window2 = getWindow();
+    let style;
+    if (window2.getComputedStyle) {
+      style = window2.getComputedStyle(el, null);
+    }
+    if (!style && el.currentStyle) {
+      style = el.currentStyle;
+    }
+    if (!style) {
+      style = el.style;
+    }
+    return style;
+  }
+  function getTranslate(el, axis = "x") {
+    const window2 = getWindow();
+    let matrix;
+    let curTransform;
+    let transformMatrix;
+    const curStyle = getComputedStyle2(el);
+    if (window2.WebKitCSSMatrix) {
+      curTransform = curStyle.transform || curStyle.webkitTransform;
+      if (curTransform.split(",").length > 6) {
+        curTransform = curTransform.split(", ").map((a) => a.replace(",", ".")).join(", ");
+      }
+      transformMatrix = new window2.WebKitCSSMatrix(curTransform === "none" ? "" : curTransform);
+    } else {
+      transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
+      matrix = transformMatrix.toString().split(",");
+    }
+    if (axis === "x") {
+      if (window2.WebKitCSSMatrix) curTransform = transformMatrix.m41;
+      else if (matrix.length === 16) curTransform = parseFloat(matrix[12]);
+      else curTransform = parseFloat(matrix[4]);
+    }
+    if (axis === "y") {
+      if (window2.WebKitCSSMatrix) curTransform = transformMatrix.m42;
+      else if (matrix.length === 16) curTransform = parseFloat(matrix[13]);
+      else curTransform = parseFloat(matrix[5]);
+    }
+    return curTransform || 0;
+  }
+  function isObject2(o) {
+    return typeof o === "object" && o !== null && o.constructor && Object.prototype.toString.call(o).slice(8, -1) === "Object";
+  }
+  function isNode(node) {
+    if (typeof window !== "undefined" && typeof window.HTMLElement !== "undefined") {
+      return node instanceof HTMLElement;
+    }
+    return node && (node.nodeType === 1 || node.nodeType === 11);
+  }
+  function extend2(...args) {
+    const to = Object(args[0]);
+    for (let i = 1; i < args.length; i += 1) {
+      const nextSource = args[i];
+      if (nextSource !== void 0 && nextSource !== null && !isNode(nextSource)) {
+        const keysArray = Object.keys(Object(nextSource)).filter((key) => key !== "__proto__" && key !== "constructor" && key !== "prototype");
+        for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
+          const nextKey = keysArray[nextIndex];
+          const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+          if (desc !== void 0 && desc.enumerable) {
+            if (isObject2(to[nextKey]) && isObject2(nextSource[nextKey])) {
+              if (nextSource[nextKey].__swiper__) {
+                to[nextKey] = nextSource[nextKey];
+              } else {
+                extend2(to[nextKey], nextSource[nextKey]);
+              }
+            } else if (!isObject2(to[nextKey]) && isObject2(nextSource[nextKey])) {
+              to[nextKey] = {};
+              if (nextSource[nextKey].__swiper__) {
+                to[nextKey] = nextSource[nextKey];
+              } else {
+                extend2(to[nextKey], nextSource[nextKey]);
+              }
+            } else {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+    }
+    return to;
+  }
+  function setCSSProperty(el, varName, varValue) {
+    el.style.setProperty(varName, varValue);
+  }
+  function animateCSSModeScroll({
+    swiper,
+    targetPosition,
+    side
+  }) {
+    const window2 = getWindow();
+    const startPosition = -swiper.translate;
+    let startTime = null;
+    let time;
+    const duration = swiper.params.speed;
+    swiper.wrapperEl.style.scrollSnapType = "none";
+    window2.cancelAnimationFrame(swiper.cssModeFrameID);
+    const dir = targetPosition > startPosition ? "next" : "prev";
+    const isOutOfBound = (current, target) => {
+      return dir === "next" && current >= target || dir === "prev" && current <= target;
+    };
+    const animate = () => {
+      time = (/* @__PURE__ */ new Date()).getTime();
+      if (startTime === null) {
+        startTime = time;
+      }
+      const progress = Math.max(Math.min((time - startTime) / duration, 1), 0);
+      const easeProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
+      let currentPosition = startPosition + easeProgress * (targetPosition - startPosition);
+      if (isOutOfBound(currentPosition, targetPosition)) {
+        currentPosition = targetPosition;
+      }
+      swiper.wrapperEl.scrollTo({
+        [side]: currentPosition
+      });
+      if (isOutOfBound(currentPosition, targetPosition)) {
+        swiper.wrapperEl.style.overflow = "hidden";
+        swiper.wrapperEl.style.scrollSnapType = "";
+        setTimeout(() => {
+          swiper.wrapperEl.style.overflow = "";
+          swiper.wrapperEl.scrollTo({
+            [side]: currentPosition
+          });
+        });
+        window2.cancelAnimationFrame(swiper.cssModeFrameID);
+        return;
+      }
+      swiper.cssModeFrameID = window2.requestAnimationFrame(animate);
+    };
+    animate();
+  }
+  function elementChildren(element, selector = "") {
+    const window2 = getWindow();
+    const children = [...element.children];
+    if (window2.HTMLSlotElement && element instanceof HTMLSlotElement) {
+      children.push(...element.assignedElements());
+    }
+    if (!selector) {
+      return children;
+    }
+    return children.filter((el) => el.matches(selector));
+  }
+  function elementIsChildOfSlot(el, slot) {
+    const elementsQueue = [slot];
+    while (elementsQueue.length > 0) {
+      const elementToCheck = elementsQueue.shift();
+      if (el === elementToCheck) {
+        return true;
+      }
+      elementsQueue.push(...elementToCheck.children, ...elementToCheck.shadowRoot ? elementToCheck.shadowRoot.children : [], ...elementToCheck.assignedElements ? elementToCheck.assignedElements() : []);
+    }
+  }
+  function elementIsChildOf(el, parent) {
+    const window2 = getWindow();
+    let isChild = parent.contains(el);
+    if (!isChild && window2.HTMLSlotElement && parent instanceof HTMLSlotElement) {
+      const children = [...parent.assignedElements()];
+      isChild = children.includes(el);
+      if (!isChild) {
+        isChild = elementIsChildOfSlot(el, parent);
+      }
+    }
+    return isChild;
+  }
+  function showWarning(text) {
+    try {
+      console.warn(text);
+      return;
+    } catch (err) {
+    }
+  }
+  function createElement(tag, classes2 = []) {
+    const el = document.createElement(tag);
+    el.classList.add(...Array.isArray(classes2) ? classes2 : classesToTokens(classes2));
+    return el;
+  }
+  function elementPrevAll(el, selector) {
+    const prevEls = [];
+    while (el.previousElementSibling) {
+      const prev = el.previousElementSibling;
+      if (selector) {
+        if (prev.matches(selector)) prevEls.push(prev);
+      } else prevEls.push(prev);
+      el = prev;
+    }
+    return prevEls;
+  }
+  function elementNextAll(el, selector) {
+    const nextEls = [];
+    while (el.nextElementSibling) {
+      const next = el.nextElementSibling;
+      if (selector) {
+        if (next.matches(selector)) nextEls.push(next);
+      } else nextEls.push(next);
+      el = next;
+    }
+    return nextEls;
+  }
+  function elementStyle(el, prop) {
+    const window2 = getWindow();
+    return window2.getComputedStyle(el, null).getPropertyValue(prop);
+  }
+  function elementIndex(el) {
+    let child = el;
+    let i;
+    if (child) {
+      i = 0;
+      while ((child = child.previousSibling) !== null) {
+        if (child.nodeType === 1) i += 1;
+      }
+      return i;
+    }
+    return void 0;
+  }
+  function elementParents(el, selector) {
+    const parents = [];
+    let parent = el.parentElement;
+    while (parent) {
+      if (selector) {
+        if (parent.matches(selector)) parents.push(parent);
+      } else {
+        parents.push(parent);
+      }
+      parent = parent.parentElement;
+    }
+    return parents;
+  }
+  function elementOuterSize(el, size, includeMargins) {
+    const window2 = getWindow();
+    if (includeMargins) {
+      return el[size === "width" ? "offsetWidth" : "offsetHeight"] + parseFloat(window2.getComputedStyle(el, null).getPropertyValue(size === "width" ? "margin-right" : "margin-top")) + parseFloat(window2.getComputedStyle(el, null).getPropertyValue(size === "width" ? "margin-left" : "margin-bottom"));
+    }
+    return el.offsetWidth;
+  }
+
+  // node_modules/swiper/shared/swiper-core.mjs
+  var support;
+  function calcSupport() {
+    const window2 = getWindow();
+    const document2 = getDocument();
+    return {
+      smoothScroll: document2.documentElement && document2.documentElement.style && "scrollBehavior" in document2.documentElement.style,
+      touch: !!("ontouchstart" in window2 || window2.DocumentTouch && document2 instanceof window2.DocumentTouch)
+    };
+  }
+  function getSupport() {
+    if (!support) {
+      support = calcSupport();
+    }
+    return support;
+  }
+  var deviceCached;
+  function calcDevice({
+    userAgent
+  } = {}) {
+    const support2 = getSupport();
+    const window2 = getWindow();
+    const platform = window2.navigator.platform;
+    const ua = userAgent || window2.navigator.userAgent;
+    const device = {
+      ios: false,
+      android: false
+    };
+    const screenWidth = window2.screen.width;
+    const screenHeight = window2.screen.height;
+    const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+    let ipad = ua.match(/(iPad)(?!\1).*OS\s([\d_]+)/);
+    const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+    const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+    const windows = platform === "Win32";
+    let macos = platform === "MacIntel";
+    const iPadScreens = ["1024x1366", "1366x1024", "834x1194", "1194x834", "834x1112", "1112x834", "768x1024", "1024x768", "820x1180", "1180x820", "810x1080", "1080x810"];
+    if (!ipad && macos && support2.touch && iPadScreens.indexOf(`${screenWidth}x${screenHeight}`) >= 0) {
+      ipad = ua.match(/(Version)\/([\d.]+)/);
+      if (!ipad) ipad = [0, 1, "13_0_0"];
+      macos = false;
+    }
+    if (android && !windows) {
+      device.os = "android";
+      device.android = true;
+    }
+    if (ipad || iphone || ipod) {
+      device.os = "ios";
+      device.ios = true;
+    }
+    return device;
+  }
+  function getDevice(overrides = {}) {
+    if (!deviceCached) {
+      deviceCached = calcDevice(overrides);
+    }
+    return deviceCached;
+  }
+  var browser;
+  function calcBrowser() {
+    const window2 = getWindow();
+    const device = getDevice();
+    let needPerspectiveFix = false;
+    function isSafari() {
+      const ua = window2.navigator.userAgent.toLowerCase();
+      return ua.indexOf("safari") >= 0 && ua.indexOf("chrome") < 0 && ua.indexOf("android") < 0;
+    }
+    if (isSafari()) {
+      const ua = String(window2.navigator.userAgent);
+      if (ua.includes("Version/")) {
+        const [major, minor] = ua.split("Version/")[1].split(" ")[0].split(".").map((num) => Number(num));
+        needPerspectiveFix = major < 16 || major === 16 && minor < 2;
+      }
+    }
+    const isWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window2.navigator.userAgent);
+    const isSafariBrowser = isSafari();
+    const need3dFix = isSafariBrowser || isWebView && device.ios;
+    return {
+      isSafari: needPerspectiveFix || isSafariBrowser,
+      needPerspectiveFix,
+      need3dFix,
+      isWebView
+    };
+  }
+  function getBrowser() {
+    if (!browser) {
+      browser = calcBrowser();
+    }
+    return browser;
+  }
+  function Resize({
+    swiper,
+    on,
+    emit
+  }) {
+    const window2 = getWindow();
+    let observer = null;
+    let animationFrame = null;
+    const resizeHandler = () => {
+      if (!swiper || swiper.destroyed || !swiper.initialized) return;
+      emit("beforeResize");
+      emit("resize");
+    };
+    const createObserver = () => {
+      if (!swiper || swiper.destroyed || !swiper.initialized) return;
+      observer = new ResizeObserver((entries) => {
+        animationFrame = window2.requestAnimationFrame(() => {
+          const {
+            width,
+            height
+          } = swiper;
+          let newWidth = width;
+          let newHeight = height;
+          entries.forEach(({
+            contentBoxSize,
+            contentRect,
+            target
+          }) => {
+            if (target && target !== swiper.el) return;
+            newWidth = contentRect ? contentRect.width : (contentBoxSize[0] || contentBoxSize).inlineSize;
+            newHeight = contentRect ? contentRect.height : (contentBoxSize[0] || contentBoxSize).blockSize;
+          });
+          if (newWidth !== width || newHeight !== height) {
+            resizeHandler();
+          }
+        });
+      });
+      observer.observe(swiper.el);
+    };
+    const removeObserver = () => {
+      if (animationFrame) {
+        window2.cancelAnimationFrame(animationFrame);
+      }
+      if (observer && observer.unobserve && swiper.el) {
+        observer.unobserve(swiper.el);
+        observer = null;
+      }
+    };
+    const orientationChangeHandler = () => {
+      if (!swiper || swiper.destroyed || !swiper.initialized) return;
+      emit("orientationchange");
+    };
+    on("init", () => {
+      if (swiper.params.resizeObserver && typeof window2.ResizeObserver !== "undefined") {
+        createObserver();
+        return;
+      }
+      window2.addEventListener("resize", resizeHandler);
+      window2.addEventListener("orientationchange", orientationChangeHandler);
+    });
+    on("destroy", () => {
+      removeObserver();
+      window2.removeEventListener("resize", resizeHandler);
+      window2.removeEventListener("orientationchange", orientationChangeHandler);
+    });
+  }
+  function Observer({
+    swiper,
+    extendParams,
+    on,
+    emit
+  }) {
+    const observers = [];
+    const window2 = getWindow();
+    const attach = (target, options = {}) => {
+      const ObserverFunc = window2.MutationObserver || window2.WebkitMutationObserver;
+      const observer = new ObserverFunc((mutations) => {
+        if (swiper.__preventObserver__) return;
+        if (mutations.length === 1) {
+          emit("observerUpdate", mutations[0]);
+          return;
+        }
+        const observerUpdate = function observerUpdate2() {
+          emit("observerUpdate", mutations[0]);
+        };
+        if (window2.requestAnimationFrame) {
+          window2.requestAnimationFrame(observerUpdate);
+        } else {
+          window2.setTimeout(observerUpdate, 0);
+        }
+      });
+      observer.observe(target, {
+        attributes: typeof options.attributes === "undefined" ? true : options.attributes,
+        childList: swiper.isElement || (typeof options.childList === "undefined" ? true : options).childList,
+        characterData: typeof options.characterData === "undefined" ? true : options.characterData
+      });
+      observers.push(observer);
+    };
+    const init = () => {
+      if (!swiper.params.observer) return;
+      if (swiper.params.observeParents) {
+        const containerParents = elementParents(swiper.hostEl);
+        for (let i = 0; i < containerParents.length; i += 1) {
+          attach(containerParents[i]);
+        }
+      }
+      attach(swiper.hostEl, {
+        childList: swiper.params.observeSlideChildren
+      });
+      attach(swiper.wrapperEl, {
+        attributes: false
+      });
+    };
+    const destroy = () => {
+      observers.forEach((observer) => {
+        observer.disconnect();
+      });
+      observers.splice(0, observers.length);
+    };
+    extendParams({
+      observer: false,
+      observeParents: false,
+      observeSlideChildren: false
+    });
+    on("init", init);
+    on("destroy", destroy);
+  }
+  var eventsEmitter = {
+    on(events2, handler, priority) {
+      const self2 = this;
+      if (!self2.eventsListeners || self2.destroyed) return self2;
+      if (typeof handler !== "function") return self2;
+      const method = priority ? "unshift" : "push";
+      events2.split(" ").forEach((event2) => {
+        if (!self2.eventsListeners[event2]) self2.eventsListeners[event2] = [];
+        self2.eventsListeners[event2][method](handler);
+      });
+      return self2;
+    },
+    once(events2, handler, priority) {
+      const self2 = this;
+      if (!self2.eventsListeners || self2.destroyed) return self2;
+      if (typeof handler !== "function") return self2;
+      function onceHandler(...args) {
+        self2.off(events2, onceHandler);
+        if (onceHandler.__emitterProxy) {
+          delete onceHandler.__emitterProxy;
+        }
+        handler.apply(self2, args);
+      }
+      onceHandler.__emitterProxy = handler;
+      return self2.on(events2, onceHandler, priority);
+    },
+    onAny(handler, priority) {
+      const self2 = this;
+      if (!self2.eventsListeners || self2.destroyed) return self2;
+      if (typeof handler !== "function") return self2;
+      const method = priority ? "unshift" : "push";
+      if (self2.eventsAnyListeners.indexOf(handler) < 0) {
+        self2.eventsAnyListeners[method](handler);
+      }
+      return self2;
+    },
+    offAny(handler) {
+      const self2 = this;
+      if (!self2.eventsListeners || self2.destroyed) return self2;
+      if (!self2.eventsAnyListeners) return self2;
+      const index = self2.eventsAnyListeners.indexOf(handler);
+      if (index >= 0) {
+        self2.eventsAnyListeners.splice(index, 1);
+      }
+      return self2;
+    },
+    off(events2, handler) {
+      const self2 = this;
+      if (!self2.eventsListeners || self2.destroyed) return self2;
+      if (!self2.eventsListeners) return self2;
+      events2.split(" ").forEach((event2) => {
+        if (typeof handler === "undefined") {
+          self2.eventsListeners[event2] = [];
+        } else if (self2.eventsListeners[event2]) {
+          self2.eventsListeners[event2].forEach((eventHandler, index) => {
+            if (eventHandler === handler || eventHandler.__emitterProxy && eventHandler.__emitterProxy === handler) {
+              self2.eventsListeners[event2].splice(index, 1);
+            }
+          });
+        }
+      });
+      return self2;
+    },
+    emit(...args) {
+      const self2 = this;
+      if (!self2.eventsListeners || self2.destroyed) return self2;
+      if (!self2.eventsListeners) return self2;
+      let events2;
+      let data;
+      let context;
+      if (typeof args[0] === "string" || Array.isArray(args[0])) {
+        events2 = args[0];
+        data = args.slice(1, args.length);
+        context = self2;
+      } else {
+        events2 = args[0].events;
+        data = args[0].data;
+        context = args[0].context || self2;
+      }
+      data.unshift(context);
+      const eventsArray = Array.isArray(events2) ? events2 : events2.split(" ");
+      eventsArray.forEach((event2) => {
+        if (self2.eventsAnyListeners && self2.eventsAnyListeners.length) {
+          self2.eventsAnyListeners.forEach((eventHandler) => {
+            eventHandler.apply(context, [event2, ...data]);
+          });
+        }
+        if (self2.eventsListeners && self2.eventsListeners[event2]) {
+          self2.eventsListeners[event2].forEach((eventHandler) => {
+            eventHandler.apply(context, data);
+          });
+        }
+      });
+      return self2;
+    }
+  };
+  function updateSize() {
+    const swiper = this;
+    let width;
+    let height;
+    const el = swiper.el;
+    if (typeof swiper.params.width !== "undefined" && swiper.params.width !== null) {
+      width = swiper.params.width;
+    } else {
+      width = el.clientWidth;
+    }
+    if (typeof swiper.params.height !== "undefined" && swiper.params.height !== null) {
+      height = swiper.params.height;
+    } else {
+      height = el.clientHeight;
+    }
+    if (width === 0 && swiper.isHorizontal() || height === 0 && swiper.isVertical()) {
+      return;
+    }
+    width = width - parseInt(elementStyle(el, "padding-left") || 0, 10) - parseInt(elementStyle(el, "padding-right") || 0, 10);
+    height = height - parseInt(elementStyle(el, "padding-top") || 0, 10) - parseInt(elementStyle(el, "padding-bottom") || 0, 10);
+    if (Number.isNaN(width)) width = 0;
+    if (Number.isNaN(height)) height = 0;
+    Object.assign(swiper, {
+      width,
+      height,
+      size: swiper.isHorizontal() ? width : height
+    });
+  }
+  function updateSlides() {
+    const swiper = this;
+    function getDirectionPropertyValue(node, label) {
+      return parseFloat(node.getPropertyValue(swiper.getDirectionLabel(label)) || 0);
+    }
+    const params = swiper.params;
+    const {
+      wrapperEl,
+      slidesEl,
+      rtlTranslate: rtl,
+      wrongRTL
+    } = swiper;
+    const isVirtual = swiper.virtual && params.virtual.enabled;
+    const previousSlidesLength = isVirtual ? swiper.virtual.slides.length : swiper.slides.length;
+    const slides = elementChildren(slidesEl, `.${swiper.params.slideClass}, swiper-slide`);
+    const slidesLength = isVirtual ? swiper.virtual.slides.length : slides.length;
+    let snapGrid = [];
+    const slidesGrid = [];
+    const slidesSizesGrid = [];
+    let offsetBefore = params.slidesOffsetBefore;
+    if (typeof offsetBefore === "function") {
+      offsetBefore = params.slidesOffsetBefore.call(swiper);
+    }
+    let offsetAfter = params.slidesOffsetAfter;
+    if (typeof offsetAfter === "function") {
+      offsetAfter = params.slidesOffsetAfter.call(swiper);
+    }
+    const previousSnapGridLength = swiper.snapGrid.length;
+    const previousSlidesGridLength = swiper.slidesGrid.length;
+    const swiperSize = swiper.size - offsetBefore - offsetAfter;
+    let spaceBetween = params.spaceBetween;
+    let slidePosition = -offsetBefore;
+    let prevSlideSize = 0;
+    let index = 0;
+    if (typeof swiperSize === "undefined") {
+      return;
+    }
+    if (typeof spaceBetween === "string" && spaceBetween.indexOf("%") >= 0) {
+      spaceBetween = parseFloat(spaceBetween.replace("%", "")) / 100 * swiperSize;
+    } else if (typeof spaceBetween === "string") {
+      spaceBetween = parseFloat(spaceBetween);
+    }
+    swiper.virtualSize = -spaceBetween - offsetBefore - offsetAfter;
+    slides.forEach((slideEl) => {
+      if (rtl) {
+        slideEl.style.marginLeft = "";
+      } else {
+        slideEl.style.marginRight = "";
+      }
+      slideEl.style.marginBottom = "";
+      slideEl.style.marginTop = "";
+    });
+    if (params.centeredSlides && params.cssMode) {
+      setCSSProperty(wrapperEl, "--swiper-centered-offset-before", "");
+      setCSSProperty(wrapperEl, "--swiper-centered-offset-after", "");
+    }
+    if (params.cssMode) {
+      setCSSProperty(wrapperEl, "--swiper-slides-offset-before", `${offsetBefore}px`);
+      setCSSProperty(wrapperEl, "--swiper-slides-offset-after", `${offsetAfter}px`);
+    }
+    const gridEnabled = params.grid && params.grid.rows > 1 && swiper.grid;
+    if (gridEnabled) {
+      swiper.grid.initSlides(slides);
+    } else if (swiper.grid) {
+      swiper.grid.unsetSlides();
+    }
+    let slideSize;
+    const shouldResetSlideSize = params.slidesPerView === "auto" && params.breakpoints && Object.keys(params.breakpoints).filter((key) => {
+      return typeof params.breakpoints[key].slidesPerView !== "undefined";
+    }).length > 0;
+    for (let i = 0; i < slidesLength; i += 1) {
+      slideSize = 0;
+      const slide2 = slides[i];
+      if (slide2) {
+        if (gridEnabled) {
+          swiper.grid.updateSlide(i, slide2, slides);
+        }
+        if (elementStyle(slide2, "display") === "none") continue;
+      }
+      if (isVirtual && params.slidesPerView === "auto") {
+        if (params.virtual.slidesPerViewAutoSlideSize) {
+          slideSize = params.virtual.slidesPerViewAutoSlideSize;
+        }
+        if (slideSize && slide2) {
+          if (params.roundLengths) slideSize = Math.floor(slideSize);
+          slide2.style[swiper.getDirectionLabel("width")] = `${slideSize}px`;
+        }
+      } else if (params.slidesPerView === "auto") {
+        if (shouldResetSlideSize) {
+          slide2.style[swiper.getDirectionLabel("width")] = ``;
+        }
+        const slideStyles = getComputedStyle(slide2);
+        const currentTransform = slide2.style.transform;
+        const currentWebKitTransform = slide2.style.webkitTransform;
+        if (currentTransform) {
+          slide2.style.transform = "none";
+        }
+        if (currentWebKitTransform) {
+          slide2.style.webkitTransform = "none";
+        }
+        if (params.roundLengths) {
+          slideSize = swiper.isHorizontal() ? elementOuterSize(slide2, "width", true) : elementOuterSize(slide2, "height", true);
+        } else {
+          const width = getDirectionPropertyValue(slideStyles, "width");
+          const paddingLeft = getDirectionPropertyValue(slideStyles, "padding-left");
+          const paddingRight = getDirectionPropertyValue(slideStyles, "padding-right");
+          const marginLeft = getDirectionPropertyValue(slideStyles, "margin-left");
+          const marginRight = getDirectionPropertyValue(slideStyles, "margin-right");
+          const boxSizing = slideStyles.getPropertyValue("box-sizing");
+          if (boxSizing && boxSizing === "border-box") {
+            slideSize = width + marginLeft + marginRight;
+          } else {
+            const {
+              clientWidth,
+              offsetWidth
+            } = slide2;
+            slideSize = width + paddingLeft + paddingRight + marginLeft + marginRight + (offsetWidth - clientWidth);
+          }
+        }
+        if (currentTransform) {
+          slide2.style.transform = currentTransform;
+        }
+        if (currentWebKitTransform) {
+          slide2.style.webkitTransform = currentWebKitTransform;
+        }
+        if (params.roundLengths) slideSize = Math.floor(slideSize);
+      } else {
+        slideSize = (swiperSize - (params.slidesPerView - 1) * spaceBetween) / params.slidesPerView;
+        if (params.roundLengths) slideSize = Math.floor(slideSize);
+        if (slide2) {
+          slide2.style[swiper.getDirectionLabel("width")] = `${slideSize}px`;
+        }
+      }
+      if (slide2) {
+        slide2.swiperSlideSize = slideSize;
+      }
+      slidesSizesGrid.push(slideSize);
+      if (params.centeredSlides) {
+        slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
+        if (prevSlideSize === 0 && i !== 0) slidePosition = slidePosition - swiperSize / 2 - spaceBetween;
+        if (i === 0) slidePosition = slidePosition - swiperSize / 2 - spaceBetween;
+        if (Math.abs(slidePosition) < 1 / 1e3) slidePosition = 0;
+        if (params.roundLengths) slidePosition = Math.floor(slidePosition);
+        if (index % params.slidesPerGroup === 0) snapGrid.push(slidePosition);
+        slidesGrid.push(slidePosition);
+      } else {
+        if (params.roundLengths) slidePosition = Math.floor(slidePosition);
+        if ((index - Math.min(swiper.params.slidesPerGroupSkip, index)) % swiper.params.slidesPerGroup === 0) snapGrid.push(slidePosition);
+        slidesGrid.push(slidePosition);
+        slidePosition = slidePosition + slideSize + spaceBetween;
+      }
+      swiper.virtualSize += slideSize + spaceBetween;
+      prevSlideSize = slideSize;
+      index += 1;
+    }
+    swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
+    if (rtl && wrongRTL && (params.effect === "slide" || params.effect === "coverflow")) {
+      wrapperEl.style.width = `${swiper.virtualSize + spaceBetween}px`;
+    }
+    if (params.setWrapperSize) {
+      wrapperEl.style[swiper.getDirectionLabel("width")] = `${swiper.virtualSize + spaceBetween}px`;
+    }
+    if (gridEnabled) {
+      swiper.grid.updateWrapperSize(slideSize, snapGrid);
+    }
+    if (!params.centeredSlides) {
+      const isFractionalSlidesPerView = params.slidesPerView !== "auto" && params.slidesPerView % 1 !== 0;
+      const shouldSnapToSlideEdge = params.snapToSlideEdge && !params.loop && (params.slidesPerView === "auto" || isFractionalSlidesPerView);
+      let lastAllowedSnapIndex = snapGrid.length;
+      if (shouldSnapToSlideEdge) {
+        let minVisibleSlides;
+        if (params.slidesPerView === "auto") {
+          minVisibleSlides = 1;
+          let accumulatedSize = 0;
+          for (let i = slidesSizesGrid.length - 1; i >= 0; i -= 1) {
+            accumulatedSize += slidesSizesGrid[i] + (i < slidesSizesGrid.length - 1 ? spaceBetween : 0);
+            if (accumulatedSize <= swiperSize) {
+              minVisibleSlides = slidesSizesGrid.length - i;
+            } else {
+              break;
+            }
+          }
+        } else {
+          minVisibleSlides = Math.floor(params.slidesPerView);
+        }
+        lastAllowedSnapIndex = Math.max(slidesLength - minVisibleSlides, 0);
+      }
+      const newSlidesGrid = [];
+      for (let i = 0; i < snapGrid.length; i += 1) {
+        let slidesGridItem = snapGrid[i];
+        if (params.roundLengths) slidesGridItem = Math.floor(slidesGridItem);
+        if (shouldSnapToSlideEdge) {
+          if (i <= lastAllowedSnapIndex) {
+            newSlidesGrid.push(slidesGridItem);
+          }
+        } else if (snapGrid[i] <= swiper.virtualSize - swiperSize) {
+          newSlidesGrid.push(slidesGridItem);
+        }
+      }
+      snapGrid = newSlidesGrid;
+      if (Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) > 1) {
+        if (!shouldSnapToSlideEdge) {
+          snapGrid.push(swiper.virtualSize - swiperSize);
+        }
+      }
+    }
+    if (isVirtual && params.loop) {
+      const size = slidesSizesGrid[0] + spaceBetween;
+      if (params.slidesPerGroup > 1) {
+        const groups = Math.ceil((swiper.virtual.slidesBefore + swiper.virtual.slidesAfter) / params.slidesPerGroup);
+        const groupSize = size * params.slidesPerGroup;
+        for (let i = 0; i < groups; i += 1) {
+          snapGrid.push(snapGrid[snapGrid.length - 1] + groupSize);
+        }
+      }
+      for (let i = 0; i < swiper.virtual.slidesBefore + swiper.virtual.slidesAfter; i += 1) {
+        if (params.slidesPerGroup === 1) {
+          snapGrid.push(snapGrid[snapGrid.length - 1] + size);
+        }
+        slidesGrid.push(slidesGrid[slidesGrid.length - 1] + size);
+        swiper.virtualSize += size;
+      }
+    }
+    if (snapGrid.length === 0) snapGrid = [0];
+    if (spaceBetween !== 0) {
+      const key = swiper.isHorizontal() && rtl ? "marginLeft" : swiper.getDirectionLabel("marginRight");
+      slides.filter((_, slideIndex) => {
+        if (!params.cssMode || params.loop) return true;
+        if (slideIndex === slides.length - 1) {
+          return false;
+        }
+        return true;
+      }).forEach((slideEl) => {
+        slideEl.style[key] = `${spaceBetween}px`;
+      });
+    }
+    if (params.centeredSlides && params.centeredSlidesBounds) {
+      let allSlidesSize = 0;
+      slidesSizesGrid.forEach((slideSizeValue) => {
+        allSlidesSize += slideSizeValue + (spaceBetween || 0);
+      });
+      allSlidesSize -= spaceBetween;
+      const maxSnap = allSlidesSize > swiperSize ? allSlidesSize - swiperSize : 0;
+      snapGrid = snapGrid.map((snap) => {
+        if (snap <= 0) return -offsetBefore;
+        if (snap > maxSnap) return maxSnap + offsetAfter;
+        return snap;
+      });
+    }
+    if (params.centerInsufficientSlides) {
+      let allSlidesSize = 0;
+      slidesSizesGrid.forEach((slideSizeValue) => {
+        allSlidesSize += slideSizeValue + (spaceBetween || 0);
+      });
+      allSlidesSize -= spaceBetween;
+      if (allSlidesSize < swiperSize) {
+        const allSlidesOffset = (swiperSize - allSlidesSize) / 2;
+        snapGrid.forEach((snap, snapIndex) => {
+          snapGrid[snapIndex] = snap - allSlidesOffset;
+        });
+        slidesGrid.forEach((snap, snapIndex) => {
+          slidesGrid[snapIndex] = snap + allSlidesOffset;
+        });
+      }
+    }
+    Object.assign(swiper, {
+      slides,
+      snapGrid,
+      slidesGrid,
+      slidesSizesGrid
+    });
+    if (params.centeredSlides && params.cssMode && !params.centeredSlidesBounds) {
+      setCSSProperty(wrapperEl, "--swiper-centered-offset-before", `${-snapGrid[0]}px`);
+      setCSSProperty(wrapperEl, "--swiper-centered-offset-after", `${swiper.size / 2 - slidesSizesGrid[slidesSizesGrid.length - 1] / 2}px`);
+      const addToSnapGrid = -swiper.snapGrid[0];
+      const addToSlidesGrid = -swiper.slidesGrid[0];
+      swiper.snapGrid = swiper.snapGrid.map((v) => v + addToSnapGrid);
+      swiper.slidesGrid = swiper.slidesGrid.map((v) => v + addToSlidesGrid);
+    }
+    if (slidesLength !== previousSlidesLength) {
+      swiper.emit("slidesLengthChange");
+    }
+    if (snapGrid.length !== previousSnapGridLength) {
+      if (swiper.params.watchOverflow) swiper.checkOverflow();
+      swiper.emit("snapGridLengthChange");
+    }
+    if (slidesGrid.length !== previousSlidesGridLength) {
+      swiper.emit("slidesGridLengthChange");
+    }
+    if (params.watchSlidesProgress) {
+      swiper.updateSlidesOffset();
+    }
+    swiper.emit("slidesUpdated");
+    if (!isVirtual && !params.cssMode && (params.effect === "slide" || params.effect === "fade")) {
+      const backFaceHiddenClass = `${params.containerModifierClass}backface-hidden`;
+      const hasClassBackfaceClassAdded = swiper.el.classList.contains(backFaceHiddenClass);
+      if (slidesLength <= params.maxBackfaceHiddenSlides) {
+        if (!hasClassBackfaceClassAdded) swiper.el.classList.add(backFaceHiddenClass);
+      } else if (hasClassBackfaceClassAdded) {
+        swiper.el.classList.remove(backFaceHiddenClass);
+      }
+    }
+  }
+  function updateAutoHeight(speed) {
+    const swiper = this;
+    const activeSlides = [];
+    const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+    let newHeight = 0;
+    let i;
+    if (typeof speed === "number") {
+      swiper.setTransition(speed);
+    } else if (speed === true) {
+      swiper.setTransition(swiper.params.speed);
+    }
+    const getSlideByIndex = (index) => {
+      if (isVirtual) {
+        return swiper.slides[swiper.getSlideIndexByData(index)];
+      }
+      return swiper.slides[index];
+    };
+    if (swiper.params.slidesPerView !== "auto" && swiper.params.slidesPerView > 1) {
+      if (swiper.params.centeredSlides) {
+        (swiper.visibleSlides || []).forEach((slide2) => {
+          activeSlides.push(slide2);
+        });
+      } else {
+        for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
+          const index = swiper.activeIndex + i;
+          if (index > swiper.slides.length && !isVirtual) break;
+          activeSlides.push(getSlideByIndex(index));
+        }
+      }
+    } else {
+      activeSlides.push(getSlideByIndex(swiper.activeIndex));
+    }
+    for (i = 0; i < activeSlides.length; i += 1) {
+      if (typeof activeSlides[i] !== "undefined") {
+        const height = activeSlides[i].offsetHeight;
+        newHeight = height > newHeight ? height : newHeight;
+      }
+    }
+    if (newHeight || newHeight === 0) swiper.wrapperEl.style.height = `${newHeight}px`;
+  }
+  function updateSlidesOffset() {
+    const swiper = this;
+    const slides = swiper.slides;
+    const minusOffset = swiper.isElement ? swiper.isHorizontal() ? swiper.wrapperEl.offsetLeft : swiper.wrapperEl.offsetTop : 0;
+    for (let i = 0; i < slides.length; i += 1) {
+      slides[i].swiperSlideOffset = (swiper.isHorizontal() ? slides[i].offsetLeft : slides[i].offsetTop) - minusOffset - swiper.cssOverflowAdjustment();
+    }
+  }
+  var toggleSlideClasses$1 = (slideEl, condition, className) => {
+    if (condition && !slideEl.classList.contains(className)) {
+      slideEl.classList.add(className);
+    } else if (!condition && slideEl.classList.contains(className)) {
+      slideEl.classList.remove(className);
+    }
+  };
+  function updateSlidesProgress(translate2 = this && this.translate || 0) {
+    const swiper = this;
+    const params = swiper.params;
+    const {
+      slides,
+      rtlTranslate: rtl,
+      snapGrid
+    } = swiper;
+    if (slides.length === 0) return;
+    if (typeof slides[0].swiperSlideOffset === "undefined") swiper.updateSlidesOffset();
+    let offsetCenter = -translate2;
+    if (rtl) offsetCenter = translate2;
+    swiper.visibleSlidesIndexes = [];
+    swiper.visibleSlides = [];
+    let spaceBetween = params.spaceBetween;
+    if (typeof spaceBetween === "string" && spaceBetween.indexOf("%") >= 0) {
+      spaceBetween = parseFloat(spaceBetween.replace("%", "")) / 100 * swiper.size;
+    } else if (typeof spaceBetween === "string") {
+      spaceBetween = parseFloat(spaceBetween);
+    }
+    for (let i = 0; i < slides.length; i += 1) {
+      const slide2 = slides[i];
+      let slideOffset = slide2.swiperSlideOffset;
+      if (params.cssMode && params.centeredSlides) {
+        slideOffset -= slides[0].swiperSlideOffset;
+      }
+      const slideProgress = (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide2.swiperSlideSize + spaceBetween);
+      const originalSlideProgress = (offsetCenter - snapGrid[0] + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) / (slide2.swiperSlideSize + spaceBetween);
+      const slideBefore = -(offsetCenter - slideOffset);
+      const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
+      const isFullyVisible = slideBefore >= 0 && slideBefore <= swiper.size - swiper.slidesSizesGrid[i];
+      const isVisible = slideBefore >= 0 && slideBefore < swiper.size - 1 || slideAfter > 1 && slideAfter <= swiper.size || slideBefore <= 0 && slideAfter >= swiper.size;
+      if (isVisible) {
+        swiper.visibleSlides.push(slide2);
+        swiper.visibleSlidesIndexes.push(i);
+      }
+      toggleSlideClasses$1(slide2, isVisible, params.slideVisibleClass);
+      toggleSlideClasses$1(slide2, isFullyVisible, params.slideFullyVisibleClass);
+      slide2.progress = rtl ? -slideProgress : slideProgress;
+      slide2.originalProgress = rtl ? -originalSlideProgress : originalSlideProgress;
+    }
+  }
+  function updateProgress(translate2) {
+    const swiper = this;
+    if (typeof translate2 === "undefined") {
+      const multiplier = swiper.rtlTranslate ? -1 : 1;
+      translate2 = swiper && swiper.translate && swiper.translate * multiplier || 0;
+    }
+    const params = swiper.params;
+    const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
+    let {
+      progress,
+      isBeginning,
+      isEnd,
+      progressLoop
+    } = swiper;
+    const wasBeginning = isBeginning;
+    const wasEnd = isEnd;
+    if (translatesDiff === 0) {
+      progress = 0;
+      isBeginning = true;
+      isEnd = true;
+    } else {
+      progress = (translate2 - swiper.minTranslate()) / translatesDiff;
+      const isBeginningRounded = Math.abs(translate2 - swiper.minTranslate()) < 1;
+      const isEndRounded = Math.abs(translate2 - swiper.maxTranslate()) < 1;
+      isBeginning = isBeginningRounded || progress <= 0;
+      isEnd = isEndRounded || progress >= 1;
+      if (isBeginningRounded) progress = 0;
+      if (isEndRounded) progress = 1;
+    }
+    if (params.loop) {
+      const firstSlideIndex = swiper.getSlideIndexByData(0);
+      const lastSlideIndex = swiper.getSlideIndexByData(swiper.slides.length - 1);
+      const firstSlideTranslate = swiper.slidesGrid[firstSlideIndex];
+      const lastSlideTranslate = swiper.slidesGrid[lastSlideIndex];
+      const translateMax = swiper.slidesGrid[swiper.slidesGrid.length - 1];
+      const translateAbs = Math.abs(translate2);
+      if (translateAbs >= firstSlideTranslate) {
+        progressLoop = (translateAbs - firstSlideTranslate) / translateMax;
+      } else {
+        progressLoop = (translateAbs + translateMax - lastSlideTranslate) / translateMax;
+      }
+      if (progressLoop > 1) progressLoop -= 1;
+    }
+    Object.assign(swiper, {
+      progress,
+      progressLoop,
+      isBeginning,
+      isEnd
+    });
+    if (params.watchSlidesProgress || params.centeredSlides && params.autoHeight) swiper.updateSlidesProgress(translate2);
+    if (isBeginning && !wasBeginning) {
+      swiper.emit("reachBeginning toEdge");
+    }
+    if (isEnd && !wasEnd) {
+      swiper.emit("reachEnd toEdge");
+    }
+    if (wasBeginning && !isBeginning || wasEnd && !isEnd) {
+      swiper.emit("fromEdge");
+    }
+    swiper.emit("progress", progress);
+  }
+  var toggleSlideClasses = (slideEl, condition, className) => {
+    if (condition && !slideEl.classList.contains(className)) {
+      slideEl.classList.add(className);
+    } else if (!condition && slideEl.classList.contains(className)) {
+      slideEl.classList.remove(className);
+    }
+  };
+  function updateSlidesClasses() {
+    const swiper = this;
+    const {
+      slides,
+      params,
+      slidesEl,
+      activeIndex
+    } = swiper;
+    const isVirtual = swiper.virtual && params.virtual.enabled;
+    const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
+    const getFilteredSlide = (selector) => {
+      return elementChildren(slidesEl, `.${params.slideClass}${selector}, swiper-slide${selector}`)[0];
+    };
+    let activeSlide;
+    let prevSlide;
+    let nextSlide;
+    if (isVirtual) {
+      if (params.loop) {
+        let slideIndex = activeIndex - swiper.virtual.slidesBefore;
+        if (slideIndex < 0) slideIndex = swiper.virtual.slides.length + slideIndex;
+        if (slideIndex >= swiper.virtual.slides.length) slideIndex -= swiper.virtual.slides.length;
+        activeSlide = getFilteredSlide(`[data-swiper-slide-index="${slideIndex}"]`);
+      } else {
+        activeSlide = getFilteredSlide(`[data-swiper-slide-index="${activeIndex}"]`);
+      }
+    } else {
+      if (gridEnabled) {
+        activeSlide = slides.find((slideEl) => slideEl.column === activeIndex);
+        nextSlide = slides.find((slideEl) => slideEl.column === activeIndex + 1);
+        prevSlide = slides.find((slideEl) => slideEl.column === activeIndex - 1);
+      } else {
+        activeSlide = slides[activeIndex];
+      }
+    }
+    if (activeSlide) {
+      if (!gridEnabled) {
+        nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+        if (params.loop && !nextSlide) {
+          nextSlide = slides[0];
+        }
+        prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+        if (params.loop && !prevSlide === 0) {
+          prevSlide = slides[slides.length - 1];
+        }
+      }
+    }
+    slides.forEach((slideEl) => {
+      toggleSlideClasses(slideEl, slideEl === activeSlide, params.slideActiveClass);
+      toggleSlideClasses(slideEl, slideEl === nextSlide, params.slideNextClass);
+      toggleSlideClasses(slideEl, slideEl === prevSlide, params.slidePrevClass);
+    });
+    swiper.emitSlidesClasses();
+  }
+  var processLazyPreloader = (swiper, imageEl) => {
+    if (!swiper || swiper.destroyed || !swiper.params) return;
+    const slideSelector = () => swiper.isElement ? `swiper-slide` : `.${swiper.params.slideClass}`;
+    const slideEl = imageEl.closest(slideSelector());
+    if (slideEl) {
+      let lazyEl = slideEl.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+      if (!lazyEl && swiper.isElement) {
+        if (slideEl.shadowRoot) {
+          lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+        } else {
+          requestAnimationFrame(() => {
+            if (slideEl.shadowRoot) {
+              lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+              if (lazyEl && !lazyEl.lazyPreloaderManaged) lazyEl.remove();
+            }
+          });
+        }
+      }
+      if (lazyEl && !lazyEl.lazyPreloaderManaged) lazyEl.remove();
+    }
+  };
+  var unlazy = (swiper, index) => {
+    if (!swiper.slides[index]) return;
+    const imageEl = swiper.slides[index].querySelector('[loading="lazy"]');
+    if (imageEl) imageEl.removeAttribute("loading");
+  };
+  var preload = (swiper) => {
+    if (!swiper || swiper.destroyed || !swiper.params) return;
+    let amount = swiper.params.lazyPreloadPrevNext;
+    const len = swiper.slides.length;
+    if (!len || !amount || amount < 0) return;
+    amount = Math.min(amount, len);
+    const slidesPerView = swiper.params.slidesPerView === "auto" ? swiper.slidesPerViewDynamic() : Math.ceil(swiper.params.slidesPerView);
+    const activeIndex = swiper.activeIndex;
+    if (swiper.params.grid && swiper.params.grid.rows > 1) {
+      const activeColumn = activeIndex;
+      const preloadColumns = [activeColumn - amount];
+      preloadColumns.push(...Array.from({
+        length: amount
+      }).map((_, i) => {
+        return activeColumn + slidesPerView + i;
+      }));
+      swiper.slides.forEach((slideEl, i) => {
+        if (preloadColumns.includes(slideEl.column)) unlazy(swiper, i);
+      });
+      return;
+    }
+    const slideIndexLastInView = activeIndex + slidesPerView - 1;
+    if (swiper.params.rewind || swiper.params.loop) {
+      for (let i = activeIndex - amount; i <= slideIndexLastInView + amount; i += 1) {
+        const realIndex = (i % len + len) % len;
+        if (realIndex < activeIndex || realIndex > slideIndexLastInView) unlazy(swiper, realIndex);
+      }
+    } else {
+      for (let i = Math.max(activeIndex - amount, 0); i <= Math.min(slideIndexLastInView + amount, len - 1); i += 1) {
+        if (i !== activeIndex && (i > slideIndexLastInView || i < activeIndex)) {
+          unlazy(swiper, i);
+        }
+      }
+    }
+  };
+  function getActiveIndexByTranslate(swiper) {
+    const {
+      slidesGrid,
+      params
+    } = swiper;
+    const translate2 = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
+    let activeIndex;
+    for (let i = 0; i < slidesGrid.length; i += 1) {
+      if (typeof slidesGrid[i + 1] !== "undefined") {
+        if (translate2 >= slidesGrid[i] && translate2 < slidesGrid[i + 1] - (slidesGrid[i + 1] - slidesGrid[i]) / 2) {
+          activeIndex = i;
+        } else if (translate2 >= slidesGrid[i] && translate2 < slidesGrid[i + 1]) {
+          activeIndex = i + 1;
+        }
+      } else if (translate2 >= slidesGrid[i]) {
+        activeIndex = i;
+      }
+    }
+    if (params.normalizeSlideIndex) {
+      if (activeIndex < 0 || typeof activeIndex === "undefined") activeIndex = 0;
+    }
+    return activeIndex;
+  }
+  function updateActiveIndex(newActiveIndex) {
+    const swiper = this;
+    const translate2 = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
+    const {
+      snapGrid,
+      params,
+      activeIndex: previousIndex,
+      realIndex: previousRealIndex,
+      snapIndex: previousSnapIndex
+    } = swiper;
+    let activeIndex = newActiveIndex;
+    let snapIndex;
+    const getVirtualRealIndex = (aIndex) => {
+      let realIndex2 = aIndex - swiper.virtual.slidesBefore;
+      if (realIndex2 < 0) {
+        realIndex2 = swiper.virtual.slides.length + realIndex2;
+      }
+      if (realIndex2 >= swiper.virtual.slides.length) {
+        realIndex2 -= swiper.virtual.slides.length;
+      }
+      return realIndex2;
+    };
+    if (typeof activeIndex === "undefined") {
+      activeIndex = getActiveIndexByTranslate(swiper);
+    }
+    if (snapGrid.indexOf(translate2) >= 0) {
+      snapIndex = snapGrid.indexOf(translate2);
+    } else {
+      const skip = Math.min(params.slidesPerGroupSkip, activeIndex);
+      snapIndex = skip + Math.floor((activeIndex - skip) / params.slidesPerGroup);
+    }
+    if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
+    if (activeIndex === previousIndex && !swiper.params.loop) {
+      if (snapIndex !== previousSnapIndex) {
+        swiper.snapIndex = snapIndex;
+        swiper.emit("snapIndexChange");
+      }
+      return;
+    }
+    if (activeIndex === previousIndex && swiper.params.loop && swiper.virtual && swiper.params.virtual.enabled) {
+      swiper.realIndex = getVirtualRealIndex(activeIndex);
+      return;
+    }
+    const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
+    let realIndex;
+    if (swiper.virtual && params.virtual.enabled) {
+      if (params.loop) {
+        realIndex = getVirtualRealIndex(activeIndex);
+      } else {
+        realIndex = activeIndex;
+      }
+    } else if (gridEnabled) {
+      const firstSlideInColumn = swiper.slides.find((slideEl) => slideEl.column === activeIndex);
+      let activeSlideIndex = parseInt(firstSlideInColumn.getAttribute("data-swiper-slide-index"), 10);
+      if (Number.isNaN(activeSlideIndex)) {
+        activeSlideIndex = Math.max(swiper.slides.indexOf(firstSlideInColumn), 0);
+      }
+      realIndex = Math.floor(activeSlideIndex / params.grid.rows);
+    } else if (swiper.slides[activeIndex]) {
+      const slideIndex = swiper.slides[activeIndex].getAttribute("data-swiper-slide-index");
+      if (slideIndex) {
+        realIndex = parseInt(slideIndex, 10);
+      } else {
+        realIndex = activeIndex;
+      }
+    } else {
+      realIndex = activeIndex;
+    }
+    Object.assign(swiper, {
+      previousSnapIndex,
+      snapIndex,
+      previousRealIndex,
+      realIndex,
+      previousIndex,
+      activeIndex
+    });
+    if (swiper.initialized) {
+      preload(swiper);
+    }
+    swiper.emit("activeIndexChange");
+    swiper.emit("snapIndexChange");
+    if (swiper.initialized || swiper.params.runCallbacksOnInit) {
+      if (previousRealIndex !== realIndex) {
+        swiper.emit("realIndexChange");
+      }
+      swiper.emit("slideChange");
+    }
+  }
+  function updateClickedSlide(el, path) {
+    const swiper = this;
+    const params = swiper.params;
+    let slide2 = el.closest(`.${params.slideClass}, swiper-slide`);
+    if (!slide2 && swiper.isElement && path && path.length > 1 && path.includes(el)) {
+      [...path.slice(path.indexOf(el) + 1, path.length)].forEach((pathEl) => {
+        if (!slide2 && pathEl.matches && pathEl.matches(`.${params.slideClass}, swiper-slide`)) {
+          slide2 = pathEl;
+        }
+      });
+    }
+    let slideFound = false;
+    let slideIndex;
+    if (slide2) {
+      for (let i = 0; i < swiper.slides.length; i += 1) {
+        if (swiper.slides[i] === slide2) {
+          slideFound = true;
+          slideIndex = i;
+          break;
+        }
+      }
+    }
+    if (slide2 && slideFound) {
+      swiper.clickedSlide = slide2;
+      if (swiper.virtual && swiper.params.virtual.enabled) {
+        swiper.clickedIndex = parseInt(slide2.getAttribute("data-swiper-slide-index"), 10);
+      } else {
+        swiper.clickedIndex = slideIndex;
+      }
+    } else {
+      swiper.clickedSlide = void 0;
+      swiper.clickedIndex = void 0;
+      return;
+    }
+    if (params.slideToClickedSlide && swiper.clickedIndex !== void 0 && swiper.clickedIndex !== swiper.activeIndex) {
+      swiper.slideToClickedSlide();
+    }
+  }
+  var update = {
+    updateSize,
+    updateSlides,
+    updateAutoHeight,
+    updateSlidesOffset,
+    updateSlidesProgress,
+    updateProgress,
+    updateSlidesClasses,
+    updateActiveIndex,
+    updateClickedSlide
+  };
+  function getSwiperTranslate(axis = this.isHorizontal() ? "x" : "y") {
+    const swiper = this;
+    const {
+      params,
+      rtlTranslate: rtl,
+      translate: translate2,
+      wrapperEl
+    } = swiper;
+    if (params.virtualTranslate) {
+      return rtl ? -translate2 : translate2;
+    }
+    if (params.cssMode) {
+      return translate2;
+    }
+    let currentTranslate = getTranslate(wrapperEl, axis);
+    currentTranslate += swiper.cssOverflowAdjustment();
+    if (rtl) currentTranslate = -currentTranslate;
+    return currentTranslate || 0;
+  }
+  function setTranslate(translate2, byController) {
+    const swiper = this;
+    const {
+      rtlTranslate: rtl,
+      params,
+      wrapperEl,
+      progress
+    } = swiper;
+    let x = 0;
+    let y = 0;
+    const z = 0;
+    if (swiper.isHorizontal()) {
+      x = rtl ? -translate2 : translate2;
+    } else {
+      y = translate2;
+    }
+    if (params.roundLengths) {
+      x = Math.floor(x);
+      y = Math.floor(y);
+    }
+    swiper.previousTranslate = swiper.translate;
+    swiper.translate = swiper.isHorizontal() ? x : y;
+    if (params.cssMode) {
+      wrapperEl[swiper.isHorizontal() ? "scrollLeft" : "scrollTop"] = swiper.isHorizontal() ? -x : -y;
+    } else if (!params.virtualTranslate) {
+      if (swiper.isHorizontal()) {
+        x -= swiper.cssOverflowAdjustment();
+      } else {
+        y -= swiper.cssOverflowAdjustment();
+      }
+      wrapperEl.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+    }
+    let newProgress;
+    const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
+    if (translatesDiff === 0) {
+      newProgress = 0;
+    } else {
+      newProgress = (translate2 - swiper.minTranslate()) / translatesDiff;
+    }
+    if (newProgress !== progress) {
+      swiper.updateProgress(translate2);
+    }
+    swiper.emit("setTranslate", swiper.translate, byController);
+  }
+  function minTranslate() {
+    return -this.snapGrid[0];
+  }
+  function maxTranslate() {
+    return -this.snapGrid[this.snapGrid.length - 1];
+  }
+  function translateTo(translate2 = 0, speed = this.params.speed, runCallbacks = true, translateBounds = true, internal) {
+    const swiper = this;
+    const {
+      params,
+      wrapperEl
+    } = swiper;
+    if (swiper.animating && params.preventInteractionOnTransition) {
+      return false;
+    }
+    const minTranslate2 = swiper.minTranslate();
+    const maxTranslate2 = swiper.maxTranslate();
+    let newTranslate;
+    if (translateBounds && translate2 > minTranslate2) newTranslate = minTranslate2;
+    else if (translateBounds && translate2 < maxTranslate2) newTranslate = maxTranslate2;
+    else newTranslate = translate2;
+    swiper.updateProgress(newTranslate);
+    if (params.cssMode) {
+      const isH = swiper.isHorizontal();
+      if (speed === 0) {
+        wrapperEl[isH ? "scrollLeft" : "scrollTop"] = -newTranslate;
+      } else {
+        if (!swiper.support.smoothScroll) {
+          animateCSSModeScroll({
+            swiper,
+            targetPosition: -newTranslate,
+            side: isH ? "left" : "top"
+          });
+          return true;
+        }
+        wrapperEl.scrollTo({
+          [isH ? "left" : "top"]: -newTranslate,
+          behavior: "smooth"
+        });
+      }
+      return true;
+    }
+    if (speed === 0) {
+      swiper.setTransition(0);
+      swiper.setTranslate(newTranslate);
+      if (runCallbacks) {
+        swiper.emit("beforeTransitionStart", speed, internal);
+        swiper.emit("transitionEnd");
+      }
+    } else {
+      swiper.setTransition(speed);
+      swiper.setTranslate(newTranslate);
+      if (runCallbacks) {
+        swiper.emit("beforeTransitionStart", speed, internal);
+        swiper.emit("transitionStart");
+      }
+      if (!swiper.animating) {
+        swiper.animating = true;
+        if (!swiper.onTranslateToWrapperTransitionEnd) {
+          swiper.onTranslateToWrapperTransitionEnd = function transitionEnd2(e) {
+            if (!swiper || swiper.destroyed) return;
+            if (e.target !== this) return;
+            swiper.wrapperEl.removeEventListener("transitionend", swiper.onTranslateToWrapperTransitionEnd);
+            swiper.onTranslateToWrapperTransitionEnd = null;
+            delete swiper.onTranslateToWrapperTransitionEnd;
+            swiper.animating = false;
+            if (runCallbacks) {
+              swiper.emit("transitionEnd");
+            }
+          };
+        }
+        swiper.wrapperEl.addEventListener("transitionend", swiper.onTranslateToWrapperTransitionEnd);
+      }
+    }
+    return true;
+  }
+  var translate = {
+    getTranslate: getSwiperTranslate,
+    setTranslate,
+    minTranslate,
+    maxTranslate,
+    translateTo
+  };
+  function setTransition(duration, byController) {
+    const swiper = this;
+    if (!swiper.params.cssMode) {
+      swiper.wrapperEl.style.transitionDuration = `${duration}ms`;
+      swiper.wrapperEl.style.transitionDelay = duration === 0 ? `0ms` : "";
+    }
+    swiper.emit("setTransition", duration, byController);
+  }
+  function transitionEmit({
+    swiper,
+    runCallbacks,
+    direction,
+    step
+  }) {
+    const {
+      activeIndex,
+      previousIndex
+    } = swiper;
+    let dir = direction;
+    if (!dir) {
+      if (activeIndex > previousIndex) dir = "next";
+      else if (activeIndex < previousIndex) dir = "prev";
+      else dir = "reset";
+    }
+    swiper.emit(`transition${step}`);
+    if (runCallbacks && dir === "reset") {
+      swiper.emit(`slideResetTransition${step}`);
+    } else if (runCallbacks && activeIndex !== previousIndex) {
+      swiper.emit(`slideChangeTransition${step}`);
+      if (dir === "next") {
+        swiper.emit(`slideNextTransition${step}`);
+      } else {
+        swiper.emit(`slidePrevTransition${step}`);
+      }
+    }
+  }
+  function transitionStart(runCallbacks = true, direction) {
+    const swiper = this;
+    const {
+      params
+    } = swiper;
+    if (params.cssMode) return;
+    if (params.autoHeight) {
+      swiper.updateAutoHeight();
+    }
+    transitionEmit({
+      swiper,
+      runCallbacks,
+      direction,
+      step: "Start"
+    });
+  }
+  function transitionEnd(runCallbacks = true, direction) {
+    const swiper = this;
+    const {
+      params
+    } = swiper;
+    swiper.animating = false;
+    if (params.cssMode) return;
+    swiper.setTransition(0);
+    transitionEmit({
+      swiper,
+      runCallbacks,
+      direction,
+      step: "End"
+    });
+  }
+  var transition = {
+    setTransition,
+    transitionStart,
+    transitionEnd
+  };
+  function slideTo(index = 0, speed, runCallbacks = true, internal, initial) {
+    if (typeof index === "string") {
+      index = parseInt(index, 10);
+    }
+    const swiper = this;
+    let slideIndex = index;
+    if (slideIndex < 0) slideIndex = 0;
+    const {
+      params,
+      snapGrid,
+      slidesGrid,
+      previousIndex,
+      activeIndex,
+      rtlTranslate: rtl,
+      wrapperEl,
+      enabled
+    } = swiper;
+    if (!enabled && !internal && !initial || swiper.destroyed || swiper.animating && params.preventInteractionOnTransition) {
+      return false;
+    }
+    if (typeof speed === "undefined") {
+      speed = swiper.params.speed;
+    }
+    const skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
+    let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
+    if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
+    const translate2 = -snapGrid[snapIndex];
+    if (params.normalizeSlideIndex) {
+      for (let i = 0; i < slidesGrid.length; i += 1) {
+        const normalizedTranslate = -Math.floor(translate2 * 100);
+        const normalizedGrid = Math.floor(slidesGrid[i] * 100);
+        const normalizedGridNext = Math.floor(slidesGrid[i + 1] * 100);
+        if (typeof slidesGrid[i + 1] !== "undefined") {
+          if (normalizedTranslate >= normalizedGrid && normalizedTranslate < normalizedGridNext - (normalizedGridNext - normalizedGrid) / 2) {
+            slideIndex = i;
+          } else if (normalizedTranslate >= normalizedGrid && normalizedTranslate < normalizedGridNext) {
+            slideIndex = i + 1;
+          }
+        } else if (normalizedTranslate >= normalizedGrid) {
+          slideIndex = i;
+        }
+      }
+    }
+    if (swiper.initialized && slideIndex !== activeIndex) {
+      if (!swiper.allowSlideNext && (rtl ? translate2 > swiper.translate && translate2 > swiper.minTranslate() : translate2 < swiper.translate && translate2 < swiper.minTranslate())) {
+        return false;
+      }
+      if (!swiper.allowSlidePrev && translate2 > swiper.translate && translate2 > swiper.maxTranslate()) {
+        if ((activeIndex || 0) !== slideIndex) {
+          return false;
+        }
+      }
+    }
+    if (slideIndex !== (previousIndex || 0) && runCallbacks) {
+      swiper.emit("beforeSlideChangeStart");
+    }
+    swiper.updateProgress(translate2);
+    let direction;
+    if (slideIndex > activeIndex) direction = "next";
+    else if (slideIndex < activeIndex) direction = "prev";
+    else direction = "reset";
+    const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+    const isInitialVirtual = isVirtual && initial;
+    if (!isInitialVirtual && (rtl && -translate2 === swiper.translate || !rtl && translate2 === swiper.translate)) {
+      swiper.updateActiveIndex(slideIndex);
+      if (params.autoHeight) {
+        swiper.updateAutoHeight();
+      }
+      swiper.updateSlidesClasses();
+      if (params.effect !== "slide") {
+        swiper.setTranslate(translate2);
+      }
+      if (direction !== "reset") {
+        swiper.transitionStart(runCallbacks, direction);
+        swiper.transitionEnd(runCallbacks, direction);
+      }
+      return false;
+    }
+    if (params.cssMode) {
+      const isH = swiper.isHorizontal();
+      const t2 = rtl ? translate2 : -translate2;
+      if (speed === 0) {
+        if (isVirtual) {
+          swiper.wrapperEl.style.scrollSnapType = "none";
+          swiper._immediateVirtual = true;
+        }
+        if (isVirtual && !swiper._cssModeVirtualInitialSet && swiper.params.initialSlide > 0) {
+          swiper._cssModeVirtualInitialSet = true;
+          requestAnimationFrame(() => {
+            wrapperEl[isH ? "scrollLeft" : "scrollTop"] = t2;
+          });
+        } else {
+          wrapperEl[isH ? "scrollLeft" : "scrollTop"] = t2;
+        }
+        if (isVirtual) {
+          requestAnimationFrame(() => {
+            swiper.wrapperEl.style.scrollSnapType = "";
+            swiper._immediateVirtual = false;
+          });
+        }
+      } else {
+        if (!swiper.support.smoothScroll) {
+          animateCSSModeScroll({
+            swiper,
+            targetPosition: t2,
+            side: isH ? "left" : "top"
+          });
+          return true;
+        }
+        wrapperEl.scrollTo({
+          [isH ? "left" : "top"]: t2,
+          behavior: "smooth"
+        });
+      }
+      return true;
+    }
+    const browser2 = getBrowser();
+    const isSafari = browser2.isSafari;
+    if (isVirtual && !initial && isSafari && swiper.isElement) {
+      swiper.virtual.update(false, false, slideIndex);
+    }
+    swiper.setTransition(speed);
+    swiper.setTranslate(translate2);
+    swiper.updateActiveIndex(slideIndex);
+    swiper.updateSlidesClasses();
+    swiper.emit("beforeTransitionStart", speed, internal);
+    swiper.transitionStart(runCallbacks, direction);
+    if (speed === 0) {
+      swiper.transitionEnd(runCallbacks, direction);
+    } else if (!swiper.animating) {
+      swiper.animating = true;
+      if (!swiper.onSlideToWrapperTransitionEnd) {
+        swiper.onSlideToWrapperTransitionEnd = function transitionEnd2(e) {
+          if (!swiper || swiper.destroyed) return;
+          if (e.target !== this) return;
+          swiper.wrapperEl.removeEventListener("transitionend", swiper.onSlideToWrapperTransitionEnd);
+          swiper.onSlideToWrapperTransitionEnd = null;
+          delete swiper.onSlideToWrapperTransitionEnd;
+          swiper.transitionEnd(runCallbacks, direction);
+        };
+      }
+      swiper.wrapperEl.addEventListener("transitionend", swiper.onSlideToWrapperTransitionEnd);
+    }
+    return true;
+  }
+  function slideToLoop(index = 0, speed, runCallbacks = true, internal) {
+    if (typeof index === "string") {
+      const indexAsNumber = parseInt(index, 10);
+      index = indexAsNumber;
+    }
+    const swiper = this;
+    if (swiper.destroyed) return;
+    if (typeof speed === "undefined") {
+      speed = swiper.params.speed;
+    }
+    const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
+    let newIndex = index;
+    if (swiper.params.loop) {
+      if (swiper.virtual && swiper.params.virtual.enabled) {
+        newIndex = newIndex + swiper.virtual.slidesBefore;
+      } else {
+        let targetSlideIndex;
+        if (gridEnabled) {
+          const slideIndex = newIndex * swiper.params.grid.rows;
+          targetSlideIndex = swiper.slides.find((slideEl) => slideEl.getAttribute("data-swiper-slide-index") * 1 === slideIndex).column;
+        } else {
+          targetSlideIndex = swiper.getSlideIndexByData(newIndex);
+        }
+        const cols = gridEnabled ? Math.ceil(swiper.slides.length / swiper.params.grid.rows) : swiper.slides.length;
+        const {
+          centeredSlides,
+          slidesOffsetBefore,
+          slidesOffsetAfter
+        } = swiper.params;
+        const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
+        let slidesPerView = swiper.params.slidesPerView;
+        if (slidesPerView === "auto") {
+          slidesPerView = swiper.slidesPerViewDynamic();
+        } else {
+          slidesPerView = Math.ceil(parseFloat(swiper.params.slidesPerView, 10));
+          if (bothDirections && slidesPerView % 2 === 0) {
+            slidesPerView = slidesPerView + 1;
+          }
+        }
+        let needLoopFix = cols - targetSlideIndex < slidesPerView;
+        if (bothDirections) {
+          needLoopFix = needLoopFix || targetSlideIndex < Math.ceil(slidesPerView / 2);
+        }
+        if (internal && bothDirections && swiper.params.slidesPerView !== "auto" && !gridEnabled) {
+          needLoopFix = false;
+        }
+        if (needLoopFix) {
+          const direction = bothDirections ? targetSlideIndex < swiper.activeIndex ? "prev" : "next" : targetSlideIndex - swiper.activeIndex - 1 < swiper.params.slidesPerView ? "next" : "prev";
+          swiper.loopFix({
+            direction,
+            slideTo: true,
+            activeSlideIndex: direction === "next" ? targetSlideIndex + 1 : targetSlideIndex - cols + 1,
+            slideRealIndex: direction === "next" ? swiper.realIndex : void 0
+          });
+        }
+        if (gridEnabled) {
+          const slideIndex = newIndex * swiper.params.grid.rows;
+          newIndex = swiper.slides.find((slideEl) => slideEl.getAttribute("data-swiper-slide-index") * 1 === slideIndex).column;
+        } else {
+          newIndex = swiper.getSlideIndexByData(newIndex);
+        }
+      }
+    }
+    requestAnimationFrame(() => {
+      swiper.slideTo(newIndex, speed, runCallbacks, internal);
+    });
+    return swiper;
+  }
+  function slideNext(speed, runCallbacks = true, internal) {
+    const swiper = this;
+    const {
+      enabled,
+      params,
+      animating
+    } = swiper;
+    if (!enabled || swiper.destroyed) return swiper;
+    if (typeof speed === "undefined") {
+      speed = swiper.params.speed;
+    }
+    let perGroup = params.slidesPerGroup;
+    if (params.slidesPerView === "auto" && params.slidesPerGroup === 1 && params.slidesPerGroupAuto) {
+      perGroup = Math.max(swiper.slidesPerViewDynamic("current", true), 1);
+    }
+    const increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : perGroup;
+    const isVirtual = swiper.virtual && params.virtual.enabled;
+    if (params.loop) {
+      if (animating && !isVirtual && params.loopPreventsSliding) return false;
+      swiper.loopFix({
+        direction: "next"
+      });
+      swiper._clientLeft = swiper.wrapperEl.clientLeft;
+      if (swiper.activeIndex === swiper.slides.length - 1 && params.cssMode) {
+        requestAnimationFrame(() => {
+          swiper.slideTo(swiper.activeIndex + increment, speed, runCallbacks, internal);
+        });
+        return true;
+      }
+    }
+    if (params.rewind && swiper.isEnd) {
+      return swiper.slideTo(0, speed, runCallbacks, internal);
+    }
+    return swiper.slideTo(swiper.activeIndex + increment, speed, runCallbacks, internal);
+  }
+  function slidePrev(speed, runCallbacks = true, internal) {
+    const swiper = this;
+    const {
+      params,
+      snapGrid,
+      slidesGrid,
+      rtlTranslate,
+      enabled,
+      animating
+    } = swiper;
+    if (!enabled || swiper.destroyed) return swiper;
+    if (typeof speed === "undefined") {
+      speed = swiper.params.speed;
+    }
+    const isVirtual = swiper.virtual && params.virtual.enabled;
+    if (params.loop) {
+      if (animating && !isVirtual && params.loopPreventsSliding) return false;
+      swiper.loopFix({
+        direction: "prev"
+      });
+      swiper._clientLeft = swiper.wrapperEl.clientLeft;
+    }
+    const translate2 = rtlTranslate ? swiper.translate : -swiper.translate;
+    function normalize(val) {
+      if (val < 0) return -Math.floor(Math.abs(val));
+      return Math.floor(val);
+    }
+    const normalizedTranslate = normalize(translate2);
+    const normalizedSnapGrid = snapGrid.map((val) => normalize(val));
+    const isFreeMode = params.freeMode && params.freeMode.enabled;
+    let prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
+    if (typeof prevSnap === "undefined" && (params.cssMode || isFreeMode)) {
+      let prevSnapIndex;
+      snapGrid.forEach((snap, snapIndex) => {
+        if (normalizedTranslate >= snap) {
+          prevSnapIndex = snapIndex;
+        }
+      });
+      if (typeof prevSnapIndex !== "undefined") {
+        prevSnap = isFreeMode ? snapGrid[prevSnapIndex] : snapGrid[prevSnapIndex > 0 ? prevSnapIndex - 1 : prevSnapIndex];
+      }
+    }
+    let prevIndex = 0;
+    if (typeof prevSnap !== "undefined") {
+      prevIndex = slidesGrid.indexOf(prevSnap);
+      if (prevIndex < 0) prevIndex = swiper.activeIndex - 1;
+      if (params.slidesPerView === "auto" && params.slidesPerGroup === 1 && params.slidesPerGroupAuto) {
+        prevIndex = prevIndex - swiper.slidesPerViewDynamic("previous", true) + 1;
+        prevIndex = Math.max(prevIndex, 0);
+      }
+    }
+    if (params.rewind && swiper.isBeginning) {
+      const lastIndex = swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual ? swiper.virtual.slides.length - 1 : swiper.slides.length - 1;
+      return swiper.slideTo(lastIndex, speed, runCallbacks, internal);
+    } else if (params.loop && swiper.activeIndex === 0 && params.cssMode) {
+      requestAnimationFrame(() => {
+        swiper.slideTo(prevIndex, speed, runCallbacks, internal);
+      });
+      return true;
+    }
+    return swiper.slideTo(prevIndex, speed, runCallbacks, internal);
+  }
+  function slideReset(speed, runCallbacks = true, internal) {
+    const swiper = this;
+    if (swiper.destroyed) return;
+    if (typeof speed === "undefined") {
+      speed = swiper.params.speed;
+    }
+    return swiper.slideTo(swiper.activeIndex, speed, runCallbacks, internal);
+  }
+  function slideToClosest(speed, runCallbacks = true, internal, threshold = 0.5) {
+    const swiper = this;
+    if (swiper.destroyed) return;
+    if (typeof speed === "undefined") {
+      speed = swiper.params.speed;
+    }
+    let index = swiper.activeIndex;
+    const skip = Math.min(swiper.params.slidesPerGroupSkip, index);
+    const snapIndex = skip + Math.floor((index - skip) / swiper.params.slidesPerGroup);
+    const translate2 = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
+    if (translate2 >= swiper.snapGrid[snapIndex]) {
+      const currentSnap = swiper.snapGrid[snapIndex];
+      const nextSnap = swiper.snapGrid[snapIndex + 1];
+      if (translate2 - currentSnap > (nextSnap - currentSnap) * threshold) {
+        index += swiper.params.slidesPerGroup;
+      }
+    } else {
+      const prevSnap = swiper.snapGrid[snapIndex - 1];
+      const currentSnap = swiper.snapGrid[snapIndex];
+      if (translate2 - prevSnap <= (currentSnap - prevSnap) * threshold) {
+        index -= swiper.params.slidesPerGroup;
+      }
+    }
+    index = Math.max(index, 0);
+    index = Math.min(index, swiper.slidesGrid.length - 1);
+    return swiper.slideTo(index, speed, runCallbacks, internal);
+  }
+  function slideToClickedSlide() {
+    const swiper = this;
+    if (swiper.destroyed) return;
+    const {
+      params,
+      slidesEl
+    } = swiper;
+    const slidesPerView = params.slidesPerView === "auto" ? swiper.slidesPerViewDynamic() : params.slidesPerView;
+    let slideToIndex = swiper.getSlideIndexWhenGrid(swiper.clickedIndex);
+    let realIndex;
+    const slideSelector = swiper.isElement ? `swiper-slide` : `.${params.slideClass}`;
+    const isGrid = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
+    if (params.loop) {
+      if (swiper.animating) return;
+      realIndex = parseInt(swiper.clickedSlide.getAttribute("data-swiper-slide-index"), 10);
+      if (params.centeredSlides) {
+        swiper.slideToLoop(realIndex);
+      } else if (slideToIndex > (isGrid ? (swiper.slides.length - slidesPerView) / 2 - (swiper.params.grid.rows - 1) : swiper.slides.length - slidesPerView)) {
+        swiper.loopFix();
+        slideToIndex = swiper.getSlideIndex(elementChildren(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0]);
+        nextTick(() => {
+          swiper.slideTo(slideToIndex);
+        });
+      } else {
+        swiper.slideTo(slideToIndex);
+      }
+    } else {
+      swiper.slideTo(slideToIndex);
+    }
+  }
+  var slide = {
+    slideTo,
+    slideToLoop,
+    slideNext,
+    slidePrev,
+    slideReset,
+    slideToClosest,
+    slideToClickedSlide
+  };
+  function loopCreate(slideRealIndex, initial) {
+    const swiper = this;
+    const {
+      params,
+      slidesEl
+    } = swiper;
+    if (!params.loop || swiper.virtual && swiper.params.virtual.enabled) return;
+    const initSlides = () => {
+      const slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
+      slides.forEach((el, index) => {
+        el.setAttribute("data-swiper-slide-index", index);
+      });
+    };
+    const clearBlankSlides = () => {
+      const slides = elementChildren(slidesEl, `.${params.slideBlankClass}`);
+      slides.forEach((el) => {
+        el.remove();
+      });
+      if (slides.length > 0) {
+        swiper.recalcSlides();
+        swiper.updateSlides();
+      }
+    };
+    const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
+    if (params.loopAddBlankSlides && (params.slidesPerGroup > 1 || gridEnabled)) {
+      clearBlankSlides();
+    }
+    const slidesPerGroup = params.slidesPerGroup * (gridEnabled ? params.grid.rows : 1);
+    const shouldFillGroup = swiper.slides.length % slidesPerGroup !== 0;
+    const shouldFillGrid = gridEnabled && swiper.slides.length % params.grid.rows !== 0;
+    const addBlankSlides = (amountOfSlides) => {
+      for (let i = 0; i < amountOfSlides; i += 1) {
+        const slideEl = swiper.isElement ? createElement("swiper-slide", [params.slideBlankClass]) : createElement("div", [params.slideClass, params.slideBlankClass]);
+        swiper.slidesEl.append(slideEl);
+      }
+    };
+    if (shouldFillGroup) {
+      if (params.loopAddBlankSlides) {
+        const slidesToAdd = slidesPerGroup - swiper.slides.length % slidesPerGroup;
+        addBlankSlides(slidesToAdd);
+        swiper.recalcSlides();
+        swiper.updateSlides();
+      } else {
+        showWarning("Swiper Loop Warning: The number of slides is not even to slidesPerGroup, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");
+      }
+      initSlides();
+    } else if (shouldFillGrid) {
+      if (params.loopAddBlankSlides) {
+        const slidesToAdd = params.grid.rows - swiper.slides.length % params.grid.rows;
+        addBlankSlides(slidesToAdd);
+        swiper.recalcSlides();
+        swiper.updateSlides();
+      } else {
+        showWarning("Swiper Loop Warning: The number of slides is not even to grid.rows, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)");
+      }
+      initSlides();
+    } else {
+      initSlides();
+    }
+    const bothDirections = params.centeredSlides || !!params.slidesOffsetBefore || !!params.slidesOffsetAfter;
+    swiper.loopFix({
+      slideRealIndex,
+      direction: bothDirections ? void 0 : "next",
+      initial
+    });
+  }
+  function loopFix({
+    slideRealIndex,
+    slideTo: slideTo2 = true,
+    direction,
+    setTranslate: setTranslate2,
+    activeSlideIndex,
+    initial,
+    byController,
+    byMousewheel
+  } = {}) {
+    const swiper = this;
+    if (!swiper.params.loop) return;
+    swiper.emit("beforeLoopFix");
+    const {
+      slides,
+      allowSlidePrev,
+      allowSlideNext,
+      slidesEl,
+      params
+    } = swiper;
+    const {
+      centeredSlides,
+      slidesOffsetBefore,
+      slidesOffsetAfter,
+      initialSlide
+    } = params;
+    const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
+    swiper.allowSlidePrev = true;
+    swiper.allowSlideNext = true;
+    if (swiper.virtual && params.virtual.enabled) {
+      if (slideTo2) {
+        if (!bothDirections && swiper.snapIndex === 0) {
+          swiper.slideTo(swiper.virtual.slides.length, 0, false, true);
+        } else if (bothDirections && swiper.snapIndex < params.slidesPerView) {
+          swiper.slideTo(swiper.virtual.slides.length + swiper.snapIndex, 0, false, true);
+        } else if (swiper.snapIndex === swiper.snapGrid.length - 1) {
+          swiper.slideTo(swiper.virtual.slidesBefore, 0, false, true);
+        }
+      }
+      swiper.allowSlidePrev = allowSlidePrev;
+      swiper.allowSlideNext = allowSlideNext;
+      swiper.emit("loopFix");
+      return;
+    }
+    let slidesPerView = params.slidesPerView;
+    if (slidesPerView === "auto") {
+      slidesPerView = swiper.slidesPerViewDynamic();
+    } else {
+      slidesPerView = Math.ceil(parseFloat(params.slidesPerView, 10));
+      if (bothDirections && slidesPerView % 2 === 0) {
+        slidesPerView = slidesPerView + 1;
+      }
+    }
+    const slidesPerGroup = params.slidesPerGroupAuto ? slidesPerView : params.slidesPerGroup;
+    let loopedSlides = bothDirections ? Math.max(slidesPerGroup, Math.ceil(slidesPerView / 2)) : slidesPerGroup;
+    if (loopedSlides % slidesPerGroup !== 0) {
+      loopedSlides += slidesPerGroup - loopedSlides % slidesPerGroup;
+    }
+    loopedSlides += params.loopAdditionalSlides;
+    swiper.loopedSlides = loopedSlides;
+    const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
+    if (slides.length < slidesPerView + loopedSlides || swiper.params.effect === "cards" && slides.length < slidesPerView + loopedSlides * 2) {
+      showWarning("Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters");
+    } else if (gridEnabled && params.grid.fill === "row") {
+      showWarning("Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`");
+    }
+    const prependSlidesIndexes = [];
+    const appendSlidesIndexes = [];
+    const cols = gridEnabled ? Math.ceil(slides.length / params.grid.rows) : slides.length;
+    const isInitialOverflow = initial && cols - initialSlide < slidesPerView && !bothDirections;
+    let activeIndex = isInitialOverflow ? initialSlide : swiper.activeIndex;
+    if (typeof activeSlideIndex === "undefined") {
+      activeSlideIndex = swiper.getSlideIndex(slides.find((el) => el.classList.contains(params.slideActiveClass)));
+    } else {
+      activeIndex = activeSlideIndex;
+    }
+    const isNext = direction === "next" || !direction;
+    const isPrev = direction === "prev" || !direction;
+    let slidesPrepended = 0;
+    let slidesAppended = 0;
+    const activeColIndex = gridEnabled ? slides[activeSlideIndex].column : activeSlideIndex;
+    const activeColIndexWithShift = activeColIndex + (bothDirections && typeof setTranslate2 === "undefined" ? -slidesPerView / 2 + 0.5 : 0);
+    if (activeColIndexWithShift < loopedSlides) {
+      slidesPrepended = Math.max(loopedSlides - activeColIndexWithShift, slidesPerGroup);
+      for (let i = 0; i < loopedSlides - activeColIndexWithShift; i += 1) {
+        const index = i - Math.floor(i / cols) * cols;
+        if (gridEnabled) {
+          const colIndexToPrepend = cols - index - 1;
+          for (let i2 = slides.length - 1; i2 >= 0; i2 -= 1) {
+            if (slides[i2].column === colIndexToPrepend) prependSlidesIndexes.push(i2);
+          }
+        } else {
+          prependSlidesIndexes.push(cols - index - 1);
+        }
+      }
+    } else if (activeColIndexWithShift + slidesPerView > cols - loopedSlides) {
+      slidesAppended = Math.max(activeColIndexWithShift - (cols - loopedSlides * 2), slidesPerGroup);
+      if (isInitialOverflow) {
+        slidesAppended = Math.max(slidesAppended, slidesPerView - cols + initialSlide + 1);
+      }
+      for (let i = 0; i < slidesAppended; i += 1) {
+        const index = i - Math.floor(i / cols) * cols;
+        if (gridEnabled) {
+          slides.forEach((slide2, slideIndex) => {
+            if (slide2.column === index) appendSlidesIndexes.push(slideIndex);
+          });
+        } else {
+          appendSlidesIndexes.push(index);
+        }
+      }
+    }
+    swiper.__preventObserver__ = true;
+    requestAnimationFrame(() => {
+      swiper.__preventObserver__ = false;
+    });
+    if (swiper.params.effect === "cards" && slides.length < slidesPerView + loopedSlides * 2) {
+      if (appendSlidesIndexes.includes(activeSlideIndex)) {
+        appendSlidesIndexes.splice(appendSlidesIndexes.indexOf(activeSlideIndex), 1);
+      }
+      if (prependSlidesIndexes.includes(activeSlideIndex)) {
+        prependSlidesIndexes.splice(prependSlidesIndexes.indexOf(activeSlideIndex), 1);
+      }
+    }
+    if (isPrev) {
+      prependSlidesIndexes.forEach((index) => {
+        slides[index].swiperLoopMoveDOM = true;
+        slidesEl.prepend(slides[index]);
+        slides[index].swiperLoopMoveDOM = false;
+      });
+    }
+    if (isNext) {
+      appendSlidesIndexes.forEach((index) => {
+        slides[index].swiperLoopMoveDOM = true;
+        slidesEl.append(slides[index]);
+        slides[index].swiperLoopMoveDOM = false;
+      });
+    }
+    swiper.recalcSlides();
+    if (params.slidesPerView === "auto") {
+      swiper.updateSlides();
+    } else if (gridEnabled && (prependSlidesIndexes.length > 0 && isPrev || appendSlidesIndexes.length > 0 && isNext)) {
+      swiper.slides.forEach((slide2, slideIndex) => {
+        swiper.grid.updateSlide(slideIndex, slide2, swiper.slides);
+      });
+    }
+    if (params.watchSlidesProgress) {
+      swiper.updateSlidesOffset();
+    }
+    if (slideTo2) {
+      if (prependSlidesIndexes.length > 0 && isPrev) {
+        if (typeof slideRealIndex === "undefined") {
+          const currentSlideTranslate = swiper.slidesGrid[activeIndex];
+          const newSlideTranslate = swiper.slidesGrid[activeIndex + slidesPrepended];
+          const diff = newSlideTranslate - currentSlideTranslate;
+          if (byMousewheel) {
+            swiper.setTranslate(swiper.translate - diff);
+          } else {
+            swiper.slideTo(activeIndex + Math.ceil(slidesPrepended), 0, false, true);
+            if (setTranslate2) {
+              swiper.touchEventsData.startTranslate = swiper.touchEventsData.startTranslate - diff;
+              swiper.touchEventsData.currentTranslate = swiper.touchEventsData.currentTranslate - diff;
+            }
+          }
+        } else {
+          if (setTranslate2) {
+            const shift = gridEnabled ? prependSlidesIndexes.length / params.grid.rows : prependSlidesIndexes.length;
+            swiper.slideTo(swiper.activeIndex + shift, 0, false, true);
+            swiper.touchEventsData.currentTranslate = swiper.translate;
+          }
+        }
+      } else if (appendSlidesIndexes.length > 0 && isNext) {
+        if (typeof slideRealIndex === "undefined") {
+          const currentSlideTranslate = swiper.slidesGrid[activeIndex];
+          const newSlideTranslate = swiper.slidesGrid[activeIndex - slidesAppended];
+          const diff = newSlideTranslate - currentSlideTranslate;
+          if (byMousewheel) {
+            swiper.setTranslate(swiper.translate - diff);
+          } else {
+            swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
+            if (setTranslate2) {
+              swiper.touchEventsData.startTranslate = swiper.touchEventsData.startTranslate - diff;
+              swiper.touchEventsData.currentTranslate = swiper.touchEventsData.currentTranslate - diff;
+            }
+          }
+        } else {
+          const shift = gridEnabled ? appendSlidesIndexes.length / params.grid.rows : appendSlidesIndexes.length;
+          swiper.slideTo(swiper.activeIndex - shift, 0, false, true);
+        }
+      }
+    }
+    swiper.allowSlidePrev = allowSlidePrev;
+    swiper.allowSlideNext = allowSlideNext;
+    if (swiper.controller && swiper.controller.control && !byController) {
+      const loopParams = {
+        slideRealIndex,
+        direction,
+        setTranslate: setTranslate2,
+        activeSlideIndex,
+        byController: true
+      };
+      if (Array.isArray(swiper.controller.control)) {
+        swiper.controller.control.forEach((c) => {
+          if (!c.destroyed && c.params.loop) c.loopFix({
+            ...loopParams,
+            slideTo: c.params.slidesPerView === params.slidesPerView ? slideTo2 : false
+          });
+        });
+      } else if (swiper.controller.control instanceof swiper.constructor && swiper.controller.control.params.loop) {
+        swiper.controller.control.loopFix({
+          ...loopParams,
+          slideTo: swiper.controller.control.params.slidesPerView === params.slidesPerView ? slideTo2 : false
+        });
+      }
+    }
+    swiper.emit("loopFix");
+  }
+  function loopDestroy() {
+    const swiper = this;
+    const {
+      params,
+      slidesEl
+    } = swiper;
+    if (!params.loop || !slidesEl || swiper.virtual && swiper.params.virtual.enabled) return;
+    swiper.recalcSlides();
+    const newSlidesOrder = [];
+    swiper.slides.forEach((slideEl) => {
+      const index = typeof slideEl.swiperSlideIndex === "undefined" ? slideEl.getAttribute("data-swiper-slide-index") * 1 : slideEl.swiperSlideIndex;
+      newSlidesOrder[index] = slideEl;
+    });
+    swiper.slides.forEach((slideEl) => {
+      slideEl.removeAttribute("data-swiper-slide-index");
+    });
+    newSlidesOrder.forEach((slideEl) => {
+      slidesEl.append(slideEl);
+    });
+    swiper.recalcSlides();
+    swiper.slideTo(swiper.realIndex, 0);
+  }
+  var loop = {
+    loopCreate,
+    loopFix,
+    loopDestroy
+  };
+  function setGrabCursor(moving) {
+    const swiper = this;
+    if (!swiper.params.simulateTouch || swiper.params.watchOverflow && swiper.isLocked || swiper.params.cssMode) return;
+    const el = swiper.params.touchEventsTarget === "container" ? swiper.el : swiper.wrapperEl;
+    if (swiper.isElement) {
+      swiper.__preventObserver__ = true;
+    }
+    el.style.cursor = "move";
+    el.style.cursor = moving ? "grabbing" : "grab";
+    if (swiper.isElement) {
+      requestAnimationFrame(() => {
+        swiper.__preventObserver__ = false;
+      });
+    }
+  }
+  function unsetGrabCursor() {
+    const swiper = this;
+    if (swiper.params.watchOverflow && swiper.isLocked || swiper.params.cssMode) {
+      return;
+    }
+    if (swiper.isElement) {
+      swiper.__preventObserver__ = true;
+    }
+    swiper[swiper.params.touchEventsTarget === "container" ? "el" : "wrapperEl"].style.cursor = "";
+    if (swiper.isElement) {
+      requestAnimationFrame(() => {
+        swiper.__preventObserver__ = false;
+      });
+    }
+  }
+  var grabCursor = {
+    setGrabCursor,
+    unsetGrabCursor
+  };
+  function closestElement(selector, base = this) {
+    function __closestFrom(el) {
+      if (!el || el === getDocument() || el === getWindow()) return null;
+      if (el.assignedSlot) el = el.assignedSlot;
+      const found = el.closest(selector);
+      if (!found && !el.getRootNode) {
+        return null;
+      }
+      return found || __closestFrom(el.getRootNode().host);
+    }
+    return __closestFrom(base);
+  }
+  function preventEdgeSwipe(swiper, event2, startX) {
+    const window2 = getWindow();
+    const {
+      params
+    } = swiper;
+    const edgeSwipeDetection = params.edgeSwipeDetection;
+    const edgeSwipeThreshold = params.edgeSwipeThreshold;
+    if (edgeSwipeDetection && (startX <= edgeSwipeThreshold || startX >= window2.innerWidth - edgeSwipeThreshold)) {
+      if (edgeSwipeDetection === "prevent") {
+        event2.preventDefault();
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+  function onTouchStart(event2) {
+    const swiper = this;
+    const document2 = getDocument();
+    let e = event2;
+    if (e.originalEvent) e = e.originalEvent;
+    const data = swiper.touchEventsData;
+    if (e.type === "pointerdown") {
+      if (data.pointerId !== null && data.pointerId !== e.pointerId) {
+        return;
+      }
+      data.pointerId = e.pointerId;
+    } else if (e.type === "touchstart" && e.targetTouches.length === 1) {
+      data.touchId = e.targetTouches[0].identifier;
+    }
+    if (e.type === "touchstart") {
+      preventEdgeSwipe(swiper, e, e.targetTouches[0].pageX);
+      return;
+    }
+    const {
+      params,
+      touches,
+      enabled
+    } = swiper;
+    if (!enabled) return;
+    if (!params.simulateTouch && e.pointerType === "mouse") return;
+    if (swiper.animating && params.preventInteractionOnTransition) {
+      return;
+    }
+    if (!swiper.animating && params.cssMode && params.loop) {
+      swiper.loopFix();
+    }
+    let targetEl = e.target;
+    if (params.touchEventsTarget === "wrapper") {
+      if (!elementIsChildOf(targetEl, swiper.wrapperEl)) return;
+    }
+    if ("which" in e && e.which === 3) return;
+    if ("button" in e && e.button > 0) return;
+    if (data.isTouched && data.isMoved) return;
+    const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== "";
+    const eventPath = e.composedPath ? e.composedPath() : e.path;
+    if (swipingClassHasValue && e.target && e.target.shadowRoot && eventPath) {
+      targetEl = eventPath[0];
+    }
+    const noSwipingSelector = params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`;
+    const isTargetShadow = !!(e.target && e.target.shadowRoot);
+    if (params.noSwiping && (isTargetShadow ? closestElement(noSwipingSelector, targetEl) : targetEl.closest(noSwipingSelector))) {
+      swiper.allowClick = true;
+      return;
+    }
+    if (params.swipeHandler) {
+      if (!targetEl.closest(params.swipeHandler)) return;
+    }
+    touches.currentX = e.pageX;
+    touches.currentY = e.pageY;
+    const startX = touches.currentX;
+    const startY = touches.currentY;
+    if (!preventEdgeSwipe(swiper, e, startX)) {
+      return;
+    }
+    Object.assign(data, {
+      isTouched: true,
+      isMoved: false,
+      allowTouchCallbacks: true,
+      isScrolling: void 0,
+      startMoving: void 0
+    });
+    touches.startX = startX;
+    touches.startY = startY;
+    data.touchStartTime = now();
+    swiper.allowClick = true;
+    swiper.updateSize();
+    swiper.swipeDirection = void 0;
+    if (params.threshold > 0) data.allowThresholdMove = false;
+    let preventDefault = true;
+    if (targetEl.matches(data.focusableElements)) {
+      preventDefault = false;
+      if (targetEl.nodeName === "SELECT") {
+        data.isTouched = false;
+      }
+    }
+    if (document2.activeElement && document2.activeElement.matches(data.focusableElements) && document2.activeElement !== targetEl && (e.pointerType === "mouse" || e.pointerType !== "mouse" && !targetEl.matches(data.focusableElements))) {
+      document2.activeElement.blur();
+    }
+    const shouldPreventDefault = preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
+    if ((params.touchStartForcePreventDefault || shouldPreventDefault) && !targetEl.isContentEditable) {
+      e.preventDefault();
+    }
+    if (params.freeMode && params.freeMode.enabled && swiper.freeMode && swiper.animating && !params.cssMode) {
+      swiper.freeMode.onTouchStart();
+    }
+    swiper.emit("touchStart", e);
+  }
+  function onTouchMove(event2) {
+    const document2 = getDocument();
+    const swiper = this;
+    const data = swiper.touchEventsData;
+    const {
+      params,
+      touches,
+      rtlTranslate: rtl,
+      enabled
+    } = swiper;
+    if (!enabled) return;
+    if (!params.simulateTouch && event2.pointerType === "mouse") return;
+    let e = event2;
+    if (e.originalEvent) e = e.originalEvent;
+    if (e.type === "pointermove") {
+      if (data.touchId !== null) return;
+      const id = e.pointerId;
+      if (id !== data.pointerId) return;
+    }
+    let targetTouch;
+    if (e.type === "touchmove") {
+      targetTouch = [...e.changedTouches].find((t2) => t2.identifier === data.touchId);
+      if (!targetTouch || targetTouch.identifier !== data.touchId) return;
+    } else {
+      targetTouch = e;
+    }
+    if (!data.isTouched) {
+      if (data.startMoving && data.isScrolling) {
+        swiper.emit("touchMoveOpposite", e);
+      }
+      return;
+    }
+    const pageX = targetTouch.pageX;
+    const pageY = targetTouch.pageY;
+    if (e.preventedByNestedSwiper) {
+      touches.startX = pageX;
+      touches.startY = pageY;
+      return;
+    }
+    if (!swiper.allowTouchMove) {
+      if (!e.target.matches(data.focusableElements)) {
+        swiper.allowClick = false;
+      }
+      if (data.isTouched) {
+        Object.assign(touches, {
+          startX: pageX,
+          startY: pageY,
+          currentX: pageX,
+          currentY: pageY
+        });
+        data.touchStartTime = now();
+      }
+      return;
+    }
+    if (params.touchReleaseOnEdges && !params.loop) {
+      if (swiper.isVertical()) {
+        if (pageY < touches.startY && swiper.translate <= swiper.maxTranslate() || pageY > touches.startY && swiper.translate >= swiper.minTranslate()) {
+          data.isTouched = false;
+          data.isMoved = false;
+          return;
+        }
+      } else if (rtl && (pageX > touches.startX && -swiper.translate <= swiper.maxTranslate() || pageX < touches.startX && -swiper.translate >= swiper.minTranslate())) {
+        return;
+      } else if (!rtl && (pageX < touches.startX && swiper.translate <= swiper.maxTranslate() || pageX > touches.startX && swiper.translate >= swiper.minTranslate())) {
+        return;
+      }
+    }
+    if (document2.activeElement && document2.activeElement.matches(data.focusableElements) && document2.activeElement !== e.target && e.pointerType !== "mouse") {
+      document2.activeElement.blur();
+    }
+    if (document2.activeElement) {
+      if (e.target === document2.activeElement && e.target.matches(data.focusableElements)) {
+        data.isMoved = true;
+        swiper.allowClick = false;
+        return;
+      }
+    }
+    if (data.allowTouchCallbacks) {
+      swiper.emit("touchMove", e);
+    }
+    touches.previousX = touches.currentX;
+    touches.previousY = touches.currentY;
+    touches.currentX = pageX;
+    touches.currentY = pageY;
+    const diffX = touches.currentX - touches.startX;
+    const diffY = touches.currentY - touches.startY;
+    if (swiper.params.threshold && Math.sqrt(diffX ** 2 + diffY ** 2) < swiper.params.threshold) return;
+    if (typeof data.isScrolling === "undefined") {
+      let touchAngle;
+      if (swiper.isHorizontal() && touches.currentY === touches.startY || swiper.isVertical() && touches.currentX === touches.startX) {
+        data.isScrolling = false;
+      } else {
+        if (diffX * diffX + diffY * diffY >= 25) {
+          touchAngle = Math.atan2(Math.abs(diffY), Math.abs(diffX)) * 180 / Math.PI;
+          data.isScrolling = swiper.isHorizontal() ? touchAngle > params.touchAngle : 90 - touchAngle > params.touchAngle;
+        }
+      }
+    }
+    if (data.isScrolling) {
+      swiper.emit("touchMoveOpposite", e);
+    }
+    if (typeof data.startMoving === "undefined") {
+      if (touches.currentX !== touches.startX || touches.currentY !== touches.startY) {
+        data.startMoving = true;
+      }
+    }
+    if (data.isScrolling || e.type === "touchmove" && data.preventTouchMoveFromPointerMove) {
+      data.isTouched = false;
+      return;
+    }
+    if (!data.startMoving) {
+      return;
+    }
+    swiper.allowClick = false;
+    if (!params.cssMode && e.cancelable) {
+      e.preventDefault();
+    }
+    if (params.touchMoveStopPropagation && !params.nested) {
+      e.stopPropagation();
+    }
+    let diff = swiper.isHorizontal() ? diffX : diffY;
+    let touchesDiff = swiper.isHorizontal() ? touches.currentX - touches.previousX : touches.currentY - touches.previousY;
+    if (params.oneWayMovement) {
+      diff = Math.abs(diff) * (rtl ? 1 : -1);
+      touchesDiff = Math.abs(touchesDiff) * (rtl ? 1 : -1);
+    }
+    touches.diff = diff;
+    diff *= params.touchRatio;
+    if (rtl) {
+      diff = -diff;
+      touchesDiff = -touchesDiff;
+    }
+    const prevTouchesDirection = swiper.touchesDirection;
+    swiper.swipeDirection = diff > 0 ? "prev" : "next";
+    swiper.touchesDirection = touchesDiff > 0 ? "prev" : "next";
+    const isLoop = swiper.params.loop && !params.cssMode;
+    const allowLoopFix = swiper.touchesDirection === "next" && swiper.allowSlideNext || swiper.touchesDirection === "prev" && swiper.allowSlidePrev;
+    if (!data.isMoved) {
+      if (isLoop && allowLoopFix) {
+        swiper.loopFix({
+          direction: swiper.swipeDirection
+        });
+      }
+      data.startTranslate = swiper.getTranslate();
+      swiper.setTransition(0);
+      if (swiper.animating) {
+        const evt = new window.CustomEvent("transitionend", {
+          bubbles: true,
+          cancelable: true,
+          detail: {
+            bySwiperTouchMove: true
+          }
+        });
+        swiper.wrapperEl.dispatchEvent(evt);
+      }
+      data.allowMomentumBounce = false;
+      if (params.grabCursor && (swiper.allowSlideNext === true || swiper.allowSlidePrev === true)) {
+        swiper.setGrabCursor(true);
+      }
+      swiper.emit("sliderFirstMove", e);
+    }
+    let loopFixed;
+    (/* @__PURE__ */ new Date()).getTime();
+    if (params._loopSwapReset !== false && data.isMoved && data.allowThresholdMove && prevTouchesDirection !== swiper.touchesDirection && isLoop && allowLoopFix && Math.abs(diff) >= 1) {
+      Object.assign(touches, {
+        startX: pageX,
+        startY: pageY,
+        currentX: pageX,
+        currentY: pageY,
+        startTranslate: data.currentTranslate
+      });
+      data.loopSwapReset = true;
+      data.startTranslate = data.currentTranslate;
+      return;
+    }
+    swiper.emit("sliderMove", e);
+    data.isMoved = true;
+    data.currentTranslate = diff + data.startTranslate;
+    let disableParentSwiper = true;
+    let resistanceRatio = params.resistanceRatio;
+    if (params.touchReleaseOnEdges) {
+      resistanceRatio = 0;
+    }
+    if (diff > 0) {
+      if (isLoop && allowLoopFix && !loopFixed && data.allowThresholdMove && data.currentTranslate > (params.centeredSlides ? swiper.minTranslate() - swiper.slidesSizesGrid[swiper.activeIndex + 1] - (params.slidesPerView !== "auto" && swiper.slides.length - params.slidesPerView >= 2 ? swiper.slidesSizesGrid[swiper.activeIndex + 1] + swiper.params.spaceBetween : 0) - swiper.params.spaceBetween : swiper.minTranslate())) {
+        swiper.loopFix({
+          direction: "prev",
+          setTranslate: true,
+          activeSlideIndex: 0
+        });
+      }
+      if (data.currentTranslate > swiper.minTranslate()) {
+        disableParentSwiper = false;
+        if (params.resistance) {
+          data.currentTranslate = swiper.minTranslate() - 1 + (-swiper.minTranslate() + data.startTranslate + diff) ** resistanceRatio;
+        }
+      }
+    } else if (diff < 0) {
+      if (isLoop && allowLoopFix && !loopFixed && data.allowThresholdMove && data.currentTranslate < (params.centeredSlides ? swiper.maxTranslate() + swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] + swiper.params.spaceBetween + (params.slidesPerView !== "auto" && swiper.slides.length - params.slidesPerView >= 2 ? swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] + swiper.params.spaceBetween : 0) : swiper.maxTranslate())) {
+        swiper.loopFix({
+          direction: "next",
+          setTranslate: true,
+          activeSlideIndex: swiper.slides.length - (params.slidesPerView === "auto" ? swiper.slidesPerViewDynamic() : Math.ceil(parseFloat(params.slidesPerView, 10)))
+        });
+      }
+      if (data.currentTranslate < swiper.maxTranslate()) {
+        disableParentSwiper = false;
+        if (params.resistance) {
+          data.currentTranslate = swiper.maxTranslate() + 1 - (swiper.maxTranslate() - data.startTranslate - diff) ** resistanceRatio;
+        }
+      }
+    }
+    if (disableParentSwiper) {
+      e.preventedByNestedSwiper = true;
+    }
+    if (!swiper.allowSlideNext && swiper.swipeDirection === "next" && data.currentTranslate < data.startTranslate) {
+      data.currentTranslate = data.startTranslate;
+    }
+    if (!swiper.allowSlidePrev && swiper.swipeDirection === "prev" && data.currentTranslate > data.startTranslate) {
+      data.currentTranslate = data.startTranslate;
+    }
+    if (!swiper.allowSlidePrev && !swiper.allowSlideNext) {
+      data.currentTranslate = data.startTranslate;
+    }
+    if (params.threshold > 0) {
+      if (Math.abs(diff) > params.threshold || data.allowThresholdMove) {
+        if (!data.allowThresholdMove) {
+          data.allowThresholdMove = true;
+          touches.startX = touches.currentX;
+          touches.startY = touches.currentY;
+          data.currentTranslate = data.startTranslate;
+          touches.diff = swiper.isHorizontal() ? touches.currentX - touches.startX : touches.currentY - touches.startY;
+          return;
+        }
+      } else {
+        data.currentTranslate = data.startTranslate;
+        return;
+      }
+    }
+    if (!params.followFinger || params.cssMode) return;
+    if (params.freeMode && params.freeMode.enabled && swiper.freeMode || params.watchSlidesProgress) {
+      swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+    }
+    if (params.freeMode && params.freeMode.enabled && swiper.freeMode) {
+      swiper.freeMode.onTouchMove();
+    }
+    swiper.updateProgress(data.currentTranslate);
+    swiper.setTranslate(data.currentTranslate);
+  }
+  function onTouchEnd(event2) {
+    const swiper = this;
+    const data = swiper.touchEventsData;
+    let e = event2;
+    if (e.originalEvent) e = e.originalEvent;
+    let targetTouch;
+    const isTouchEvent = e.type === "touchend" || e.type === "touchcancel";
+    if (!isTouchEvent) {
+      if (data.touchId !== null) return;
+      if (e.pointerId !== data.pointerId) return;
+      targetTouch = e;
+    } else {
+      targetTouch = [...e.changedTouches].find((t2) => t2.identifier === data.touchId);
+      if (!targetTouch || targetTouch.identifier !== data.touchId) return;
+    }
+    if (["pointercancel", "pointerout", "pointerleave", "contextmenu"].includes(e.type)) {
+      const proceed = ["pointercancel", "contextmenu"].includes(e.type) && (swiper.browser.isSafari || swiper.browser.isWebView);
+      if (!proceed) {
+        return;
+      }
+    }
+    data.pointerId = null;
+    data.touchId = null;
+    const {
+      params,
+      touches,
+      rtlTranslate: rtl,
+      slidesGrid,
+      enabled
+    } = swiper;
+    if (!enabled) return;
+    if (!params.simulateTouch && e.pointerType === "mouse") return;
+    if (data.allowTouchCallbacks) {
+      swiper.emit("touchEnd", e);
+    }
+    data.allowTouchCallbacks = false;
+    if (!data.isTouched) {
+      if (data.isMoved && params.grabCursor) {
+        swiper.setGrabCursor(false);
+      }
+      data.isMoved = false;
+      data.startMoving = false;
+      return;
+    }
+    if (params.grabCursor && data.isMoved && data.isTouched && (swiper.allowSlideNext === true || swiper.allowSlidePrev === true)) {
+      swiper.setGrabCursor(false);
+    }
+    const touchEndTime = now();
+    const timeDiff = touchEndTime - data.touchStartTime;
+    if (swiper.allowClick) {
+      const pathTree = e.path || e.composedPath && e.composedPath();
+      swiper.updateClickedSlide(pathTree && pathTree[0] || e.target, pathTree);
+      swiper.emit("tap click", e);
+      if (timeDiff < 300 && touchEndTime - data.lastClickTime < 300) {
+        swiper.emit("doubleTap doubleClick", e);
+      }
+    }
+    data.lastClickTime = now();
+    nextTick(() => {
+      if (!swiper.destroyed) swiper.allowClick = true;
+    });
+    if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 && !data.loopSwapReset || data.currentTranslate === data.startTranslate && !data.loopSwapReset) {
+      data.isTouched = false;
+      data.isMoved = false;
+      data.startMoving = false;
+      return;
+    }
+    data.isTouched = false;
+    data.isMoved = false;
+    data.startMoving = false;
+    let currentPos;
+    if (params.followFinger) {
+      currentPos = rtl ? swiper.translate : -swiper.translate;
+    } else {
+      currentPos = -data.currentTranslate;
+    }
+    if (params.cssMode) {
+      return;
+    }
+    if (params.freeMode && params.freeMode.enabled) {
+      swiper.freeMode.onTouchEnd({
+        currentPos
+      });
+      return;
+    }
+    const swipeToLast = currentPos >= -swiper.maxTranslate() && !swiper.params.loop;
+    let stopIndex = 0;
+    let groupSize = swiper.slidesSizesGrid[0];
+    for (let i = 0; i < slidesGrid.length; i += i < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup) {
+      const increment2 = i < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
+      if (typeof slidesGrid[i + increment2] !== "undefined") {
+        if (swipeToLast || currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + increment2]) {
+          stopIndex = i;
+          groupSize = slidesGrid[i + increment2] - slidesGrid[i];
+        }
+      } else if (swipeToLast || currentPos >= slidesGrid[i]) {
+        stopIndex = i;
+        groupSize = slidesGrid[slidesGrid.length - 1] - slidesGrid[slidesGrid.length - 2];
+      }
+    }
+    let rewindFirstIndex = null;
+    let rewindLastIndex = null;
+    if (params.rewind) {
+      if (swiper.isBeginning) {
+        rewindLastIndex = params.virtual && params.virtual.enabled && swiper.virtual ? swiper.virtual.slides.length - 1 : swiper.slides.length - 1;
+      } else if (swiper.isEnd) {
+        rewindFirstIndex = 0;
+      }
+    }
+    const ratio = (currentPos - slidesGrid[stopIndex]) / groupSize;
+    const increment = stopIndex < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
+    if (timeDiff > params.longSwipesMs) {
+      if (!params.longSwipes) {
+        swiper.slideTo(swiper.activeIndex);
+        return;
+      }
+      if (swiper.swipeDirection === "next") {
+        if (ratio >= params.longSwipesRatio) swiper.slideTo(params.rewind && swiper.isEnd ? rewindFirstIndex : stopIndex + increment);
+        else swiper.slideTo(stopIndex);
+      }
+      if (swiper.swipeDirection === "prev") {
+        if (ratio > 1 - params.longSwipesRatio) {
+          swiper.slideTo(stopIndex + increment);
+        } else if (rewindLastIndex !== null && ratio < 0 && Math.abs(ratio) > params.longSwipesRatio) {
+          swiper.slideTo(rewindLastIndex);
+        } else {
+          swiper.slideTo(stopIndex);
+        }
+      }
+    } else {
+      if (!params.shortSwipes) {
+        swiper.slideTo(swiper.activeIndex);
+        return;
+      }
+      const isNavButtonTarget = swiper.navigation && (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
+      if (!isNavButtonTarget) {
+        if (swiper.swipeDirection === "next") {
+          swiper.slideTo(rewindFirstIndex !== null ? rewindFirstIndex : stopIndex + increment);
+        }
+        if (swiper.swipeDirection === "prev") {
+          swiper.slideTo(rewindLastIndex !== null ? rewindLastIndex : stopIndex);
+        }
+      } else if (e.target === swiper.navigation.nextEl) {
+        swiper.slideTo(stopIndex + increment);
+      } else {
+        swiper.slideTo(stopIndex);
+      }
+    }
+  }
+  function onResize() {
+    const swiper = this;
+    const {
+      params,
+      el
+    } = swiper;
+    if (el && el.offsetWidth === 0) return;
+    if (params.breakpoints) {
+      swiper.setBreakpoint();
+    }
+    const {
+      allowSlideNext,
+      allowSlidePrev,
+      snapGrid
+    } = swiper;
+    const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+    swiper.allowSlideNext = true;
+    swiper.allowSlidePrev = true;
+    swiper.updateSize();
+    swiper.updateSlides();
+    swiper.updateSlidesClasses();
+    const isVirtualLoop = isVirtual && params.loop;
+    if ((params.slidesPerView === "auto" || params.slidesPerView > 1) && swiper.isEnd && !swiper.isBeginning && !swiper.params.centeredSlides && !isVirtualLoop) {
+      swiper.slideTo(swiper.slides.length - 1, 0, false, true);
+    } else {
+      if (swiper.params.loop && !isVirtual) {
+        swiper.slideToLoop(swiper.realIndex, 0, false, true);
+      } else {
+        swiper.slideTo(swiper.activeIndex, 0, false, true);
+      }
+    }
+    if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+      clearTimeout(swiper.autoplay.resizeTimeout);
+      swiper.autoplay.resizeTimeout = setTimeout(() => {
+        if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+          swiper.autoplay.resume();
+        }
+      }, 500);
+    }
+    swiper.allowSlidePrev = allowSlidePrev;
+    swiper.allowSlideNext = allowSlideNext;
+    if (swiper.params.watchOverflow && snapGrid !== swiper.snapGrid) {
+      swiper.checkOverflow();
+    }
+  }
+  function onClick(e) {
+    const swiper = this;
+    if (!swiper.enabled) return;
+    if (!swiper.allowClick) {
+      if (swiper.params.preventClicks) e.preventDefault();
+      if (swiper.params.preventClicksPropagation && swiper.animating) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+    }
+  }
+  function onScroll() {
+    const swiper = this;
+    const {
+      wrapperEl,
+      rtlTranslate,
+      enabled
+    } = swiper;
+    if (!enabled) return;
+    swiper.previousTranslate = swiper.translate;
+    if (swiper.isHorizontal()) {
+      swiper.translate = -wrapperEl.scrollLeft;
+    } else {
+      swiper.translate = -wrapperEl.scrollTop;
+    }
+    if (swiper.translate === 0) swiper.translate = 0;
+    swiper.updateActiveIndex();
+    swiper.updateSlidesClasses();
+    let newProgress;
+    const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
+    if (translatesDiff === 0) {
+      newProgress = 0;
+    } else {
+      newProgress = (swiper.translate - swiper.minTranslate()) / translatesDiff;
+    }
+    if (newProgress !== swiper.progress) {
+      swiper.updateProgress(rtlTranslate ? -swiper.translate : swiper.translate);
+    }
+    swiper.emit("setTranslate", swiper.translate, false);
+  }
+  function onLoad(e) {
+    const swiper = this;
+    processLazyPreloader(swiper, e.target);
+    if (swiper.params.cssMode || swiper.params.slidesPerView !== "auto" && !swiper.params.autoHeight) {
+      return;
+    }
+    swiper.update();
+  }
+  function onDocumentTouchStart() {
+    const swiper = this;
+    if (swiper.documentTouchHandlerProceeded) return;
+    swiper.documentTouchHandlerProceeded = true;
+    if (swiper.params.touchReleaseOnEdges) {
+      swiper.el.style.touchAction = "auto";
+    }
+  }
+  var events = (swiper, method) => {
+    const document2 = getDocument();
+    const {
+      params,
+      el,
+      wrapperEl,
+      device
+    } = swiper;
+    const capture = !!params.nested;
+    const domMethod = method === "on" ? "addEventListener" : "removeEventListener";
+    const swiperMethod = method;
+    if (!el || typeof el === "string") return;
+    document2[domMethod]("touchstart", swiper.onDocumentTouchStart, {
+      passive: false,
+      capture
+    });
+    el[domMethod]("touchstart", swiper.onTouchStart, {
+      passive: false
+    });
+    el[domMethod]("pointerdown", swiper.onTouchStart, {
+      passive: false
+    });
+    document2[domMethod]("touchmove", swiper.onTouchMove, {
+      passive: false,
+      capture
+    });
+    document2[domMethod]("pointermove", swiper.onTouchMove, {
+      passive: false,
+      capture
+    });
+    document2[domMethod]("touchend", swiper.onTouchEnd, {
+      passive: true
+    });
+    document2[domMethod]("pointerup", swiper.onTouchEnd, {
+      passive: true
+    });
+    document2[domMethod]("pointercancel", swiper.onTouchEnd, {
+      passive: true
+    });
+    document2[domMethod]("touchcancel", swiper.onTouchEnd, {
+      passive: true
+    });
+    document2[domMethod]("pointerout", swiper.onTouchEnd, {
+      passive: true
+    });
+    document2[domMethod]("pointerleave", swiper.onTouchEnd, {
+      passive: true
+    });
+    document2[domMethod]("contextmenu", swiper.onTouchEnd, {
+      passive: true
+    });
+    if (params.preventClicks || params.preventClicksPropagation) {
+      el[domMethod]("click", swiper.onClick, true);
+    }
+    if (params.cssMode) {
+      wrapperEl[domMethod]("scroll", swiper.onScroll);
+    }
+    if (params.updateOnWindowResize) {
+      swiper[swiperMethod](device.ios || device.android ? "resize orientationchange observerUpdate" : "resize observerUpdate", onResize, true);
+    } else {
+      swiper[swiperMethod]("observerUpdate", onResize, true);
+    }
+    el[domMethod]("load", swiper.onLoad, {
+      capture: true
+    });
+  };
+  function attachEvents() {
+    const swiper = this;
+    const {
+      params
+    } = swiper;
+    swiper.onTouchStart = onTouchStart.bind(swiper);
+    swiper.onTouchMove = onTouchMove.bind(swiper);
+    swiper.onTouchEnd = onTouchEnd.bind(swiper);
+    swiper.onDocumentTouchStart = onDocumentTouchStart.bind(swiper);
+    if (params.cssMode) {
+      swiper.onScroll = onScroll.bind(swiper);
+    }
+    swiper.onClick = onClick.bind(swiper);
+    swiper.onLoad = onLoad.bind(swiper);
+    events(swiper, "on");
+  }
+  function detachEvents() {
+    const swiper = this;
+    events(swiper, "off");
+  }
+  var events$1 = {
+    attachEvents,
+    detachEvents
+  };
+  var isGridEnabled = (swiper, params) => {
+    return swiper.grid && params.grid && params.grid.rows > 1;
+  };
+  function setBreakpoint() {
+    const swiper = this;
+    const {
+      realIndex,
+      initialized,
+      params,
+      el
+    } = swiper;
+    const breakpoints2 = params.breakpoints;
+    if (!breakpoints2 || breakpoints2 && Object.keys(breakpoints2).length === 0) return;
+    const document2 = getDocument();
+    const breakpointsBase = params.breakpointsBase === "window" || !params.breakpointsBase ? params.breakpointsBase : "container";
+    const breakpointContainer = ["window", "container"].includes(params.breakpointsBase) || !params.breakpointsBase ? swiper.el : document2.querySelector(params.breakpointsBase);
+    const breakpoint = swiper.getBreakpoint(breakpoints2, breakpointsBase, breakpointContainer);
+    if (!breakpoint || swiper.currentBreakpoint === breakpoint) return;
+    const breakpointOnlyParams = breakpoint in breakpoints2 ? breakpoints2[breakpoint] : void 0;
+    const breakpointParams = breakpointOnlyParams || swiper.originalParams;
+    const wasMultiRow = isGridEnabled(swiper, params);
+    const isMultiRow = isGridEnabled(swiper, breakpointParams);
+    const wasGrabCursor = swiper.params.grabCursor;
+    const isGrabCursor = breakpointParams.grabCursor;
+    const wasEnabled = params.enabled;
+    if (wasMultiRow && !isMultiRow) {
+      el.classList.remove(`${params.containerModifierClass}grid`, `${params.containerModifierClass}grid-column`);
+      swiper.emitContainerClasses();
+    } else if (!wasMultiRow && isMultiRow) {
+      el.classList.add(`${params.containerModifierClass}grid`);
+      if (breakpointParams.grid.fill && breakpointParams.grid.fill === "column" || !breakpointParams.grid.fill && params.grid.fill === "column") {
+        el.classList.add(`${params.containerModifierClass}grid-column`);
+      }
+      swiper.emitContainerClasses();
+    }
+    if (wasGrabCursor && !isGrabCursor) {
+      swiper.unsetGrabCursor();
+    } else if (!wasGrabCursor && isGrabCursor) {
+      swiper.setGrabCursor();
+    }
+    ["navigation", "pagination", "scrollbar"].forEach((prop) => {
+      if (typeof breakpointParams[prop] === "undefined") return;
+      const wasModuleEnabled = params[prop] && params[prop].enabled;
+      const isModuleEnabled = breakpointParams[prop] && breakpointParams[prop].enabled;
+      if (wasModuleEnabled && !isModuleEnabled) {
+        swiper[prop].disable();
+      }
+      if (!wasModuleEnabled && isModuleEnabled) {
+        swiper[prop].enable();
+      }
+    });
+    const directionChanged = breakpointParams.direction && breakpointParams.direction !== params.direction;
+    const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView || directionChanged);
+    const wasLoop = params.loop;
+    if (directionChanged && initialized) {
+      swiper.changeDirection();
+    }
+    extend2(swiper.params, breakpointParams);
+    const isEnabled = swiper.params.enabled;
+    const hasLoop = swiper.params.loop;
+    Object.assign(swiper, {
+      allowTouchMove: swiper.params.allowTouchMove,
+      allowSlideNext: swiper.params.allowSlideNext,
+      allowSlidePrev: swiper.params.allowSlidePrev
+    });
+    if (wasEnabled && !isEnabled) {
+      swiper.disable();
+    } else if (!wasEnabled && isEnabled) {
+      swiper.enable();
+    }
+    swiper.currentBreakpoint = breakpoint;
+    swiper.emit("_beforeBreakpoint", breakpointParams);
+    if (initialized) {
+      if (needsReLoop) {
+        swiper.loopDestroy();
+        swiper.loopCreate(realIndex);
+        swiper.updateSlides();
+      } else if (!wasLoop && hasLoop) {
+        swiper.loopCreate(realIndex);
+        swiper.updateSlides();
+      } else if (wasLoop && !hasLoop) {
+        swiper.loopDestroy();
+      }
+    }
+    swiper.emit("breakpoint", breakpointParams);
+  }
+  function getBreakpoint(breakpoints2, base = "window", containerEl) {
+    if (!breakpoints2 || base === "container" && !containerEl) return void 0;
+    let breakpoint = false;
+    const window2 = getWindow();
+    const currentHeight = base === "window" ? window2.innerHeight : containerEl.clientHeight;
+    const points = Object.keys(breakpoints2).map((point) => {
+      if (typeof point === "string" && point.indexOf("@") === 0) {
+        const minRatio = parseFloat(point.substr(1));
+        const value = currentHeight * minRatio;
+        return {
+          value,
+          point
+        };
+      }
+      return {
+        value: point,
+        point
+      };
+    });
+    points.sort((a, b) => parseInt(a.value, 10) - parseInt(b.value, 10));
+    for (let i = 0; i < points.length; i += 1) {
+      const {
+        point,
+        value
+      } = points[i];
+      if (base === "window") {
+        if (window2.matchMedia(`(min-width: ${value}px)`).matches) {
+          breakpoint = point;
+        }
+      } else if (value <= containerEl.clientWidth) {
+        breakpoint = point;
+      }
+    }
+    return breakpoint || "max";
+  }
+  var breakpoints = {
+    setBreakpoint,
+    getBreakpoint
+  };
+  function prepareClasses(entries, prefix) {
+    const resultClasses = [];
+    entries.forEach((item) => {
+      if (typeof item === "object") {
+        Object.keys(item).forEach((classNames) => {
+          if (item[classNames]) {
+            resultClasses.push(prefix + classNames);
+          }
+        });
+      } else if (typeof item === "string") {
+        resultClasses.push(prefix + item);
+      }
+    });
+    return resultClasses;
+  }
+  function addClasses() {
+    const swiper = this;
+    const {
+      classNames,
+      params,
+      rtl,
+      el,
+      device
+    } = swiper;
+    const suffixes = prepareClasses(["initialized", params.direction, {
+      "free-mode": swiper.params.freeMode && params.freeMode.enabled
+    }, {
+      "autoheight": params.autoHeight
+    }, {
+      "rtl": rtl
+    }, {
+      "grid": params.grid && params.grid.rows > 1
+    }, {
+      "grid-column": params.grid && params.grid.rows > 1 && params.grid.fill === "column"
+    }, {
+      "android": device.android
+    }, {
+      "ios": device.ios
+    }, {
+      "css-mode": params.cssMode
+    }, {
+      "centered": params.cssMode && params.centeredSlides
+    }, {
+      "watch-progress": params.watchSlidesProgress
+    }], params.containerModifierClass);
+    classNames.push(...suffixes);
+    el.classList.add(...classNames);
+    swiper.emitContainerClasses();
+  }
+  function removeClasses() {
+    const swiper = this;
+    const {
+      el,
+      classNames
+    } = swiper;
+    if (!el || typeof el === "string") return;
+    el.classList.remove(...classNames);
+    swiper.emitContainerClasses();
+  }
+  var classes = {
+    addClasses,
+    removeClasses
+  };
+  function checkOverflow() {
+    const swiper = this;
+    const {
+      isLocked: wasLocked,
+      params
+    } = swiper;
+    const {
+      slidesOffsetBefore
+    } = params;
+    if (slidesOffsetBefore) {
+      const lastSlideIndex = swiper.slides.length - 1;
+      const lastSlideRightEdge = swiper.slidesGrid[lastSlideIndex] + swiper.slidesSizesGrid[lastSlideIndex] + slidesOffsetBefore * 2;
+      swiper.isLocked = swiper.size > lastSlideRightEdge;
+    } else {
+      swiper.isLocked = swiper.snapGrid.length === 1;
+    }
+    if (params.allowSlideNext === true) {
+      swiper.allowSlideNext = !swiper.isLocked;
+    }
+    if (params.allowSlidePrev === true) {
+      swiper.allowSlidePrev = !swiper.isLocked;
+    }
+    if (wasLocked && wasLocked !== swiper.isLocked) {
+      swiper.isEnd = false;
+    }
+    if (wasLocked !== swiper.isLocked) {
+      swiper.emit(swiper.isLocked ? "lock" : "unlock");
+    }
+  }
+  var checkOverflow$1 = {
+    checkOverflow
+  };
+  var defaults = {
+    init: true,
+    direction: "horizontal",
+    oneWayMovement: false,
+    swiperElementNodeName: "SWIPER-CONTAINER",
+    touchEventsTarget: "wrapper",
+    initialSlide: 0,
+    speed: 300,
+    cssMode: false,
+    updateOnWindowResize: true,
+    resizeObserver: true,
+    nested: false,
+    createElements: false,
+    eventsPrefix: "swiper",
+    enabled: true,
+    focusableElements: "input, select, option, textarea, button, video, label",
+    // Overrides
+    width: null,
+    height: null,
+    //
+    preventInteractionOnTransition: false,
+    // ssr
+    userAgent: null,
+    url: null,
+    // To support iOS's swipe-to-go-back gesture (when being used in-app).
+    edgeSwipeDetection: false,
+    edgeSwipeThreshold: 20,
+    // Autoheight
+    autoHeight: false,
+    // Set wrapper width
+    setWrapperSize: false,
+    // Virtual Translate
+    virtualTranslate: false,
+    // Effects
+    effect: "slide",
+    // 'slide' or 'fade' or 'cube' or 'coverflow' or 'flip'
+    // Breakpoints
+    breakpoints: void 0,
+    breakpointsBase: "window",
+    // Slides grid
+    spaceBetween: 0,
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    slidesPerGroupSkip: 0,
+    slidesPerGroupAuto: false,
+    centeredSlides: false,
+    centeredSlidesBounds: false,
+    slidesOffsetBefore: 0,
+    // in px
+    slidesOffsetAfter: 0,
+    // in px
+    normalizeSlideIndex: true,
+    centerInsufficientSlides: false,
+    snapToSlideEdge: false,
+    // Disable swiper and hide navigation when container not overflow
+    watchOverflow: true,
+    // Round length
+    roundLengths: false,
+    // Touches
+    touchRatio: 1,
+    touchAngle: 45,
+    simulateTouch: true,
+    shortSwipes: true,
+    longSwipes: true,
+    longSwipesRatio: 0.5,
+    longSwipesMs: 300,
+    followFinger: true,
+    allowTouchMove: true,
+    threshold: 5,
+    touchMoveStopPropagation: false,
+    touchStartPreventDefault: true,
+    touchStartForcePreventDefault: false,
+    touchReleaseOnEdges: false,
+    // Unique Navigation Elements
+    uniqueNavElements: true,
+    // Resistance
+    resistance: true,
+    resistanceRatio: 0.85,
+    // Progress
+    watchSlidesProgress: false,
+    // Cursor
+    grabCursor: false,
+    // Clicks
+    preventClicks: true,
+    preventClicksPropagation: true,
+    slideToClickedSlide: false,
+    // loop
+    loop: false,
+    loopAddBlankSlides: true,
+    loopAdditionalSlides: 0,
+    loopPreventsSliding: true,
+    // rewind
+    rewind: false,
+    // Swiping/no swiping
+    allowSlidePrev: true,
+    allowSlideNext: true,
+    swipeHandler: null,
+    // '.swipe-handler',
+    noSwiping: true,
+    noSwipingClass: "swiper-no-swiping",
+    noSwipingSelector: null,
+    // Passive Listeners
+    passiveListeners: true,
+    maxBackfaceHiddenSlides: 10,
+    // NS
+    containerModifierClass: "swiper-",
+    // NEW
+    slideClass: "swiper-slide",
+    slideBlankClass: "swiper-slide-blank",
+    slideActiveClass: "swiper-slide-active",
+    slideVisibleClass: "swiper-slide-visible",
+    slideFullyVisibleClass: "swiper-slide-fully-visible",
+    slideNextClass: "swiper-slide-next",
+    slidePrevClass: "swiper-slide-prev",
+    wrapperClass: "swiper-wrapper",
+    lazyPreloaderClass: "swiper-lazy-preloader",
+    lazyPreloadPrevNext: 0,
+    // Callbacks
+    runCallbacksOnInit: true,
+    // Internals
+    _emitClasses: false
+  };
+  function moduleExtendParams(params, allModulesParams) {
+    return function extendParams(obj = {}) {
+      const moduleParamName = Object.keys(obj)[0];
+      const moduleParams = obj[moduleParamName];
+      if (typeof moduleParams !== "object" || moduleParams === null) {
+        extend2(allModulesParams, obj);
+        return;
+      }
+      if (params[moduleParamName] === true) {
+        params[moduleParamName] = {
+          enabled: true
+        };
+      }
+      if (moduleParamName === "navigation" && params[moduleParamName] && params[moduleParamName].enabled && !params[moduleParamName].prevEl && !params[moduleParamName].nextEl) {
+        params[moduleParamName].auto = true;
+      }
+      if (["pagination", "scrollbar"].indexOf(moduleParamName) >= 0 && params[moduleParamName] && params[moduleParamName].enabled && !params[moduleParamName].el) {
+        params[moduleParamName].auto = true;
+      }
+      if (!(moduleParamName in params && "enabled" in moduleParams)) {
+        extend2(allModulesParams, obj);
+        return;
+      }
+      if (typeof params[moduleParamName] === "object" && !("enabled" in params[moduleParamName])) {
+        params[moduleParamName].enabled = true;
+      }
+      if (!params[moduleParamName]) params[moduleParamName] = {
+        enabled: false
+      };
+      extend2(allModulesParams, obj);
+    };
+  }
+  var prototypes = {
+    eventsEmitter,
+    update,
+    translate,
+    transition,
+    slide,
+    loop,
+    grabCursor,
+    events: events$1,
+    breakpoints,
+    checkOverflow: checkOverflow$1,
+    classes
+  };
+  var extendedDefaults = {};
+  var Swiper = class _Swiper {
+    constructor(...args) {
+      let el;
+      let params;
+      if (args.length === 1 && args[0].constructor && Object.prototype.toString.call(args[0]).slice(8, -1) === "Object") {
+        params = args[0];
+      } else {
+        [el, params] = args;
+      }
+      if (!params) params = {};
+      params = extend2({}, params);
+      if (el && !params.el) params.el = el;
+      const document2 = getDocument();
+      if (params.el && typeof params.el === "string" && document2.querySelectorAll(params.el).length > 1) {
+        const swipers = [];
+        document2.querySelectorAll(params.el).forEach((containerEl) => {
+          const newParams = extend2({}, params, {
+            el: containerEl
+          });
+          swipers.push(new _Swiper(newParams));
+        });
+        return swipers;
+      }
+      const swiper = this;
+      swiper.__swiper__ = true;
+      swiper.support = getSupport();
+      swiper.device = getDevice({
+        userAgent: params.userAgent
+      });
+      swiper.browser = getBrowser();
+      swiper.eventsListeners = {};
+      swiper.eventsAnyListeners = [];
+      swiper.modules = [...swiper.__modules__];
+      if (params.modules && Array.isArray(params.modules)) {
+        params.modules.forEach((mod) => {
+          if (typeof mod === "function" && swiper.modules.indexOf(mod) < 0) {
+            swiper.modules.push(mod);
+          }
+        });
+      }
+      const allModulesParams = {};
+      swiper.modules.forEach((mod) => {
+        mod({
+          params,
+          swiper,
+          extendParams: moduleExtendParams(params, allModulesParams),
+          on: swiper.on.bind(swiper),
+          once: swiper.once.bind(swiper),
+          off: swiper.off.bind(swiper),
+          emit: swiper.emit.bind(swiper)
+        });
+      });
+      const swiperParams = extend2({}, defaults, allModulesParams);
+      swiper.params = extend2({}, swiperParams, extendedDefaults, params);
+      swiper.originalParams = extend2({}, swiper.params);
+      swiper.passedParams = extend2({}, params);
+      if (swiper.params && swiper.params.on) {
+        Object.keys(swiper.params.on).forEach((eventName) => {
+          swiper.on(eventName, swiper.params.on[eventName]);
+        });
+      }
+      if (swiper.params && swiper.params.onAny) {
+        swiper.onAny(swiper.params.onAny);
+      }
+      Object.assign(swiper, {
+        enabled: swiper.params.enabled,
+        el,
+        // Classes
+        classNames: [],
+        // Slides
+        slides: [],
+        slidesGrid: [],
+        snapGrid: [],
+        slidesSizesGrid: [],
+        // isDirection
+        isHorizontal() {
+          return swiper.params.direction === "horizontal";
+        },
+        isVertical() {
+          return swiper.params.direction === "vertical";
+        },
+        // Indexes
+        activeIndex: 0,
+        realIndex: 0,
+        //
+        isBeginning: true,
+        isEnd: false,
+        // Props
+        translate: 0,
+        previousTranslate: 0,
+        progress: 0,
+        velocity: 0,
+        animating: false,
+        cssOverflowAdjustment() {
+          return Math.trunc(this.translate / 2 ** 23) * 2 ** 23;
+        },
+        // Locks
+        allowSlideNext: swiper.params.allowSlideNext,
+        allowSlidePrev: swiper.params.allowSlidePrev,
+        // Touch Events
+        touchEventsData: {
+          isTouched: void 0,
+          isMoved: void 0,
+          allowTouchCallbacks: void 0,
+          touchStartTime: void 0,
+          isScrolling: void 0,
+          currentTranslate: void 0,
+          startTranslate: void 0,
+          allowThresholdMove: void 0,
+          // Form elements to match
+          focusableElements: swiper.params.focusableElements,
+          // Last click time
+          lastClickTime: 0,
+          clickTimeout: void 0,
+          // Velocities
+          velocities: [],
+          allowMomentumBounce: void 0,
+          startMoving: void 0,
+          pointerId: null,
+          touchId: null
+        },
+        // Clicks
+        allowClick: true,
+        // Touches
+        allowTouchMove: swiper.params.allowTouchMove,
+        touches: {
+          startX: 0,
+          startY: 0,
+          currentX: 0,
+          currentY: 0,
+          diff: 0
+        },
+        // Images
+        imagesToLoad: [],
+        imagesLoaded: 0
+      });
+      swiper.emit("_swiper");
+      if (swiper.params.init) {
+        swiper.init();
+      }
+      return swiper;
+    }
+    getDirectionLabel(property) {
+      if (this.isHorizontal()) {
+        return property;
+      }
+      return {
+        "width": "height",
+        "margin-top": "margin-left",
+        "margin-bottom ": "margin-right",
+        "margin-left": "margin-top",
+        "margin-right": "margin-bottom",
+        "padding-left": "padding-top",
+        "padding-right": "padding-bottom",
+        "marginRight": "marginBottom"
+      }[property];
+    }
+    getSlideIndex(slideEl) {
+      const {
+        slidesEl,
+        params
+      } = this;
+      const slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
+      const firstSlideIndex = elementIndex(slides[0]);
+      return elementIndex(slideEl) - firstSlideIndex;
+    }
+    getSlideIndexByData(index) {
+      return this.getSlideIndex(this.slides.find((slideEl) => slideEl.getAttribute("data-swiper-slide-index") * 1 === index));
+    }
+    getSlideIndexWhenGrid(index) {
+      if (this.grid && this.params.grid && this.params.grid.rows > 1) {
+        if (this.params.grid.fill === "column") {
+          index = Math.floor(index / this.params.grid.rows);
+        } else if (this.params.grid.fill === "row") {
+          index = index % Math.ceil(this.slides.length / this.params.grid.rows);
+        }
+      }
+      return index;
+    }
+    recalcSlides() {
+      const swiper = this;
+      const {
+        slidesEl,
+        params
+      } = swiper;
+      swiper.slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
+    }
+    enable() {
+      const swiper = this;
+      if (swiper.enabled) return;
+      swiper.enabled = true;
+      if (swiper.params.grabCursor) {
+        swiper.setGrabCursor();
+      }
+      swiper.emit("enable");
+    }
+    disable() {
+      const swiper = this;
+      if (!swiper.enabled) return;
+      swiper.enabled = false;
+      if (swiper.params.grabCursor) {
+        swiper.unsetGrabCursor();
+      }
+      swiper.emit("disable");
+    }
+    setProgress(progress, speed) {
+      const swiper = this;
+      progress = Math.min(Math.max(progress, 0), 1);
+      const min = swiper.minTranslate();
+      const max = swiper.maxTranslate();
+      const current = (max - min) * progress + min;
+      swiper.translateTo(current, typeof speed === "undefined" ? 0 : speed);
+      swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+    }
+    emitContainerClasses() {
+      const swiper = this;
+      if (!swiper.params._emitClasses || !swiper.el) return;
+      const cls = swiper.el.className.split(" ").filter((className) => {
+        return className.indexOf("swiper") === 0 || className.indexOf(swiper.params.containerModifierClass) === 0;
+      });
+      swiper.emit("_containerClasses", cls.join(" "));
+    }
+    getSlideClasses(slideEl) {
+      const swiper = this;
+      if (swiper.destroyed) return "";
+      return slideEl.className.split(" ").filter((className) => {
+        return className.indexOf("swiper-slide") === 0 || className.indexOf(swiper.params.slideClass) === 0;
+      }).join(" ");
+    }
+    emitSlidesClasses() {
+      const swiper = this;
+      if (!swiper.params._emitClasses || !swiper.el) return;
+      const updates = [];
+      swiper.slides.forEach((slideEl) => {
+        const classNames = swiper.getSlideClasses(slideEl);
+        updates.push({
+          slideEl,
+          classNames
+        });
+        swiper.emit("_slideClass", slideEl, classNames);
+      });
+      swiper.emit("_slideClasses", updates);
+    }
+    slidesPerViewDynamic(view = "current", exact = false) {
+      const swiper = this;
+      const {
+        params,
+        slides,
+        slidesGrid,
+        slidesSizesGrid,
+        size: swiperSize,
+        activeIndex
+      } = swiper;
+      let spv = 1;
+      if (typeof params.slidesPerView === "number") return params.slidesPerView;
+      if (params.centeredSlides) {
+        let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize) : 0;
+        let breakLoop;
+        for (let i = activeIndex + 1; i < slides.length; i += 1) {
+          if (slides[i] && !breakLoop) {
+            slideSize += Math.ceil(slides[i].swiperSlideSize);
+            spv += 1;
+            if (slideSize > swiperSize) breakLoop = true;
+          }
+        }
+        for (let i = activeIndex - 1; i >= 0; i -= 1) {
+          if (slides[i] && !breakLoop) {
+            slideSize += slides[i].swiperSlideSize;
+            spv += 1;
+            if (slideSize > swiperSize) breakLoop = true;
+          }
+        }
+      } else {
+        if (view === "current") {
+          for (let i = activeIndex + 1; i < slides.length; i += 1) {
+            const slideInView = exact ? slidesGrid[i] + slidesSizesGrid[i] - slidesGrid[activeIndex] < swiperSize : slidesGrid[i] - slidesGrid[activeIndex] < swiperSize;
+            if (slideInView) {
+              spv += 1;
+            }
+          }
+        } else {
+          for (let i = activeIndex - 1; i >= 0; i -= 1) {
+            const slideInView = slidesGrid[activeIndex] - slidesGrid[i] < swiperSize;
+            if (slideInView) {
+              spv += 1;
+            }
+          }
+        }
+      }
+      return spv;
+    }
+    update() {
+      const swiper = this;
+      if (!swiper || swiper.destroyed) return;
+      const {
+        snapGrid,
+        params
+      } = swiper;
+      if (params.breakpoints) {
+        swiper.setBreakpoint();
+      }
+      [...swiper.el.querySelectorAll('[loading="lazy"]')].forEach((imageEl) => {
+        if (imageEl.complete) {
+          processLazyPreloader(swiper, imageEl);
+        }
+      });
+      swiper.updateSize();
+      swiper.updateSlides();
+      swiper.updateProgress();
+      swiper.updateSlidesClasses();
+      function setTranslate2() {
+        const translateValue = swiper.rtlTranslate ? swiper.translate * -1 : swiper.translate;
+        const newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
+        swiper.setTranslate(newTranslate);
+        swiper.updateActiveIndex();
+        swiper.updateSlidesClasses();
+      }
+      let translated;
+      if (params.freeMode && params.freeMode.enabled && !params.cssMode) {
+        setTranslate2();
+        if (params.autoHeight) {
+          swiper.updateAutoHeight();
+        }
+      } else {
+        if ((params.slidesPerView === "auto" || params.slidesPerView > 1) && swiper.isEnd && !params.centeredSlides) {
+          const slides = swiper.virtual && params.virtual.enabled ? swiper.virtual.slides : swiper.slides;
+          translated = swiper.slideTo(slides.length - 1, 0, false, true);
+        } else {
+          translated = swiper.slideTo(swiper.activeIndex, 0, false, true);
+        }
+        if (!translated) {
+          setTranslate2();
+        }
+      }
+      if (params.watchOverflow && snapGrid !== swiper.snapGrid) {
+        swiper.checkOverflow();
+      }
+      swiper.emit("update");
+    }
+    changeDirection(newDirection, needUpdate = true) {
+      const swiper = this;
+      const currentDirection = swiper.params.direction;
+      if (!newDirection) {
+        newDirection = currentDirection === "horizontal" ? "vertical" : "horizontal";
+      }
+      if (newDirection === currentDirection || newDirection !== "horizontal" && newDirection !== "vertical") {
+        return swiper;
+      }
+      swiper.el.classList.remove(`${swiper.params.containerModifierClass}${currentDirection}`);
+      swiper.el.classList.add(`${swiper.params.containerModifierClass}${newDirection}`);
+      swiper.emitContainerClasses();
+      swiper.params.direction = newDirection;
+      swiper.slides.forEach((slideEl) => {
+        if (newDirection === "vertical") {
+          slideEl.style.width = "";
+        } else {
+          slideEl.style.height = "";
+        }
+      });
+      swiper.emit("changeDirection");
+      if (needUpdate) swiper.update();
+      return swiper;
+    }
+    changeLanguageDirection(direction) {
+      const swiper = this;
+      if (swiper.rtl && direction === "rtl" || !swiper.rtl && direction === "ltr") return;
+      swiper.rtl = direction === "rtl";
+      swiper.rtlTranslate = swiper.params.direction === "horizontal" && swiper.rtl;
+      if (swiper.rtl) {
+        swiper.el.classList.add(`${swiper.params.containerModifierClass}rtl`);
+        swiper.el.dir = "rtl";
+      } else {
+        swiper.el.classList.remove(`${swiper.params.containerModifierClass}rtl`);
+        swiper.el.dir = "ltr";
+      }
+      swiper.update();
+    }
+    mount(element) {
+      const swiper = this;
+      if (swiper.mounted) return true;
+      let el = element || swiper.params.el;
+      if (typeof el === "string") {
+        el = document.querySelector(el);
+      }
+      if (!el) {
+        return false;
+      }
+      el.swiper = swiper;
+      if (el.parentNode && el.parentNode.host && el.parentNode.host.nodeName === swiper.params.swiperElementNodeName.toUpperCase()) {
+        swiper.isElement = true;
+      }
+      const getWrapperSelector = () => {
+        return `.${(swiper.params.wrapperClass || "").trim().split(" ").join(".")}`;
+      };
+      const getWrapper = () => {
+        if (el && el.shadowRoot && el.shadowRoot.querySelector) {
+          const res = el.shadowRoot.querySelector(getWrapperSelector());
+          return res;
+        }
+        return elementChildren(el, getWrapperSelector())[0];
+      };
+      let wrapperEl = getWrapper();
+      if (!wrapperEl && swiper.params.createElements) {
+        wrapperEl = createElement("div", swiper.params.wrapperClass);
+        el.append(wrapperEl);
+        elementChildren(el, `.${swiper.params.slideClass}`).forEach((slideEl) => {
+          wrapperEl.append(slideEl);
+        });
+      }
+      Object.assign(swiper, {
+        el,
+        wrapperEl,
+        slidesEl: swiper.isElement && !el.parentNode.host.slideSlots ? el.parentNode.host : wrapperEl,
+        hostEl: swiper.isElement ? el.parentNode.host : el,
+        mounted: true,
+        // RTL
+        rtl: el.dir.toLowerCase() === "rtl" || elementStyle(el, "direction") === "rtl",
+        rtlTranslate: swiper.params.direction === "horizontal" && (el.dir.toLowerCase() === "rtl" || elementStyle(el, "direction") === "rtl"),
+        wrongRTL: elementStyle(wrapperEl, "display") === "-webkit-box"
+      });
+      return true;
+    }
+    init(el) {
+      const swiper = this;
+      if (swiper.initialized) return swiper;
+      const mounted = swiper.mount(el);
+      if (mounted === false) return swiper;
+      swiper.emit("beforeInit");
+      if (swiper.params.breakpoints) {
+        swiper.setBreakpoint();
+      }
+      swiper.addClasses();
+      swiper.updateSize();
+      swiper.updateSlides();
+      if (swiper.params.watchOverflow) {
+        swiper.checkOverflow();
+      }
+      if (swiper.params.grabCursor && swiper.enabled) {
+        swiper.setGrabCursor();
+      }
+      if (swiper.params.loop && swiper.virtual && swiper.params.virtual.enabled) {
+        swiper.slideTo(swiper.params.initialSlide + swiper.virtual.slidesBefore, 0, swiper.params.runCallbacksOnInit, false, true);
+      } else {
+        swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit, false, true);
+      }
+      if (swiper.params.loop) {
+        swiper.loopCreate(void 0, true);
+      }
+      swiper.attachEvents();
+      const lazyElements = [...swiper.el.querySelectorAll('[loading="lazy"]')];
+      if (swiper.isElement) {
+        lazyElements.push(...swiper.hostEl.querySelectorAll('[loading="lazy"]'));
+      }
+      lazyElements.forEach((imageEl) => {
+        if (imageEl.complete) {
+          processLazyPreloader(swiper, imageEl);
+        } else {
+          imageEl.addEventListener("load", (e) => {
+            processLazyPreloader(swiper, e.target);
+          });
+        }
+      });
+      preload(swiper);
+      swiper.initialized = true;
+      preload(swiper);
+      swiper.emit("init");
+      swiper.emit("afterInit");
+      return swiper;
+    }
+    destroy(deleteInstance = true, cleanStyles = true) {
+      const swiper = this;
+      const {
+        params,
+        el,
+        wrapperEl,
+        slides
+      } = swiper;
+      if (typeof swiper.params === "undefined" || swiper.destroyed) {
+        return null;
+      }
+      swiper.emit("beforeDestroy");
+      swiper.initialized = false;
+      swiper.detachEvents();
+      if (params.loop) {
+        swiper.loopDestroy();
+      }
+      if (cleanStyles) {
+        swiper.removeClasses();
+        if (el && typeof el !== "string") {
+          el.removeAttribute("style");
+        }
+        if (wrapperEl) {
+          wrapperEl.removeAttribute("style");
+        }
+        if (slides && slides.length) {
+          slides.forEach((slideEl) => {
+            slideEl.classList.remove(params.slideVisibleClass, params.slideFullyVisibleClass, params.slideActiveClass, params.slideNextClass, params.slidePrevClass);
+            slideEl.removeAttribute("style");
+            slideEl.removeAttribute("data-swiper-slide-index");
+          });
+        }
+      }
+      swiper.emit("destroy");
+      Object.keys(swiper.eventsListeners).forEach((eventName) => {
+        swiper.off(eventName);
+      });
+      if (deleteInstance !== false) {
+        if (swiper.el && typeof swiper.el !== "string") {
+          swiper.el.swiper = null;
+        }
+        deleteProps(swiper);
+      }
+      swiper.destroyed = true;
+      return null;
+    }
+    static extendDefaults(newDefaults) {
+      extend2(extendedDefaults, newDefaults);
+    }
+    static get extendedDefaults() {
+      return extendedDefaults;
+    }
+    static get defaults() {
+      return defaults;
+    }
+    static installModule(mod) {
+      if (!_Swiper.prototype.__modules__) _Swiper.prototype.__modules__ = [];
+      const modules = _Swiper.prototype.__modules__;
+      if (typeof mod === "function" && modules.indexOf(mod) < 0) {
+        modules.push(mod);
+      }
+    }
+    static use(module2) {
+      if (Array.isArray(module2)) {
+        module2.forEach((m) => _Swiper.installModule(m));
+        return _Swiper;
+      }
+      _Swiper.installModule(module2);
+      return _Swiper;
+    }
+  };
+  Object.keys(prototypes).forEach((prototypeGroup) => {
+    Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
+      Swiper.prototype[protoMethod] = prototypes[prototypeGroup][protoMethod];
+    });
+  });
+  Swiper.use([Resize, Observer]);
+
+  // node_modules/swiper/modules/autoplay.mjs
+  function Autoplay({
+    swiper,
+    extendParams,
+    on,
+    emit,
+    params
+  }) {
+    swiper.autoplay = {
+      running: false,
+      paused: false,
+      timeLeft: 0
+    };
+    extendParams({
+      autoplay: {
+        enabled: false,
+        delay: 3e3,
+        waitForTransition: true,
+        disableOnInteraction: false,
+        stopOnLastSlide: false,
+        reverseDirection: false,
+        pauseOnMouseEnter: false
+      }
+    });
+    let timeout;
+    let raf;
+    let autoplayDelayTotal = params && params.autoplay ? params.autoplay.delay : 3e3;
+    let autoplayDelayCurrent = params && params.autoplay ? params.autoplay.delay : 3e3;
+    let autoplayTimeLeft;
+    let autoplayStartTime = (/* @__PURE__ */ new Date()).getTime();
+    let wasPaused;
+    let isTouched;
+    let pausedByTouch;
+    let touchStartTimeout;
+    let pausedByInteraction;
+    let pausedByPointerEnter;
+    function onTransitionEnd(e) {
+      if (!swiper || swiper.destroyed || !swiper.wrapperEl) return;
+      if (e.target !== swiper.wrapperEl) return;
+      swiper.wrapperEl.removeEventListener("transitionend", onTransitionEnd);
+      if (pausedByPointerEnter || e.detail && e.detail.bySwiperTouchMove) {
+        return;
+      }
+      resume();
+    }
+    const calcTimeLeft = () => {
+      if (swiper.destroyed || !swiper.autoplay.running) return;
+      if (swiper.autoplay.paused) {
+        wasPaused = true;
+      } else if (wasPaused) {
+        autoplayDelayCurrent = autoplayTimeLeft;
+        wasPaused = false;
+      }
+      const timeLeft = swiper.autoplay.paused ? autoplayTimeLeft : autoplayStartTime + autoplayDelayCurrent - (/* @__PURE__ */ new Date()).getTime();
+      swiper.autoplay.timeLeft = timeLeft;
+      emit("autoplayTimeLeft", timeLeft, timeLeft / autoplayDelayTotal);
+      raf = requestAnimationFrame(() => {
+        calcTimeLeft();
+      });
+    };
+    const getSlideDelay = () => {
+      let activeSlideEl;
+      if (swiper.virtual && swiper.params.virtual.enabled) {
+        activeSlideEl = swiper.slides.find((slideEl) => slideEl.classList.contains("swiper-slide-active"));
+      } else {
+        activeSlideEl = swiper.slides[swiper.activeIndex];
+      }
+      if (!activeSlideEl) return void 0;
+      const currentSlideDelay = parseInt(activeSlideEl.getAttribute("data-swiper-autoplay"), 10);
+      return currentSlideDelay;
+    };
+    const getTotalDelay = () => {
+      let totalDelay = swiper.params.autoplay.delay;
+      const currentSlideDelay = getSlideDelay();
+      if (!Number.isNaN(currentSlideDelay) && currentSlideDelay > 0) {
+        totalDelay = currentSlideDelay;
+      }
+      return totalDelay;
+    };
+    const run = (delayForce) => {
+      if (swiper.destroyed || !swiper.autoplay.running) return;
+      cancelAnimationFrame(raf);
+      calcTimeLeft();
+      let delay = delayForce;
+      if (typeof delay === "undefined") {
+        delay = getTotalDelay();
+        autoplayDelayTotal = delay;
+        autoplayDelayCurrent = delay;
+      }
+      autoplayTimeLeft = delay;
+      const speed = swiper.params.speed;
+      const proceed = () => {
+        if (!swiper || swiper.destroyed) return;
+        if (swiper.params.autoplay.reverseDirection) {
+          if (!swiper.isBeginning || swiper.params.loop || swiper.params.rewind) {
+            swiper.slidePrev(speed, true, true);
+            emit("autoplay");
+          } else if (!swiper.params.autoplay.stopOnLastSlide) {
+            swiper.slideTo(swiper.slides.length - 1, speed, true, true);
+            emit("autoplay");
+          }
+        } else {
+          if (!swiper.isEnd || swiper.params.loop || swiper.params.rewind) {
+            swiper.slideNext(speed, true, true);
+            emit("autoplay");
+          } else if (!swiper.params.autoplay.stopOnLastSlide) {
+            swiper.slideTo(0, speed, true, true);
+            emit("autoplay");
+          }
+        }
+        if (swiper.params.cssMode) {
+          autoplayStartTime = (/* @__PURE__ */ new Date()).getTime();
+          requestAnimationFrame(() => {
+            run();
+          });
+        }
+      };
+      if (delay > 0) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          proceed();
+        }, delay);
+      } else {
+        requestAnimationFrame(() => {
+          proceed();
+        });
+      }
+      return delay;
+    };
+    const start = () => {
+      autoplayStartTime = (/* @__PURE__ */ new Date()).getTime();
+      swiper.autoplay.running = true;
+      run();
+      emit("autoplayStart");
+    };
+    const stop = () => {
+      swiper.autoplay.running = false;
+      clearTimeout(timeout);
+      cancelAnimationFrame(raf);
+      emit("autoplayStop");
+    };
+    const pause = (internal, reset) => {
+      if (swiper.destroyed || !swiper.autoplay.running) return;
+      clearTimeout(timeout);
+      if (!internal) {
+        pausedByInteraction = true;
+      }
+      const proceed = () => {
+        emit("autoplayPause");
+        if (swiper.params.autoplay.waitForTransition) {
+          swiper.wrapperEl.addEventListener("transitionend", onTransitionEnd);
+        } else {
+          resume();
+        }
+      };
+      swiper.autoplay.paused = true;
+      if (reset) {
+        proceed();
+        return;
+      }
+      const delay = autoplayTimeLeft || swiper.params.autoplay.delay;
+      autoplayTimeLeft = delay - ((/* @__PURE__ */ new Date()).getTime() - autoplayStartTime);
+      if (swiper.isEnd && autoplayTimeLeft < 0 && !swiper.params.loop) return;
+      if (autoplayTimeLeft < 0) autoplayTimeLeft = 0;
+      proceed();
+    };
+    const resume = () => {
+      if (swiper.isEnd && autoplayTimeLeft < 0 && !swiper.params.loop || swiper.destroyed || !swiper.autoplay.running) return;
+      autoplayStartTime = (/* @__PURE__ */ new Date()).getTime();
+      if (pausedByInteraction) {
+        pausedByInteraction = false;
+        run(autoplayTimeLeft);
+      } else {
+        run();
+      }
+      swiper.autoplay.paused = false;
+      emit("autoplayResume");
+    };
+    const onVisibilityChange = () => {
+      if (swiper.destroyed || !swiper.autoplay.running) return;
+      const document2 = getDocument();
+      if (document2.visibilityState === "hidden") {
+        pausedByInteraction = true;
+        pause(true);
+      }
+      if (document2.visibilityState === "visible") {
+        resume();
+      }
+    };
+    const onPointerEnter = (e) => {
+      if (e.pointerType !== "mouse") return;
+      pausedByInteraction = true;
+      pausedByPointerEnter = true;
+      if (swiper.animating || swiper.autoplay.paused) return;
+      pause(true);
+    };
+    const onPointerLeave = (e) => {
+      if (e.pointerType !== "mouse") return;
+      pausedByPointerEnter = false;
+      if (swiper.autoplay.paused) {
+        resume();
+      }
+    };
+    const attachMouseEvents = () => {
+      if (swiper.params.autoplay.pauseOnMouseEnter) {
+        swiper.el.addEventListener("pointerenter", onPointerEnter);
+        swiper.el.addEventListener("pointerleave", onPointerLeave);
+      }
+    };
+    const detachMouseEvents = () => {
+      if (swiper.el && typeof swiper.el !== "string") {
+        swiper.el.removeEventListener("pointerenter", onPointerEnter);
+        swiper.el.removeEventListener("pointerleave", onPointerLeave);
+      }
+    };
+    const attachDocumentEvents = () => {
+      const document2 = getDocument();
+      document2.addEventListener("visibilitychange", onVisibilityChange);
+    };
+    const detachDocumentEvents = () => {
+      const document2 = getDocument();
+      document2.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+    on("init", () => {
+      if (swiper.params.autoplay.enabled) {
+        attachMouseEvents();
+        attachDocumentEvents();
+        start();
+      }
+    });
+    on("destroy", () => {
+      detachMouseEvents();
+      detachDocumentEvents();
+      if (swiper.autoplay.running) {
+        stop();
+      }
+    });
+    on("_freeModeStaticRelease", () => {
+      if (pausedByTouch || pausedByInteraction) {
+        resume();
+      }
+    });
+    on("_freeModeNoMomentumRelease", () => {
+      if (!swiper.params.autoplay.disableOnInteraction) {
+        pause(true, true);
+      } else {
+        stop();
+      }
+    });
+    on("beforeTransitionStart", (_s, speed, internal) => {
+      if (swiper.destroyed || !swiper.autoplay.running) return;
+      if (internal || !swiper.params.autoplay.disableOnInteraction) {
+        pause(true, true);
+      } else {
+        stop();
+      }
+    });
+    on("sliderFirstMove", () => {
+      if (swiper.destroyed || !swiper.autoplay.running) return;
+      if (swiper.params.autoplay.disableOnInteraction) {
+        stop();
+        return;
+      }
+      isTouched = true;
+      pausedByTouch = false;
+      pausedByInteraction = false;
+      touchStartTimeout = setTimeout(() => {
+        pausedByInteraction = true;
+        pausedByTouch = true;
+        pause(true);
+      }, 200);
+    });
+    on("touchEnd", () => {
+      if (swiper.destroyed || !swiper.autoplay.running || !isTouched) return;
+      clearTimeout(touchStartTimeout);
+      clearTimeout(timeout);
+      if (swiper.params.autoplay.disableOnInteraction) {
+        pausedByTouch = false;
+        isTouched = false;
+        return;
+      }
+      if (pausedByTouch && swiper.params.cssMode) resume();
+      pausedByTouch = false;
+      isTouched = false;
+    });
+    on("slideChange", () => {
+      if (swiper.destroyed || !swiper.autoplay.running) return;
+      if (swiper.autoplay.paused) {
+        autoplayTimeLeft = getTotalDelay();
+        autoplayDelayTotal = getTotalDelay();
+      }
+    });
+    Object.assign(swiper.autoplay, {
+      start,
+      stop,
+      pause,
+      resume
+    });
+  }
+
+  // src/assets/libs/js/vendor.js
+  Swiper.use([Autoplay]);
+  window.Swiper = Swiper;
+})();

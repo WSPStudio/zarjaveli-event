@@ -65,17 +65,20 @@
 	[data-type="table"]
 		position: relative
 
-	.is-selected 
-		opacity: .6
+	.is-selected,
+	.is-reserved,
+	[data-reserved="yes"]
+		opacity: .6 
 
+	.is-reserved[data-reserved="yes"]
+		pointer-events: none
 
 .booking-category 
 	display: grid			
 	grid-template-columns: auto 1fr 
 	align-items: center
 	align-content: center
-	column-gap: 8px
-
+	gap: 8px 
 
 	&__icon 
 		display: flex
@@ -85,6 +88,9 @@
 		+adap('width', 48, 36)
 		+adap('height', 48, 36)
 		overflow: hidden
+
+		&:empty
+			width: auto 
 
 		img, svg 
 			width: max(35px, 70%)
@@ -100,6 +106,7 @@
 		font-weight: 700
 		line-height: 1
 		color: #44a180
+
 	
 	
 	
@@ -273,6 +280,8 @@
 		+adap('font-size', 24, 20)
 		line-height: 1.33333
 
+		&:not(:has(span))
+			+adap('font-size', 20, 18, 1 , $min: true)
 
 	&__map 
 		svg
